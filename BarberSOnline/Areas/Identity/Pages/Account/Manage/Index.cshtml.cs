@@ -39,6 +39,7 @@ namespace BarberSOnline.Areas.Identity.Pages.Account.Manage
             public string PhoneNumber { get; set; }
 
           [Gender]
+
         }
 
         private async Task LoadAsync(IdentityUser user)
