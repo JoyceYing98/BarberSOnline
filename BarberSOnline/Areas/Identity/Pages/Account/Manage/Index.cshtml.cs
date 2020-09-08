@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using BarberSOnline.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,12 +12,12 @@ namespace BarberSOnline.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<BarberSOnlineUser> _userManager;
+        private readonly SignInManager<BarberSOnlineUser> _signInManager;
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<BarberSOnlineUser> userManager,
+            SignInManager<BarberSOnlineUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -29,24 +30,15 @@ namespace BarberSOnline.Areas.Identity.Pages.Account.Manage
 
         [BindProperty]
         public InputModel Input { get; set; }
-        [BindProperty]
-        public InputModel Gender { get; set; }
 
         public class InputModel
         {
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
-
-            [Required]
-            [DataType(DataType.Text)]
-            [Display(Name = "Gender")]
-            public string Gender { get; set; }
-
-
         }
 
-        private async Task LoadAsync(IdentityUser user)
+        private async Task LoadAsync(BarberSOnlineUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
@@ -55,11 +47,8 @@ namespace BarberSOnline.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-               
                 PhoneNumber = phoneNumber
-               
             };
-           
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -99,7 +88,6 @@ namespace BarberSOnline.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();

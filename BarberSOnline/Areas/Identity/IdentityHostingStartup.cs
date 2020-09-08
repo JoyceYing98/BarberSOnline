@@ -1,4 +1,5 @@
 ﻿using System;
+using BarberSOnline.Areas.Identity.Data;
 using BarberSOnline.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -14,8 +15,20 @@ namespace BarberSOnline.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
+            builder.ConfigureServices((context, services) =>
+            {
+                services.AddDbContext<BarberSOnlineContext>(options =>
+                    options.UseSqlServer(
+                        context.Configuration.GetConnectionString("BarberSOnlineContextConnection")));
+
+                services.AddIdentity<BarberSOnlineUser, IdentityRole>()
+                .AddRoleManager<RoleManager<IdentityRole>>()
+                 .AddDefaultUI()
+                 .AddEntityFrameworkStores<BarberSOnlineContext>()
+                 .AddDefaultTokenProviders();
+
+                
             });
-        }
+            }
     }
-}
+ }

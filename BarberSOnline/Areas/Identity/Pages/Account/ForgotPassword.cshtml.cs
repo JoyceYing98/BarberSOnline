@@ -5,6 +5,7 @@ using System.Text.Encodings.Web;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using BarberSOnline.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +17,10 @@ namespace BarberSOnline.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ForgotPasswordModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<BarberSOnlineUser> _userManager;
         private readonly IEmailSender _emailSender;
 
-        public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<BarberSOnlineUser> userManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _emailSender = emailSender;
