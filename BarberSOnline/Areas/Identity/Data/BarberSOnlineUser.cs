@@ -9,8 +9,12 @@ namespace BarberSOnline.Areas.Identity.Data
     // Add profile data for application users by adding properties to the BarberSOnlineUser class
     public class BarberSOnlineUser : IdentityUser
     {
+        public byte[] ProfileImage { get; set; }
+
         [PersonalData]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        [PersonalData]
+        public string LastName { get; set; }
         [PersonalData]
         public DateTime DOB { get; set; }
         [PersonalData]

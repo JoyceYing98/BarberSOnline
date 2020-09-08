@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using BarberSOnline.Areas.Identity.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -34,9 +36,14 @@ namespace BarberSOnline.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Required]
-            [StringLength(20, MinimumLength = 6)]
-            [Display(Name = "Full Name")]
-            public string Name { get; set; }
+            [StringLength(20, MinimumLength = 3)]
+            [Display(Name = "FirstName")]
+            public string FirstName{ get; set; }
+
+            [Required]
+            [StringLength(20, MinimumLength = 3)]
+            [Display(Name = "LastName")]
+            public string LastName { get; set; }
 
             [Required]
             [Display(Name = "Date Of Birth")]
@@ -49,6 +56,9 @@ namespace BarberSOnline.Areas.Identity.Pages.Account.Manage
 
             [Display (Name = "Address")]
             public string  Address { get; set; }
+
+            [Display(Name = "Profile Image")]
+            public byte[] ProfileImage { get; set; }
         }
 
         private async Task LoadAsync(BarberSOnlineUser user)
@@ -60,10 +70,12 @@ namespace BarberSOnline.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                Name = user.Name,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 DOB = user.DOB,
                 PhoneNumber = phoneNumber,
-                Address = user.Address
+                Address = user.Address,
+                ProfileImage = user.ProfileImage
             };
         }
 
@@ -104,9 +116,14 @@ namespace BarberSOnline.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            if (Input.Name != user.Name)
+            if (Input.FirstName != user.FirstName)
             {
-                user.Name = Input.Name;
+                user.FirstName = Input.FirstName;
+            }
+
+            if (Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
             }
 
             if (Input.DOB != user.DOB)
@@ -120,6 +137,17 @@ namespace BarberSOnline.Areas.Identity.Pages.Account.Manage
             }
 
             await _userManager.UpdateAsync(user);
+
+            if (Request.Form.Files.Count > 0)
+            {
+                IFormFile file = Request.Form.Files.FirstOrDefault();
+                using (var dataStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(dataStream);
+                    user.ProfileImage = dataStream.ToArray();
+                }
+                await _userManager.UpdateAsync(user);
+            }
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
