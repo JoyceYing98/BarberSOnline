@@ -38,7 +38,12 @@ namespace BarberSOnline.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 
-          [Gender]
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Gender")]
+            public string Gender { get; set; }
+
+
         }
 
         private async Task LoadAsync(IdentityUser user)
@@ -50,7 +55,9 @@ namespace BarberSOnline.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+               
                 PhoneNumber = phoneNumber
+               
             };
            
         }
@@ -91,8 +98,8 @@ namespace BarberSOnline.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
-           
 
+            
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();

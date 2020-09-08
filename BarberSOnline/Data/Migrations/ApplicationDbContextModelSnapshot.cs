@@ -122,6 +122,10 @@ namespace BarberSOnline.Data.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(10)")
+                        .HasMaxLength(256);
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
