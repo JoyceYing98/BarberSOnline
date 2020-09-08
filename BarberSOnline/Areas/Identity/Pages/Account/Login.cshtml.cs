@@ -1,17 +1,17 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using BarberSOnline.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using BarberSOnline.Areas.Identity.Data;
 
 namespace BarberSOnline.Areas.Identity.Pages.Account
 {
@@ -22,7 +22,8 @@ namespace BarberSOnline.Areas.Identity.Pages.Account
         private readonly SignInManager<BarberSOnlineUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<BarberSOnlineUser> signInManager, 
+
+        public LoginModel(SignInManager<BarberSOnlineUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<BarberSOnlineUser> userManager)
         {
@@ -31,15 +32,20 @@ namespace BarberSOnline.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
+
         [BindProperty]
         public InputModel Input { get; set; }
 
+
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
+
 
         public string ReturnUrl { get; set; }
 
+
         [TempData]
         public string ErrorMessage { get; set; }
+
 
         public class InputModel
         {
@@ -47,13 +53,16 @@ namespace BarberSOnline.Areas.Identity.Pages.Account
             [EmailAddress]
             public string Email { get; set; }
 
+
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
+
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
+
 
         public async Task OnGetAsync(string returnUrl = null)
         {
@@ -62,19 +71,25 @@ namespace BarberSOnline.Areas.Identity.Pages.Account
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
 
+
             returnUrl = returnUrl ?? Url.Content("~/");
+
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
 
             ReturnUrl = returnUrl;
         }
 
+
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
+
 
             if (ModelState.IsValid)
             {
@@ -83,8 +98,29 @@ namespace BarberSOnline.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+                    var roles = await _signInManager.UserManager.GetRolesAsync(user);
+
+
+                    if (roles.Any())
+                    {
+                        if (roles.First().Equals("Admin"))
+                        {
+                            return LocalRedirect("~/Admin/Index");
+                        }
+                        if (roles.First().Equals("Barber"))
+                        {
+                            return LocalRedirect("~/Barber/Index");
+                        }
+                        if (roles.First().Equals("User"))
+                        {
+                            return LocalRedirect("~/User/Index");
+                        }
+                    }
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
+
+
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -102,8 +138,31 @@ namespace BarberSOnline.Areas.Identity.Pages.Account
                 }
             }
 
+
             // If we got this far, something failed, redisplay form
             return Page();
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

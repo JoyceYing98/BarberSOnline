@@ -6,6 +6,7 @@
     <ul class="navbar-nav">
         @if (SignInManager.IsSignedIn(User))
         {
+            //icon for navbar (icon image)
             <li class="nav-item" style="align-self: center;">
                 @if (UserManager.GetUserAsync(User).Result.ProfileImage != null)
                 {
