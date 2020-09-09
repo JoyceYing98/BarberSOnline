@@ -2,11 +2,11 @@
   "dependencies": {
     "mssql1": {
       "type": "mssql",
-      "connectionId": "DefaultConnection"
-    },
-    "mssql2": {
-      "type": "mssql",
       "connectionId": "BarberSOnlineContextConnection"
+    },
+    "storage1": {
+      "type": "storage",
+      "connectionId": "StorageConnectionString"
     }
   }
 }
