@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "storage1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroup')]/providers/Microsoft.Storage/storageAccounts/barbersonlinestorage",
+      "type": "storage.azure",
+      "connectionId": "blobstorageconnectionstring",
+      "secretStore": "AzureAppSettings"
+    },
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroup')]/providers/Microsoft.Sql/servers/barbersonlinedbserver/databases/BarberSOnline_db",
+      "type": "mssql.azure",
+      "connectionId": "BarberSOnlineContextConnection",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
