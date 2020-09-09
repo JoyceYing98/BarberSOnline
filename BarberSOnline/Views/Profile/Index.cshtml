@@ -1,13 +1,21 @@
 ﻿@using BarberSOnline.Models
 @model List<BarberSOnline.Models.ProfileModel>
+@using Microsoft.AspNetCore.Identity
+@using BarberSOnline.Areas.Identity.Data
+@inject UserManager<BarberSOnlineUser> UserManager
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-<h1>User Roles</h1>
-<table class="table table-striped">
+<h1>List of Users</h1>
+<a asp-area="Identity" asp-page="/Account/Register" class="btn btn-secondary">Register a User</a>
+<br />
+<br />
+<table class="table table-striped table-bordered">
     <thead>
         <tr>
+            <th>User ID</th>
             <th>User Name</th>
             <th>Email</th>
             <th>First Name</th>
@@ -15,13 +23,16 @@
             <th>Date of Birth</th>
             <th>Address</th>
             <th>Roles</th>
-            <th>Action</th>
+            <th>ManageRole</th>
+            <th>Update Profile</th>
+            <th>Delete Profile</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var user in Model)
         {
             <tr>
+                <td>@user.UserId</td>
                 <td>@user.UserName</td>
                 <td>@user.Email</td>
                 <td>@user.FirstName</td>
@@ -30,7 +41,15 @@
                 <td>@user.Address</td>
                 <td>@string.Join(" , ", user.Roles.ToList())</td>
                 <td>
-                    <a class="btn btn-primary" asp-controller="Profile" asp-action="ViewAllProfile" asp-route-userId="@user.UserId">Manage Roles</a>
+                    <a class="btn btn-sm btn-primary" asp-controller="Profile" asp-action="Manage" asp-route-userId="@user.UserId">Manage Roles</a>
+                </td>
+                <td><a class="btn btn-sm btn-primary" asp-area="Identity" asp-page="/Account/Manage/Index" asp-route-id="@user.UserId">Update</a></td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@user.UserId" method="post">
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Delete
+                        </button>
+                    </form>
                 </td>
             </tr>
         }
