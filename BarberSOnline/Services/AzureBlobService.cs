@@ -11,7 +11,7 @@ namespace BarberSOnline.Services
 	public interface IAzureBlobService
 	{
 		Task<IEnumerable<Uri>> ListAsync();
-		Task UploadAsync(IFormFileCollection files);
+		Task UploadAsynce(IFormFileCollection files);
 		Task DeleteAsync(string fileUri);
 		Task DeleteAllAsync();
 	}
@@ -71,7 +71,7 @@ namespace BarberSOnline.Services
 			return allBlobs;
 		}
 
-		public async Task UploadAsync(IFormFileCollection files)
+		public async Task UploadAsynce(IFormFileCollection files)
 		{
 			var blobContainer = await _azureBlobConnectionFactory.GetBlobContainer();
 

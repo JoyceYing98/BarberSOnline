@@ -1,13 +1,8 @@
 ﻿using BarberSOnline.Models;
 using BarberSOnline.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace BarberSOnline.Controllers
@@ -21,7 +16,7 @@ namespace BarberSOnline.Controllers
 			_azureBlobService = azureBlobService;
 		}
 
-		public async Task<ActionResult> Result()
+		public async Task<ActionResult> Report()
 		{
 			try
 			{
@@ -37,7 +32,7 @@ namespace BarberSOnline.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> UploadAsync()
+		public async Task<ActionResult> UploadAsynce()
 		{
 			try
 			{
@@ -52,7 +47,7 @@ namespace BarberSOnline.Controllers
 					return BadRequest("Could not upload empty files");
 				}
 
-				await _azureBlobService.UploadAsync(files);
+				await _azureBlobService.UploadAsynce(files);
 				return RedirectToAction("Report");
 			}
 			catch (Exception ex)
