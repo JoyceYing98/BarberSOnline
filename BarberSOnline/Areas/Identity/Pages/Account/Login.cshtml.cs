@@ -114,7 +114,7 @@ namespace BarberSOnline.Areas.Identity.Pages.Account
                         }
                         if (roles.First().Equals("User"))
                         {
-                            return LocalRedirect("~/User/Index");
+                            return LocalRedirect("~/UserModels/Index");
                         }
                     }
                     _logger.LogInformation("User logged in.");

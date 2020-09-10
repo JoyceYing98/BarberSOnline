@@ -11,6 +11,10 @@
       "type": "storage.azure",
       "connectionId": "StorageConnectionString",
       "secretStore": "LocalSecretsFile"
+    },
+    "mssql2": {
+      "type": "mssql.local",
+      "connectionId": "BarberSOnlineContent"
     }
   }
 }

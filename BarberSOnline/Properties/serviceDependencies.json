@@ -7,6 +7,10 @@
     "storage1": {
       "type": "storage",
       "connectionId": "StorageConnectionString"
+    },
+    "mssql2": {
+      "type": "mssql",
+      "connectionId": "BarberSOnlineContent"
     }
   }
 }
