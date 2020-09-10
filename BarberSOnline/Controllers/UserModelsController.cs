@@ -44,7 +44,7 @@ namespace BarberSOnline.Views.User
     // GET: UserModels
     public async Task<IActionResult> List()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            //var user = await _userManager.FindByNameAsync(User.Identity.Name);
             
 
                 return View(await _context.UserModel.ToListAsync());
