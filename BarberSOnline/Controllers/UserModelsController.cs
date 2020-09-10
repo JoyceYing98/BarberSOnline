@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using BarberSOnline.Areas.Identity.Data;
 using BarberSOnline.Data;
 using BarberSOnline.Models;
 using BarberSOnline.Services;
-using System.Diagnostics;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
-using BarberSOnline.Areas.Identity.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace BarberSOnline.Views.User
 {
@@ -37,28 +35,26 @@ namespace BarberSOnline.Views.User
             Username = userName;
         }
 
-        
 
 
 
-    // GET: UserModels
-    public async Task<IActionResult> List()
+
+        // GET: UserModels
+        public IActionResult List()
         {
-            //var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            
+            ViewBag.UserId = User.Identity.Name;
 
-                return View(await _context.UserModel.ToListAsync());
+            return View();
 
-            
 
-            
 
-                // return View(await _context.UserModel.ToListAsync());
 
-            }
+            // return View(await _context.UserModel.ToListAsync());
 
-            // GET: UserModels/Details/5
-            public async Task<IActionResult> Details(int? id)
+        }
+
+        // GET: UserModels/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
