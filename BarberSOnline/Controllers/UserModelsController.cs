@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using BarberSOnline.Areas.Identity.Data;
 using BarberSOnline.Data;
 using BarberSOnline.Models;
 using BarberSOnline.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using BarberSOnline.Models;
+using System.Collections.Generic;
 
 namespace BarberSOnline.Views.User
 {
@@ -16,19 +19,52 @@ namespace BarberSOnline.Views.User
     {
         private readonly BarberSOnlineContent _context;
         private readonly IAzureBlobService _azureBlobService;
+        private readonly UserManager<BarberSOnlineUser> _userManager;
 
-        public UserModelsController(BarberSOnlineContent context, IAzureBlobService azureBlobService)
+
+        public UserModelsController(BarberSOnlineContent context, IAzureBlobService azureBlobService, UserManager<BarberSOnlineUser> userManager)
         {
             _context = context;
             _azureBlobService = azureBlobService;
+            _userManager = userManager;
         }
 
-        // GET: UserModels
-        public async Task<IActionResult> List()
+        public string Username { get; set; }
+
+        private async Task LoadAsync(BarberSOnlineUser user)
         {
-            return View(await _context.UserModel.ToListAsync());
-
+            var userName = await _userManager.GetUserNameAsync(user);
+            Username = userName;
         }
+
+        
+
+
+
+    // GET: UserModels
+    //store to a list if found a username
+    //if list not equal null and display the list
+    public async Task<IActionResult> List()
+        {
+            List<UserModel> umlist = new List<UserModel>();
+            var userModel = await _context.UserModel.ToListAsync();
+            foreach (UserModel user in userModel)
+            {
+                if(user.Username == User.Identity.Name)
+                {
+                    umlist.Add(user);
+                }
+            }
+           if (umlist != null)
+           {
+               
+                return View(umlist);
+            }
+            return NotFound();
+
+
+            }
+
 
         // GET: UserModels/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -48,11 +84,14 @@ namespace BarberSOnline.Views.User
             return View(userModel);
         }
 
+        [HttpGet]
         // GET: UserModels/Create
         public IActionResult Create()
         {
+            ViewBag.UserId = User.Identity.Name;
             return View();
         }
+
 
         public IActionResult Index()
         {
@@ -116,6 +155,12 @@ namespace BarberSOnline.Views.User
                 ViewData["trace"] = ex.StackTrace;
                 return View("Error");
             }
+        }
+
+        public string UserId { get; set; }
+        public void OnGet()
+        {
+            UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
         // POST: UserModels/Create
