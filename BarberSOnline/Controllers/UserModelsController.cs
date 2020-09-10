@@ -9,6 +9,9 @@ using BarberSOnline.Data;
 using BarberSOnline.Models;
 using BarberSOnline.Services;
 using System.Diagnostics;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using BarberSOnline.Areas.Identity.Data;
 
 namespace BarberSOnline.Views.User
 {
@@ -16,22 +19,46 @@ namespace BarberSOnline.Views.User
     {
         private readonly BarberSOnlineContent _context;
         private readonly IAzureBlobService _azureBlobService;
+        private readonly UserManager<BarberSOnlineUser> _userManager;
 
-        public UserModelsController(BarberSOnlineContent context, IAzureBlobService azureBlobService)
+
+        public UserModelsController(BarberSOnlineContent context, IAzureBlobService azureBlobService, UserManager<BarberSOnlineUser> userManager)
         {
             _context = context;
             _azureBlobService = azureBlobService;
+            _userManager = userManager;
         }
 
-        // GET: UserModels
-        public async Task<IActionResult> List()
+        public string Username { get; set; }
+
+        private async Task LoadAsync(BarberSOnlineUser user)
         {
-            return View(await _context.UserModel.ToListAsync());
-
+            var userName = await _userManager.GetUserNameAsync(user);
+            Username = userName;
         }
 
-        // GET: UserModels/Details/5
-        public async Task<IActionResult> Details(int? id)
+        
+
+
+
+    // GET: UserModels
+    public async Task<IActionResult> List()
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            
+
+                return View(await _context.UserModel.ToListAsync());
+
+            
+
+            
+
+                // return View(await _context.UserModel.ToListAsync());
+
+            }
+
+            // GET: UserModels/Details/5
+            public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -48,11 +75,14 @@ namespace BarberSOnline.Views.User
             return View(userModel);
         }
 
+        [HttpGet]
         // GET: UserModels/Create
         public IActionResult Create()
         {
+            ViewBag.UserId = User.Identity.Name;
             return View();
         }
+
 
         public IActionResult Index()
         {
@@ -116,6 +146,12 @@ namespace BarberSOnline.Views.User
                 ViewData["trace"] = ex.StackTrace;
                 return View("Error");
             }
+        }
+
+        public string UserId { get; set; }
+        public void OnGet()
+        {
+            UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
         // POST: UserModels/Create

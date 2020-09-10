@@ -10,8 +10,9 @@ namespace BarberSOnline.Models
     public class UserModel
     {
         public int ID { get; set; }
-        [Required]
-        [Display(Name = "Full Name (Same As IC)")]
+
+        
+        [Display(Name = "Username")]
         [StringLength(60, MinimumLength = 3)]
         public string Username { get; set; }
 
