@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <a asp-action="Index" class="btn btn-secondary">Back</a>
+
         <div asp-validation-summary="All" class="text-danger"></div>
         <form asp-action="Create" method="post">
             <div class="form-group">
@@ -18,13 +18,12 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-primary" style="width:auto">Cancel</a>
             </div>
         </form>
     </div>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
