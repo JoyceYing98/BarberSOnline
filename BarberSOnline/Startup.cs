@@ -20,6 +20,8 @@ using Azure.Storage.Blobs;
 using Azure.Core.Extensions;
 using BarberSOnline.Services;
 using Barber.Services;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace BarberSOnline
 {
@@ -75,11 +77,23 @@ namespace BarberSOnline
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            var supportedCultures = new[]
+            {
+                new CultureInfo("en-MY"),
+            };
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-MY"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
 
             app.UseEndpoints(endpoints =>
             {
