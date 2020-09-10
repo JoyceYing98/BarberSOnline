@@ -10,6 +10,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using BarberSOnline.Models;
+using System.Collections.Generic;
 
 namespace BarberSOnline.Views.User
 {
@@ -35,23 +37,34 @@ namespace BarberSOnline.Views.User
             Username = userName;
         }
 
+        
 
 
 
-
-        // GET: UserModels
-        public IActionResult List()
+    // GET: UserModels
+    //store to a list if found a username
+    //if list not equal null and display the list
+    public async Task<IActionResult> List()
         {
-            ViewBag.UserId = User.Identity.Name;
+            List<UserModel> umlist = new List<UserModel>();
+            var userModel = await _context.UserModel.ToListAsync();
+            foreach (UserModel user in userModel)
+            {
+                if(user.Username == User.Identity.Name)
+                {
+                    umlist.Add(user);
+                }
+            }
+           if (umlist != null)
+           {
+               
+                return View(umlist);
+            }
+            return NotFound();
 
-            return View();
 
+            }
 
-
-
-            // return View(await _context.UserModel.ToListAsync());
-
-        }
 
         // GET: UserModels/Details/5
         public async Task<IActionResult> Details(int? id)
