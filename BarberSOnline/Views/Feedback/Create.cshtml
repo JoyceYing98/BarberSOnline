@@ -20,7 +20,11 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Feedback Title</label>
-                <input asp-for="PartitionKey" class="form-control" />
+                <select class="form-control" id="PartitionKey" name="PartitionKey">
+                    <option>Barber</option>
+                    <option>Experience</option>
+                    <option>Environment</option>
+                </select>
                 <span asp-validation-for="PartitionKey" class="text-danger"></span>
             </div>
             <div class="form-group">

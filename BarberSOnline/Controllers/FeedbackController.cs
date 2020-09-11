@@ -96,7 +96,7 @@ namespace BarberSOnline.Controllers
             {
                 TableOperation insertOperation = TableOperation.Insert(createFeedback);
                 TableResult result = tableclient.ExecuteAsync(insertOperation).Result;
-                if (result.HttpStatusCode == 204)
+                if (result != null)
                 {
                     ViewBag.tablename = tableclient.Name;
                     ViewBag.msg = "Data successfullt inserted!";
@@ -107,9 +107,10 @@ namespace BarberSOnline.Controllers
                 ViewBag.tablename = tableclient.Name;
                 ViewBag.msg = ex.ToString();
             }
-            return RedirectToAction(nameof(Index));
+           
+            return RedirectToAction(nameof(Create));
         }
 
-
+       
     }
 }
