@@ -1,5 +1,13 @@
 ﻿@page
+@inject SignInManager<BarberSOnlineUser> SignInManager
+@{
+    if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+    {
 
+        Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+    }
+
+}
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
