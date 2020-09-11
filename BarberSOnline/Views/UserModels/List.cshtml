@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
 }
 
-<h1>Report</h1>
+<h1>List</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -29,26 +29,29 @@
         </tr>
     </thead>
     <tbody>
-
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
-             @ViewBag.UserId
+                @Html.DisplayFor(modelItem => item.Username)
             </td>
             <td>
-              @ViewBag.Temperature
+                @Html.DisplayFor(modelItem => item.Temperature)
             </td>
             <td>
-                @ViewBag.Status
+                @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @ViewBag.Visit
+                @Html.DisplayFor(modelItem => item.Visit)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@ViewBag.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@ViewBag.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@ViewBag.ID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.ID"> Details </a>
+                <a asp-action="Delete" asp-route-id="@item.ID"> Delete </a>
             </td>
         </tr>
+          
+        }
 
     </tbody>
 </table>
