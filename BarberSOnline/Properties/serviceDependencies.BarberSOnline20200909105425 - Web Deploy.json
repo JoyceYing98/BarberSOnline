@@ -12,12 +12,6 @@
       "connectionId": "StorageConnectionString",
       "secretStore": "AzureAppSettings"
     },
-    "mssql2": {
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroup')]/providers/Microsoft.Sql/servers/barbersonlinedbserver/databases/BarberSOnline_db",
-      "type": "mssql.azure",
-      "connectionId": "BarberSOnlineContent",
-      "secretStore": "AzureAppSettings"
-    },
     "mssql1": {
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroup')]/providers/Microsoft.Sql/servers/barbersonlinedbserver/databases/BarberSOnline_db",
       "type": "mssql.azure",
