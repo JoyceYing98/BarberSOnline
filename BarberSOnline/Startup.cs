@@ -56,7 +56,7 @@ namespace BarberSOnline
             services.AddDbContext<BarberSOnlineContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("BarberSOnlineContext")));
 
-          
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -106,6 +106,22 @@ namespace BarberSOnline.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
+                        var roles = await _signInManager.UserManager.GetRolesAsync(await _signInManager.UserManager.FindByEmailAsync(Input.Email));
+                        if (roles.Any())
+                        {
+                            if (roles.First().Equals("Admin"))
+                            {
+                                return LocalRedirect("~/Admin/Index");
+                            }
+                            if (roles.First().Equals("Barber"))
+                            {
+                                return LocalRedirect("~/Barber/Index");
+                            }
+                            if (roles.First().Equals("User"))
+                            {
+                                return LocalRedirect("~/UserModels/Index");
+                            }
+                        }
                         return LocalRedirect(returnUrl);
                     }
                 }

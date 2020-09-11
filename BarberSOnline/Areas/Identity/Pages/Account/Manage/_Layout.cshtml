@@ -1,14 +1,19 @@
-﻿@{
-    if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
+﻿@inject SignInManager<BarberSOnlineUser> SignInManager
+@{
+    if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))
     {
-        Layout = (string)parentLayout;
+
+        Layout = "/Views/Shared/_LayoutUser.cshtml";
+    }
+    else if (SignInManager.IsSignedIn(User) && User.IsInRole("Barber"))
+    {
+        Layout = "/Views/Shared/_LayoutBarber.cshtml";
     }
     else
     {
-        Layout = "/areas/identity/pages/_layout.cshtml";
+        Layout = "/Views/Shared/_LayoutAdmin.cshtml";
     }
 }
-
 
 <h2>Manage your account</h2>
 
