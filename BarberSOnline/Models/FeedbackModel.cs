@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,30 +14,19 @@ namespace BarberSOnline.Models
         {
 
         }
-        public FeedbackModel(int fId, string Title)
+
+        public FeedbackModel(int fid, string FeedbackTitle)
         {
-            this.RowKey = fId.ToString();
-            this.PartitionKey = Title;
+            this.RowKey = fid.ToString();
+            this.PartitionKey = FeedbackTitle;
         }
 
-
-        public int feedbackId { get; set; }
-        
         [Display(Name = "Username")]
         public string Username { get; set; }
 
-        [Required(ErrorMessage = "Date is required")]
-        [Display(Name = "Date")]
-        public DateTime feedDate { get; set; }
-
-        [Required(ErrorMessage = "Feedback Title is required")]
-        [StringLength(30, MinimumLength = 5)]
-        [Display(Name = "Title")]
-        public string FeedbackTitle { get; set; }
-
-        [Required(ErrorMessage = "Feedback Content is required")]
-        [StringLength(60, MinimumLength = 5)]
-        [Display(Name = "Content")]
+        [Required(ErrorMessage = "Feedback Content is Required")]
+        [StringLength(255, MinimumLength = 3)]
+        [Display(Name = "Feedback Content")]
         public string FeedbackContent { get; set; }
 
         [Required(ErrorMessage = "Rating is Required")]
