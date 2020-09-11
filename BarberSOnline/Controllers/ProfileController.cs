@@ -31,7 +31,7 @@ namespace BarberSOnline.Controllers
                 thisViewModel.Email = user.Email;
                 thisViewModel.FirstName = user.FirstName;
                 thisViewModel.LastName = user.LastName;
-                thisViewModel.DateofBirth = user.DOB;
+                thisViewModel.PhoneNumber = user.PhoneNumber;
                 thisViewModel.Address = user.Address;
                 thisViewModel.Roles = await GetUserRoles(user);
                 userRolesViewModel.Add(thisViewModel);

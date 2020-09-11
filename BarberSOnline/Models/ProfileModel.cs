@@ -21,6 +21,8 @@ namespace BarberSOnline.Models
         [DataType(DataType.Date)]
         public DateTime DateofBirth { get; set; }
 
+        public string PhoneNumber { get; set; }
+
         public string Address { get; set; }
 
         public IEnumerable<string> Roles { get; set; }
