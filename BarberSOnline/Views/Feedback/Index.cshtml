@@ -1,8 +1,20 @@
 ﻿@model IEnumerable<BarberSOnline.Models.FeedbackModel>
-
+@using BarberSOnline.Areas.Identity.Data
+@inject SignInManager<BarberSOnlineUser> SignInManager
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    if (SignInManager.IsSignedIn(User) && User.IsInRole("Barber"))
+    {
+        Layout = "/Views/Shared/_LayoutBarber.cshtml";
+    }
+    else if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+    {
+        Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "/Views/Shared/_Layout.cshtml";
+    }
 }
 
 <h1>Customer Feedback</h1>
@@ -13,10 +25,10 @@
                 Feedback Title
             </th>
             <th>
-               Username
+                Username
             </th>
             <th>
-               Timestamp
+                Timestamp
             </th>
             <th>
                 Feedback Content
@@ -24,31 +36,32 @@
             <th>
                 Rating
             </th>
-           
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PartitionKey)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Timestamp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FeedbackContent)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rating)
-            </td>
-           
-   
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PartitionKey)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Timestamp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FeedbackContent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+
+
+            </tr>
+        }
     </tbody>
 </table>

@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using BarberSOnline.Areas.Identity.Data;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace BarberSOnline.Areas.Identity.Pages.Account
 {
@@ -99,6 +101,8 @@ namespace BarberSOnline.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+                    //Set User Info into Session
+                    HttpContext.Session.SetString("SessionUser", JsonConvert.SerializeObject(user));
                     var roles = await _signInManager.UserManager.GetRolesAsync(user);
 
 

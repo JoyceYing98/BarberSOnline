@@ -27,7 +27,11 @@ namespace BarberSOnline.Areas.Identity
                  .AddEntityFrameworkStores<BarberSOnlineContext>()
                  .AddDefaultTokenProviders();
 
-                
+                services.AddSession(options =>
+                {
+                    options.IdleTimeout = TimeSpan.FromSeconds(3600);
+                });
+
             });
             }
     }

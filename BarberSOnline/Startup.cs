@@ -44,6 +44,12 @@ namespace BarberSOnline
             services.AddSingleton<IAzureBlobService, AzureBlobService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
+            //add session
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(3600);
+            });
+
             services.AddAuthorization(options => {
                 //only admin can read the role
                 options.AddPolicy("readpolicy",
@@ -84,6 +90,8 @@ namespace BarberSOnline
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
