@@ -17,12 +17,12 @@ namespace BarberSOnline.Views.User
 {
     public class UserModelsController : Controller
     {
-        private readonly BarberSOnlineContent _context;
+        private readonly BarberSOnlineContext _context;
         private readonly IAzureBlobService _azureBlobService;
         private readonly UserManager<BarberSOnlineUser> _userManager;
 
 
-        public UserModelsController(BarberSOnlineContent context, IAzureBlobService azureBlobService, UserManager<BarberSOnlineUser> userManager)
+        public UserModelsController(BarberSOnlineContext context, IAzureBlobService azureBlobService, UserManager<BarberSOnlineUser> userManager)
         {
             _context = context;
             _azureBlobService = azureBlobService;

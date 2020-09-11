@@ -53,8 +53,8 @@ namespace BarberSOnline
                     builder => builder.RequireRole("Admin"));
             });
 
-            services.AddDbContext<BarberSOnlineContent>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("BarberSOnlineContent")));
+            services.AddDbContext<BarberSOnlineContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("BarberSOnlineContext")));
 
           
         }

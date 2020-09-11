@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BarberSOnline.Migrations.BarberSOnlineContentMigrations
+namespace BarberSOnline.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Initial2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,8 +12,8 @@ namespace BarberSOnline.Migrations.BarberSOnlineContentMigrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(maxLength: 60, nullable: false),
-                    Temperature = table.Column<int>(nullable: false),
+                    Username = table.Column<string>(maxLength: 60, nullable: true),
+                    Temperature = table.Column<decimal>(type: "decimal(18, 1)", nullable: false),
                     Status = table.Column<string>(nullable: false),
                     Visit = table.Column<string>(nullable: true)
                 },

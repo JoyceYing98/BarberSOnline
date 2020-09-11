@@ -13,7 +13,5 @@ namespace BarberSOnline.Data
             : base(options)
         {
         }
-
-        public DbSet<BarberSOnline.Models.UserModel> UserModel { get; set; }
     }
 }
