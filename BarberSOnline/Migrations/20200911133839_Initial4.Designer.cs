@@ -4,14 +4,16 @@ using BarberSOnline.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BarberSOnline.Migrations
 {
     [DbContext(typeof(BarberSOnlineContext))]
-    partial class BarberSOnlineContextModelSnapshot : ModelSnapshot
+    [Migration("20200911133839_Initial4")]
+    partial class Initial4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,30 +175,6 @@ namespace BarberSOnline.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("AppointmentModel");
-                });
-
-            modelBuilder.Entity("BarberSOnline.Models.TryAppointment", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
-
-                    b.Property<string>("UserEmail")
-                        .HasColumnType("nvarchar(60)")
-                        .HasMaxLength(60);
-
-                    b.Property<DateTime>("User_Confirmed_Date")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("TryAppointment");
                 });
 
             modelBuilder.Entity("BarberSOnline.Models.UserModel", b =>

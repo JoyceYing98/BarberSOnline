@@ -1,0 +1,58 @@
+﻿@model BarberSOnline.Models.AppointmentGroupModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>AppointmentModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Appointment.UserEmail" class="control-label"></label>
+                <input asp-for="Appointment.UserEmail" class="form-control" value="@ViewBag.UserId" disabled />
+                <span asp-validation-for="Appointment.UserEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Appointment.Status" class="control-label"></label>
+                <input asp-for="Appointment.Status" class="form-control" value="Booked" disabled />
+                <span asp-validation-for="Appointment.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Appointment.User_Confirmed_Date" class="control-label"></label>
+                <input asp-for="Appointment.User_Confirmed_Date" class="form-control"  />
+                <span asp-validation-for="Appointment.User_Confirmed_Date" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="Service.Services" class="control-label"></label>
+            <input asp-for="Service.Services" class="form-control" />
+            <span asp-validation-for="Service.Services" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Service.Charges" class="control-label"></label>
+            <input asp-for="Service.Charges" class="form-control" />
+            <span asp-validation-for="Service.Charges" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@if (ViewBag.msg != null)
+{
+    <script>alert("@ViewBag.msg");</script>
+    <p>The multiple data insertion is failed. Reason as below: <br /> @ViewBag.msg</p>
+}
