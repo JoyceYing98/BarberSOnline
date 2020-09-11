@@ -18,7 +18,7 @@
                 <input type="hidden" asp-for="@Model[i].RoleId" />
                 <input type="hidden" asp-for="@Model[i].RoleName" />
 
-                <input class="form-check-input" id="checkValidate" asp-for="@Model[i].Selected" />
+                <input type="radio" name="role" class="form-check-input" id="@Model[i].Selected" />
                 <label class="form-check-label" asp-for="@Model[i].Selected">
                     @Model[i].RoleName
                 </label>
@@ -33,17 +33,3 @@
     </div>
 </form>
 
-<script>
-
-    $(document).ready(function () {
-
-        $('#checkValidate').change(function () {
-
-            if (this.checked) {
-                $('#checkValidate').not(this).prop('checked', false);
-            }
-        });
-
-    });
-
-</script>

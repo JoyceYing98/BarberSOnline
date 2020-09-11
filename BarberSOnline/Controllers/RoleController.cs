@@ -92,9 +92,14 @@ namespace BarberSOnline.Controllers
                     BarberSOnlineUser user = await userManager.FindByIdAsync(userId);
                     if (user != null)
                     {
-                        result = await userManager.AddToRoleAsync(user, model.RoleName);
-                        if (!result.Succeeded)
-                            Errors(result);
+                        IdentityRole rolevalue = await roleManager.FindByIdAsync(userId);
+                        
+                        if (!await userManager.IsInRoleAsync(user, "Admin")|| !await userManager.IsInRoleAsync(user, "Barber") || !await userManager.IsInRoleAsync(user, "User"))
+                        {
+                            result = await userManager.AddToRoleAsync(user, model.RoleName);
+                            if (!result.Succeeded)
+                                Errors(result);   
+                        }
                     }
                 }
                 foreach (string userId in model.DeleteIds ?? new string[] { })

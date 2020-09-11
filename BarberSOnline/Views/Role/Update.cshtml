@@ -6,8 +6,17 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Update Role</h1>
 
+@section Scripts{
+    @if (ViewBag.RoleExist != null)
+    {
+        <script>
+            alert(@ViewBag.RoleExist == true ? "User is having an existing role!" : "success!"));
+        </script>
+    }
+}
+
+<h1>Update Role</h1>
 <div asp-validation-summary="All" class="text-danger"></div>
 
 

@@ -14,26 +14,25 @@
             <th>Id</th>
             <th>Role</th>
             <th>User</th>
-            <th>Update</th>
             <th>Delete</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var role in Model)
         {
-            <tr>
-                <td>@role.Id</td>
-                <td>@role.Name</td>
-                <td i-role="@role.Id"></td>
-                <td><a class="btn btn-sm btn-primary" asp-action="Update" asp-route-id="@role.Id">Update</a></td>
-                <td>
-                    <form asp-action="Delete" asp-route-id="@role.Id" method="post">
-                        <button type="submit" class="btn btn-sm btn-danger">
-                            Delete
-                        </button>
-                    </form>
-                </td>
-            </tr>
+        <tr>
+            <td>@role.Id</td>
+            <td>@role.Name</td>
+            <td i-role="@role.Id"></td>
+            @*<td><a class="btn btn-sm btn-primary" asp-action="Update" asp-route-id="@role.Id">Update</a></td>*@
+            <td>
+                <form asp-action="Delete" asp-route-id="@role.Id" method="post">
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
 
         }
     </tbody>

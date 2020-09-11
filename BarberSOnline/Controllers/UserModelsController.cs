@@ -10,7 +10,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using BarberSOnline.Models;
 using System.Collections.Generic;
 
 namespace BarberSOnline.Views.User
