@@ -15,36 +15,54 @@ namespace BarberSOnline.Models
         [StringLength(60, MinimumLength = 3)]
         public string UserEmail { get; set; }
 
+        [Required(ErrorMessage = "Appointment Type is required")]
+        [Display(Name = "Appointment Type")]//Visit Shop/customer
+        public string Type { get; set; }
+
+        [Required(ErrorMessage = "Services is required")]
+        [StringLength(30, MinimumLength = 3)]
+        [Display(Name = "Services")]
+        public string Services { get; set; }//haircut, ...
+
+        [Required(ErrorMessage = "Appointment Charges is required")]
+        [Display(Name = "Charges")]
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal Charges { get; set; }
+
+        [Required(ErrorMessage = "Appointment Date is required")]
+        [Display(Name = "Appointment Date")]
+        public DateTime Appointment_Date { get; set; }
+
         [Required(ErrorMessage = "Appointment Status is required")]
         [StringLength(15, MinimumLength = 6)]//Booked, Confirmed, Attended, Paid
         [Display(Name = "Appointment Status")]
-        public string Status { get; set; }
+        public string Appointment_Status { get; set; }
 
-        [Display(Name = "Confirmed Date")]
+        [StringLength(30, MinimumLength = 3)]
+        [Display(Name = "Remark")]
+        public string Remark { get; set; }//Barber to serve customer
+
+        [Display(Name = "Appointment Created Date")]
+        public DateTime User_Booked_Date { get; set; }
+
+        [Display(Name = "Appointment Confirmed Date")]
         public DateTime User_Confirmed_Date { get; set; }
-
-        [Display(Name = "Check In Date")]
-        public DateTime User_Check_In_Date { get; set; }
 
         [StringLength(200, ErrorMessage = "Cancelled Reason cannot be more than 200 chars")]
         [Display(Name = "Cancelled Reason")]
         [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-_,.?!]*$", ErrorMessage = "You can only type alphabets either in lower or upper case, numbers and some symbols such as comma(,), fullstop(.), exclamation mark(!), question mark(?) and etc.")]
         public string User_Cancelled_Reason { get; set; }
 
-        [Display(Name = "ShopEmail")]
-        [StringLength(60, MinimumLength = 3)]
-        public string ShopEmail { get; set; }//also user
-
         [Display(Name = "Confirmed Date")]
-        public DateTime Shop_Confirmed_Date { get; set; }
+        public DateTime Barber_Confirmed_Date { get; set; }
 
         [Display(Name = "Check In Date")]
-        public DateTime Shop_Check_In_Date { get; set; }
+        public DateTime Barber_Check_In_Date { get; set; }
 
         [StringLength(200, ErrorMessage = "Cancelled Reason cannot be more than 200 chars")]
         [Display(Name = "Cancelled Reason")]
         [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-_,.?!]*$", ErrorMessage = "You can only type alphabets either in lower or upper case, numbers and some symbols such as comma(,), fullstop(.), exclamation mark(!), question mark(?) and etc.")]
-        public string Shop_Cancelled_Reason { get; set; }
+        public string Barber_Cancelled_Reason { get; set; }
 
         [Display(Name = "AdminEmail")]
         [StringLength(60, MinimumLength = 3)]
@@ -54,32 +72,5 @@ namespace BarberSOnline.Models
         [Display(Name = "Cancelled Reason")]
         [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-_,.?!]*$", ErrorMessage = "You can only type alphabets either in lower or upper case, numbers and some symbols such as comma(,), fullstop(.), exclamation mark(!), question mark(?) and etc.")]
         public string Admin_Cancelled_Reason { get; set; }
-    }
-
-    public class AppointmentDetailsModel
-    {
-        public int ID { get; set; }
-
-        [ForeignKey("AppointmentModel")]
-        public int AppointmentID { get; set; }
-
-        [Required(ErrorMessage = "Services is required")]
-        [StringLength(30, MinimumLength = 3)]
-        [Display(Name = "Services")]
-        public string Services { get; set; }
-
-        [Required(ErrorMessage = "Appointment Charges is required")]
-        [Display(Name = "Charges")]
-        [Column(TypeName = "decimal(18, 2)")]
-        public decimal Charges { get; set; }
-    }
-
-    public class AppointmentGroupModel
-    {
-        public AppointmentModel Appointment { get; set; }
-        public AppointmentDetailsModel Service { get; set; }
-
-        public List<AppointmentModel> Appointments { get; set; }
-        public List<AppointmentDetailsModel> Services { get; set; }
     }
 }
