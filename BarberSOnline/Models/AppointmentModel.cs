@@ -25,8 +25,7 @@ namespace BarberSOnline.Models
         [Display(Name = "Appointment Status")]
         public string Status { get; set; }
 
-        [ForeignKey("UserModel")]
-        public int UserID { get; set; }
+        public int UserEmail { get; set; }
 
         [Display(Name = "Confirmed Date")]
         public DateTime User_Confirmed_Date { get; set; }
@@ -39,8 +38,7 @@ namespace BarberSOnline.Models
         [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-_,.?!]*$", ErrorMessage = "You can only type alphabets either in lower or upper case, numbers and some symbols such as comma(,), fullstop(.), exclamation mark(!), question mark(?) and etc.")]
         public string User_Cancelled_Reason { get; set; }
 
-        [ForeignKey("UserModel")]
-        public int ShopID { get; set; }//also user
+        public int ShopEmail { get; set; }//also user
 
         [Display(Name = "Confirmed Date")]
         public DateTime Shop_Confirmed_Date { get; set; }
@@ -53,8 +51,7 @@ namespace BarberSOnline.Models
         [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-_,.?!]*$", ErrorMessage = "You can only type alphabets either in lower or upper case, numbers and some symbols such as comma(,), fullstop(.), exclamation mark(!), question mark(?) and etc.")]
         public string Shop_Cancelled_Reason { get; set; }
 
-        [ForeignKey("UserModel")]
-        public int AdminID { get; set; }//also user
+        public int AdminEmail { get; set; }//also user
 
         [StringLength(200, ErrorMessage = "Cancelled Reason cannot be more than 200 chars")]
         [Display(Name = "Cancelled Reason")]
