@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BarberSOnline.Areas.Identity.Data;
 using BarberSOnline.Data;
 using BarberSOnline.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +32,7 @@ namespace BarberSOnline.Controllers
         }
 
         // GET: Appointment/Create
+        [Authorize(Roles = "User")]
         public IActionResult Create()
         {
             ViewBag.UserId = User.Identity.Name;
@@ -43,17 +45,13 @@ namespace BarberSOnline.Controllers
         //POST & GET - method to transmit data
         [HttpPost]//this action is for user after key in and submit
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,UserEmail,Status,User_Confirmed_Date")] AppointmentModel appointment)
-            //public async Task<IActionResult> Create([Bind("ID,UserEmail,Status,User_Confirmed_Date,User_Check_In_Date,User_Cancelled_Reason,ShopEmail,Shop_Confirmed_Date,Shop_Check_In_Date,Shop_Cancelled_Reason,AdminEmail,Admin_Cancelled_Reason")] AppointmentModel appointment)
-
-            //public async Task<IActionResult> Create([Bind("ID,UserEmail,Status,User_Confirmed_Date,User_Check_In_Date,User_Cancelled_Reason,ShopEmail,Shop_Confirmed_Date,Shop_Check_In_Date,Shop_Cancelled_Reason,AdminEmail,")] AppointmentModel appointment, [Bind("ID,AppointmentID,Services,Charges")] AppointmentDetailsModel services)
+        public async Task<IActionResult> Create([Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status")] AppointmentModel appointment)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Add(appointment);
-                    //_context.Add(services);
                     await _context.SaveChangesAsync();//save appointment and respective services record
                     return RedirectToAction("Create");
                 }
@@ -63,6 +61,7 @@ namespace BarberSOnline.Controllers
                 }
             }
             return RedirectToAction("Create");
+            //return View(appointment);
         }
 
         //// GET: AppointmentModels

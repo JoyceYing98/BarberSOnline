@@ -4,14 +4,16 @@ using BarberSOnline.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BarberSOnline.Migrations
 {
     [DbContext(typeof(BarberSOnlineContext))]
-    partial class BarberSOnlineContextModelSnapshot : ModelSnapshot
+    [Migration("20200911155029_Initial5")]
+    partial class Initial5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,50 +116,43 @@ namespace BarberSOnline.Migrations
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<DateTime>("Appointment_Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Appointment_Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
-
-                    b.Property<string>("Barber_Cancelled_Reason")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime>("Barber_Check_In_Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Barber_Confirmed_Date")
-                        .HasColumnType("datetime2");
-
                     b.Property<decimal>("Charges")
                         .HasColumnType("decimal(18, 2)");
-
-                    b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
 
                     b.Property<string>("Services")
                         .IsRequired()
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
-                    b.Property<string>("Type")
+                    b.Property<string>("ShopEmail")
+                        .HasColumnType("nvarchar(60)")
+                        .HasMaxLength(60);
+
+                    b.Property<string>("Shop_Cancelled_Reason")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("Shop_Check_In_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Shop_Confirmed_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(15)")
+                        .HasMaxLength(15);
 
                     b.Property<string>("UserEmail")
                         .HasColumnType("nvarchar(60)")
                         .HasMaxLength(60);
 
-                    b.Property<DateTime>("User_Booked_Date")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("User_Cancelled_Reason")
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
+
+                    b.Property<DateTime>("User_Check_In_Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("User_Confirmed_Date")
                         .HasColumnType("datetime2");

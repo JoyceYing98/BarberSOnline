@@ -25,7 +25,5 @@ namespace BarberSOnline.Data
         }
         public DbSet<BarberSOnline.Models.UserModel> UserModel { get; set; }
         public DbSet<BarberSOnline.Models.AppointmentModel> AppointmentModel { get; set; }
-        public DbSet<BarberSOnline.Models.AppointmentDetailsModel> AppointmentDetailsModel { get; set; }
-
     }
 }
