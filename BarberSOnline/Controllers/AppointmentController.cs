@@ -55,15 +55,14 @@ namespace BarberSOnline.Controllers
                     _context.Add(appointment);
                     //_context.Add(services);
                     await _context.SaveChangesAsync();//save appointment and respective services record
+                    return RedirectToAction("Create");
                 }
                 catch(Exception e)
                 {
                     ViewBag.msg = "Error: " + e.ToString();
                 }
-                
-                return RedirectToAction("Create");
             }
-            return View("~/Shared/_LayoutBarber");
+            return RedirectToAction("Create");
         }
 
         //// GET: AppointmentModels

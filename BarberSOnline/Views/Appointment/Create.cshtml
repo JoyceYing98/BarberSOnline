@@ -14,12 +14,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Appointment.UserEmail" class="control-label"></label>
-                <input asp-for="Appointment.UserEmail" class="form-control" value="@ViewBag.UserId" disabled />
+                <input asp-for="Appointment.UserEmail" class="form-control" value="@ViewBag.UserId" readonly />
                 <span asp-validation-for="Appointment.UserEmail" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Appointment.Status" class="control-label"></label>
-                <input asp-for="Appointment.Status" class="form-control" value="Booked" disabled />
+                <input asp-for="Appointment.Status" class="form-control" value="Booked" readonly />
                 <span asp-validation-for="Appointment.Status" class="text-danger"></span>
             </div>
             <div class="form-group">
