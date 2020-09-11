@@ -13,10 +13,10 @@ namespace BarberSOnline.Models
         {
 
         }
-        public FeedbackModel(int fId, string email)
+        public FeedbackModel(int fId, string Title)
         {
             this.RowKey = fId.ToString();
-            this.PartitionKey = email;
+            this.PartitionKey = Title;
         }
 
 
@@ -30,10 +30,12 @@ namespace BarberSOnline.Models
         public DateTime feedDate { get; set; }
 
         [Required(ErrorMessage = "Feedback Title is required")]
+        [StringLength(30, MinimumLength = 5)]
         [Display(Name = "Title")]
         public string FeedbackTitle { get; set; }
 
         [Required(ErrorMessage = "Feedback Content is required")]
+        [StringLength(60, MinimumLength = 5)]
         [Display(Name = "Content")]
         public string FeedbackContent { get; set; }
 

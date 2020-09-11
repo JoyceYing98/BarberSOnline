@@ -40,7 +40,7 @@ namespace BarberSOnline.Services
 			_Table = TableClient.GetTableReference(TableName);
 			if (await _Table.CreateIfNotExistsAsync())
 			{
-				//await _Table.SetPermissionsAsync(new TablePermissions { PublicAccess = TablePublicAccessType.Table });
+				await _Table.SetPermissionsAsync(new TablePermissions { PublicAccess = TablePublicAccessType.Table });
 			}
 			return _Table;
 		}

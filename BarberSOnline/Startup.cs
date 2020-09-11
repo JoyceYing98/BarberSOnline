@@ -55,8 +55,13 @@ namespace BarberSOnline
 
             services.AddDbContext<BarberSOnlineContent>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("BarberSOnlineContent")));
+            services.AddAzureClients(builder =>
+            {
+                builder.AddBlobServiceClient(Configuration["ConnectionStrings:StorageConnectionString:blob"], preferMsi: true);
+                builder.AddQueueServiceClient(Configuration["ConnectionStrings:StorageConnectionString:queue"], preferMsi: true);
+            });
 
-          
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
