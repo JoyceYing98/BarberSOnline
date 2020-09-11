@@ -55,7 +55,11 @@ namespace BarberSOnline
 
             services.AddDbContext<BarberSOnlineContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("BarberSOnlineContext")));
-
+            services.AddAzureClients(builder =>
+            {
+                builder.AddBlobServiceClient(Configuration["ConnectionStrings:StorageConnectionString:blob"], preferMsi: true);
+                builder.AddQueueServiceClient(Configuration["ConnectionStrings:StorageConnectionString:queue"], preferMsi: true);
+            });
 
         }
 
