@@ -24,28 +24,28 @@
             </div>
             <div class="form-group">
                 <label asp-for="Services" class="control-label"></label>
-                <select class="form-control" id="Services_Dropdown" name="Services">
+                <select class="form-control" id="Services" name="Services">
                     <option value="Women's Haircut">Women's Haircut</option>
                     <option value="Men's Haircut">Men's Haircut</option>
                     <option value="Children's Haircut">Children's Haircut</option>
                     <option value="Women's Haircut & Wash">Women's Haircut & Wash</option>
                     <option value="Men's Haircut & Wash">Men's Haircut & Wash</option>
-                    <option value="Others">Others</option>
+                    <option value="Others" selected>Others</option>
                 </select>
                 <span asp-validation-for="Services" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Services" class="control-label">Additional Services</label><br />
-                <input id="Services" type="checkbox" name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
-                <input id="Services" type="checkbox" name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
+                <input asp-for="Services" type="checkbox" name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
+                <input asp-for="Services" type="checkbox" name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
                 <br />
-                <input id="Services" type="checkbox" name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
-                <input id="Services" type="checkbox" name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
-                <input id="Services" type="checkbox" name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
+                <input asp-for="Services" type="checkbox" name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
+                <input asp-for="Services" type="checkbox" name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
+                <input asp-for="Services" type="checkbox" name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
                 <span asp-validation-for="Services" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Charges" class="control-label"></label>
+                <label asp-for="Charges" class="control-label">Charges(RM)</label>
                 <input asp-for="Charges" class="form-control" readonly />
                 <span asp-validation-for="Charges" class="text-danger"></span>
             </div>
@@ -60,7 +60,7 @@
                 <span asp-validation-for="Appointment_Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" onclick="ConcatenateServices()"/>
             </div>
         </form>
     </div>
@@ -74,121 +74,194 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
-        var Services_Dropdown = document.getElementById("Services_Dropdown");
+        var Services_Dropdown = document.getElementById("Services");
         var Services_Charges = document.getElementById("Charges");
         var charges = 0.00;
-        var cumulative_services;
+        var previous_selection = null;
+        var cumulative_services = null;
+        var services_colouring = false;
+        var services_rebonding = false;
+        var services_scalp = false;
+        var services_styling = false;
+        var services_perm = false;
+
+        function ConcatenateServices() {
+            cumulative_services = Services_Dropdown.value;
+
+            if (services_colouring == true) {
+                cumulative_services = cumulative_services + ", Colour Dying";
+            }
+
+            if (services_rebonding == true) {
+                cumulative_services = cumulative_services + ", Rebonding";
+            }
+
+            if (services_scalp == true) {
+                cumulative_services = cumulative_services + ", Scalp Treatment";
+            }
+
+            if (services_styling == true) {
+                cumulative_services = cumulative_services + ", Styling";
+            }
+
+            if (services_perm == true) {
+                cumulative_services = cumulative_services + ", Perm";
+            }
+        }
 
         Services_Dropdown.addEventListener("change", function () {
             if (Services_Dropdown.value == "Women's Haircut") {
+                if (previous_selection == "Men's Haircut") {
+                    charges = charges - 15.00;
+                }
+                else if (previous_selection == "Children's Haircut") {
+                    charges = charges - 15.00;
+                }
+                else if (previous_selection == "Women's Haircut & Wash") {
+                    charges = charges - 45.00;
+                }
+                else if (previous_selection == "Men's Haircut & Wash") {
+                    charges = charges - 30.00;
+                }
                 charges = charges + 30.00;
-                if (cumulative_services == null) {
-                    cumulative_services = "Women's Haircut";
-                }
-                else {
-                    cumulative_services = cumulative_services + ", Women's Haircut";
-                }
+                previous_selection = "Women's Haircut";
             }
             else if (Services_Dropdown.value == "Men's Haircut") {
+                if (previous_selection == "Women's Haircut") {
+                    charges = charges - 30.00;
+                }
+                else if (previous_selection == "Children's Haircut") {
+                    charges = charges - 15.00;
+                }
+                else if (previous_selection == "Women's Haircut & Wash") {
+                    charges = charges - 45.00;
+                }
+                else if (previous_selection == "Men's Haircut & Wash") {
+                    charges = charges - 30.00;
+                }
                 charges = charges + 15.00;
-                cumulative_services = "Men's Haircut";
+                previous_selection = "Men's Haircut";
             }
             else if (Services_Dropdown.value == "Children's Haircut") {
+                if (previous_selection == "Women's Haircut") {
+                    charges = charges - 30.00;
+                }
+                else if (previous_selection == "Men's Haircut") {
+                    charges = charges - 15.00;
+                }
+                else if (previous_selection == "Women's Haircut & Wash") {
+                    charges = charges - 45.00;
+                }
+                else if (previous_selection == "Men's Haircut & Wash") {
+                    charges = charges - 30.00;
+                }
                 charges = charges + 15.00;
-                cumulative_services = "Children's Haircut";
+                previous_selection = "Children's Haircut";
             }
             else if (Services_Dropdown.value == "Women's Haircut & Wash") {
+                if (previous_selection == "Women's Haircut") {
+                    charges = charges - 30.00;
+                }
+                else if (previous_selection == "Men's Haircut") {
+                    charges = charges - 15.00;
+                }
+                else if (previous_selection == "Children's Haircut") {
+                    charges = charges - 15.00;
+                }
+                else if (previous_selection == "Men's Haircut & Wash") {
+                    charges = charges - 30.00;
+                }
                 charges = charges + 45.00;
-                cumulative_services = "Women's Haircut & Wash";
+                previous_selection = "Women's Haircut & Wash";
             }
             else if (Services_Dropdown.value == "Men's Haircut & Wash") {
+                if (previous_selection == "Women's Haircut") {
+                    charges = charges - 30.00;
+                }
+                else if (previous_selection == "Men's Haircut") {
+                    charges = charges - 15.00;
+                }
+                else if (previous_selection == "Children's Haircut") {
+                    charges = charges - 15.00;
+                }
+                else if (previous_selection == "Women's Haircut & Wash") {
+                    charges = charges - 45.00;
+                }
                 charges = charges + 30.00;
-                cumulative_services = "Men's Haircut & Wash";
+                previous_selection = "Men's Haircut & Wash";
             }
             else {
-                //others then no need to store value in cumulative_services
-                if (cumulative_services.includes("Women's Haircut")) {
-                    charges = charges - 30.00
-                    cumulative_services.replace("Women's Haircut, ", "");
+                if (previous_selection == "Women's Haircut") {
+                    charges = charges - 30.00;
                 }
-                else if (cumulative_services.includes("Men's Haircut")) {
-                    charges = charges - 15.00
-                    cumulative_services.replace("Men's Haircut, ", "");
+                else if (previous_selection == "Men's Haircut") {
+                    charges = charges - 15.00;
                 }
-                else if (cumulative_services.includes("Children's Haircut")) {
-                    charges = charges - 15.00
-                    cumulative_services.replace("Children's Haircut, ", "");
+                else if (previous_selection == "Children's Haircut") {
+                    charges = charges - 15.00;
                 }
-                else if (cumulative_services.includes("Women's Haircut & Wash")) {
-                    charges = charges - 45.00
-                    cumulative_services.replace("Women's Haircut & Wash, ", "");
+                else if (previous_selection == "Women's Haircut & Wash") {
+                    charges = charges - 45.00;
                 }
-                else if (cumulative_services.includes("Men's Haircut & Wash")) {
-                    charges = charges - 30.00
-                    cumulative_services.replace("Men's Haircut & Wash, ", "");
+                else if (previous_selection == "Men's Haircut & Wash") {
+                    charges = charges - 30.00;
                 }
             }
             Services_Charges.value = charges;
         });
 
         function CalculateColour(obj) {
-            if (obj.checked)
-            {
+            if (obj.checked) {
                 charges = charges + 90.00;
-                if (cumulative_services == null) {
-                    cumulative_services = "Colour Dying";
-                }
-                else {
-                    cumulative_services = cumulative_services + ", Colour Dying";
-                }
+                Services_Charges.value = charges;
+                services_colouring = true;
+            }
+            else {
+                charges = charges - 90.00;
                 Services_Charges.value = charges;
             }
         }
         function CalculateRebonding(obj) {
             if (obj.checked) {
                 charges = charges + 150.00;
-                if (cumulative_services == null) {
-                    cumulative_services = "Rebonding";
-                }
-                else {
-                    cumulative_services = cumulative_services + ", Rebonding";
-                }
+                Services_Charges.value = charges;
+                services_rebonding = true;
+            }
+            else {
+                charges = charges - 150.00;
                 Services_Charges.value = charges;
             }
         }
         function CalculateScalp(obj) {
             if (obj.checked) {
                 charges = charges + 150.00;
-                if (cumulative_services == null) {
-                    cumulative_services = "Scalp Treatment";
-                }
-                else {
-                    cumulative_services = cumulative_services + ", Scalp Treatment";
-                }
+                Services_Charges.value = charges;
+                services_scalp = true;
+            }
+            else {
+                charges = charges - 150.00;
                 Services_Charges.value = charges;
             }
         }
         function CalculateStyling(obj) {
             if (obj.checked) {
                 charges = charges + 60.00;
-                if (cumulative_services == null) {
-                    cumulative_services = "Styling";
-                }
-                else {
-                    cumulative_services = cumulative_services + ", Styling";
-                }
+                Services_Charges.value = charges;
+                services_styling = true;
+            }
+            else {
+                charges = charges - 60.00;
                 Services_Charges.value = charges;
             }
         }
         function CalculatePerm(obj) {
             if (obj.checked) {
                 charges = charges + 100.00;
-                if (cumulative_services == null) {
-                    cumulative_services = "Perm";
-                }
-                else {
-                    cumulative_services = cumulative_services + ", Perm";
-                }
+                Services_Charges.value = charges;
+                services_perm = true;
+            }
+            else {
+                charges = charges - 100.00;
                 Services_Charges.value = charges;
             }
         }

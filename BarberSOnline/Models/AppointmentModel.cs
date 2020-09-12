@@ -20,7 +20,6 @@ namespace BarberSOnline.Models
         public string Type { get; set; }
 
         [Required(ErrorMessage = "Services is required")]
-        [StringLength(30, MinimumLength = 3)]
         [Display(Name = "Services")]
         public string Services { get; set; }//haircut, ...
 
