@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                <select class="form-control" id="Status" name="Status" >
+                <select class="form-control" id="Status" name="Status">
                     <option>Feeling Well</option>
                     <option>Some Fever</option>
                 </select>
@@ -43,43 +43,12 @@
     </div>
 </div>
 
-@using (Html.BeginForm("UploadAsynce", "UserModels", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div class="fileUpload btn btn-primary">
-        <span>Select Files</span><input type="file" id="file" name="selectFiles" class="upload" onchange="DisplayFilesToUpload()" multiple />
-    </div>
-    @* This gets populated from the DisplayFilesToUpload() JS function*@
-    <p id="FilesToUpload"></p>
-}
+<div>
+    <a asp-action="List">Back to List</a>
+</div>
 
 
-<script>
-    //Calls async Task<ActionResult> DeleteImage(string name) in the HomeController and Refreshes the page
-    function deleteImage(item) {
-        var url = "/User/DeleteImage";
-        $.post(url, { FileUri: item }, function (data) {
-            window.location.href = "/User/Report";
-        });
-    }
 
-    //Lists the file name and size for all files to be uploaded by updating the <p id="FilesToUpload"></p> control
-    function DisplayFilesToUpload() {
-        var element = document.getElementById("file");
-        var html = "";
-
-        html = "<h3>Image(s) to Upload</h3>"
-        for (var i = 0; i < element.files.length; i++) {
-            html += "<strong>" + (i + 1) + "</strong>. File: ";
-            var file = element.files[i];
-            if ('name' in file) { html += file.name + " ("; }
-            if ('size' in file) { html += "size: " + file.size + " bytes)<br>"; }
-        }
-
-        html += "<div class='fileUpload btn btn-primary'><span>Upload</span><input type='submit' class='upload' value='Upload'/></div>"
-        document.getElementById("FilesToUpload").innerHTML = html;
-    }
-
-</script>
 
 
 @section Scripts {
