@@ -37,36 +37,43 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Services)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Charges)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Appointment_Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Appointment_Status)
-            </td>
-            <td>
-                @Html.ActionLink("GenerateReceipt", "GenerateReceipt", new { AppointmentId = item.ID }) |
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { AppointmentId = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { AppointmentId = item.ID })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Services)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Charges)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Appointment_Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Appointment_Status)
+                </td>
+                <td>
+                    @Html.ActionLink("GenerateReceipt", "GenerateReceipt", new { AppointmentId = item.ID }) |
+                    @Html.ActionLink("Edit", "Edit", new { AppointmentId = item.ID }) |
+                    @Html.ActionLink("Details", "Details", new { AppointmentId = item.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { AppointmentId = item.ID })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@if (ViewBag.ErorMessage != null)
+{
+    <script>alert("@ViewBag.ErrorMessage");</script>
+    <p>The multiple data insertion is failed. Reason as below: <br /> @ViewBag.ErrorMessage</p>
+}
