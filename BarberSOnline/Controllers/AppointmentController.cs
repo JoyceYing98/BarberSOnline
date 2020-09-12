@@ -18,11 +18,13 @@ namespace BarberSOnline.Controllers
 
         private readonly BarberSOnlineContext _context;
         private readonly UserManager<BarberSOnlineUser> _barberManager;
+        private readonly SignInManager<BarberSOnlineUser> _signInManager;
 
-        public AppointmentController(BarberSOnlineContext context, UserManager<BarberSOnlineUser> barberManager)
+        public AppointmentController(BarberSOnlineContext context, UserManager<BarberSOnlineUser> barberManager, SignInManager<BarberSOnlineUser> signInManager)
         {
             _context = context;
             _barberManager = barberManager;
+            _signInManager = signInManager;
         }
 
         public string Username { get; set; }
@@ -177,6 +179,135 @@ namespace BarberSOnline.Controllers
                 return NotFound();
             }
 
+            return View(appointmentModel);
+        }
+
+        public async Task<IActionResult> UserEdit(int? AppointmentId)
+        {
+            if (AppointmentId == null)
+            {
+                return NotFound();
+            }
+
+            var appointmentModel = await _context.AppointmentModel.FindAsync(AppointmentId);
+            if (appointmentModel == null)
+            {
+                return NotFound();
+            }
+            return View(appointmentModel);
+        }
+
+        // POST: UserModels/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UserEdit(int AppointmentId,
+            [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,Remark," +
+            "User_Booked_Date,User_Confirmed_Date,User_Cancelled_Reason")]
+            AppointmentModel appointmentModel)
+        {
+            if (AppointmentId != appointmentModel.ID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(appointmentModel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AppointmentIDExists(appointmentModel.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(UserAppointment));
+
+            }
+            return View(appointmentModel);
+        }
+
+        // GET: UserModels/Edit/5
+        public async Task<IActionResult> Edit(int? AppointmentId)
+        {
+            if (AppointmentId == null)
+            {
+                return NotFound();
+            }
+
+            var appointmentModel = await _context.AppointmentModel.FindAsync(AppointmentId);
+            if (appointmentModel == null)
+            {
+                return NotFound();
+            }
+            return View(appointmentModel);
+        }
+
+        // POST: UserModels/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int AppointmentId, 
+            [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,Remark," +
+            "User_Booked_Date,User_Confirmed_Date,User_Cancelled_Reason," +
+            "Barber_Confirmed_Date,Barber_Check_In_Date,Barber_Cancelled_Reason,AdminEmail,Admin_Cancelled_Reason")] 
+            AppointmentModel appointmentModel)
+        {
+            if (AppointmentId != appointmentModel.ID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(appointmentModel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AppointmentIDExists(appointmentModel.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                var user = await _signInManager.UserManager.FindByEmailAsync(appointmentModel.UserEmail);
+                var roles = await _signInManager.UserManager.GetRolesAsync(user);
+
+
+                if (roles.Any())
+                {
+                    if (roles.First().Equals("Admin"))
+                    {
+                        return LocalRedirect("~/Admin/Index");
+                    }
+                    if (roles.First().Equals("Barber"))
+                    {
+                        return RedirectToAction(nameof(ViewAll));
+                    }
+                    if (roles.First().Equals("User"))
+                    {
+                        return RedirectToAction(nameof(UserAppointment));
+                    }
+                }
+                
+            }
             return View(appointmentModel);
         }
 
