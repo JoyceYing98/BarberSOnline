@@ -1,0 +1,72 @@
+﻿@model IEnumerable<BarberSOnline.Models.AppointmentModel>
+
+@{
+    ViewData["Title"] = "UserAppointment";
+}
+
+<h1>UserAppointment</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Services)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Charges)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Appointment_Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Appointment_Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Services)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Charges)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Appointment_Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Appointment_Status)
+            </td>
+            <td>
+                @Html.ActionLink("ConfirmPayment", "ConfirmPayment", new { userappointmentID = item.ID }) |
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { AppointmentId = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { AppointmentId = item.ID })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

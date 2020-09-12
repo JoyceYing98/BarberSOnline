@@ -18,7 +18,8 @@
                 <input type="hidden" asp-for="@Model[i].RoleId" />
                 <input type="hidden" asp-for="@Model[i].RoleName" />
 
-                <input type="radio" name="role" class="form-check-input" id="@Model[i].Selected" />
+                @*<input type="radio" name="role" class="form-check-input" id="@Model[i].Selected" />*@
+                <input class="form-check-input" asp-for="@Model[i].Selected" />
                 <label class="form-check-label" asp-for="@Model[i].Selected">
                     @Model[i].RoleName
                 </label>
