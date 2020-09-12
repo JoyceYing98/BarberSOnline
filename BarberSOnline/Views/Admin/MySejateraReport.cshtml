@@ -1,0 +1,35 @@
+﻿<div class="jumbotron">
+    <h2>MySejatera Report</h2>
+</div>
+
+
+
+@*loops through all files and displays three items:
+    - The Image (159x159) - [Set in .thumb css class]
+    - A delete icon (30X30) - [Set in .deleteDiv css class] (~/Images/deleteImage.png) that calls deleteImage JS function
+    - A DeleteAll button if there are any items that calls the DeleteAll controller Action*@
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var item in Model)
+    {
+        <div class="imageBlock">
+            <a href="@item" target="_blank"><img class="thumb" src="@item" alt="images" /></a><br />
+            <div class="deleteDiv"><img class="deleteIcon" src="~/img/Images/deleteImage.png" title="Delete Image" onclick="deleteImage('@item');" /></div>
+        </div>
+    }
+
+    using (Html.BeginForm("DeleteAll", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="fileUpload btn btn-danger"><span>Delete All Files</span><input type="submit" name="deleteAll" class="upload" /></div>
+    }
+}
+<script>
+    //Calls async Task<ActionResult> DeleteImage(string name) in the HomeController and Refreshes the page
+    function deleteImage(item) {
+        var url = "/Admin/DeleteImage";
+        $.post(url, { FileUri: item }, function (data) {
+            window.location.href = "/Admin/MySejateraReport";
+        });
+    }
+
+</script>

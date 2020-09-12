@@ -36,14 +36,11 @@ namespace BarberSOnline.Views.User
             Username = userName;
         }
 
-        
 
-
-
-    // GET: UserModels
-    //store to a list if found a username
-    //if list not equal null and display the list
-    public async Task<IActionResult> List()
+        // GET: UserModels
+        //store to a list if found a username
+        //if list not equal null and display the list
+        public async Task<IActionResult> List()
         {
             List<UserModel> umlist = new List<UserModel>();
             var userModel = await _context.UserModel.ToListAsync();
@@ -97,6 +94,11 @@ namespace BarberSOnline.Views.User
             return View();
         }
 
+        public IActionResult UploadImage()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<ActionResult> UploadAsynce()
         {
@@ -114,7 +116,7 @@ namespace BarberSOnline.Views.User
                 }
 
                 await _azureBlobService.UploadAsynce(files);
-                return RedirectToAction("Create");
+                return RedirectToAction("List");
             }
             catch (Exception ex)
             {
@@ -130,7 +132,7 @@ namespace BarberSOnline.Views.User
             try
             {
                 await _azureBlobService.DeleteAsync(fileUri);
-                return RedirectToAction("Create");
+                return RedirectToAction("UploadImage");
             }
             catch (Exception ex)
             {
@@ -146,7 +148,7 @@ namespace BarberSOnline.Views.User
             try
             {
                 await _azureBlobService.DeleteAllAsync();
-                return RedirectToAction("Message");
+                return RedirectToAction("UploadImage");
             }
             catch (Exception ex)
             {

@@ -1,0 +1,35 @@
+﻿<div class="jumbotron" style="background-color:#EBE2E2">
+    <h2>Hi, @Html.ViewContext.HttpContext.User.Identity.Name!</h2>
+    <h5>Please Upload Your MySejahtera Screenshot Image As A Entry Evidence</h5>
+</div>
+
+@using (Html.BeginForm("UploadAsynce", "UserModels", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="fileUpload btn btn-primary">
+        <span>Select Files</span><input type="file" id="file" name="selectFiles" class="upload" onchange="DisplayFilesToUpload()" multiple />
+    </div>
+   
+    <p id="FilesToUpload"></p>
+}
+
+<script>
+    //Lists the file name and size for all files to be uploaded by updating the <p id="FilesToUpload"></p> control
+    function DisplayFilesToUpload() {
+        var element = document.getElementById("file");
+        var html = "";
+
+        html = "<h3>Image(s) to Upload</h3>"
+        for (var i = 0; i < element.files.length; i++) {
+            html += "<strong>" + (i + 1) + "</strong>. File: ";
+            var file = element.files[i];
+            if ('name' in file) {html += file.name + " (";}
+            if ('size' in file) {html += "size: " + file.size + " bytes)<br>";}
+        }
+
+		html += "<div class='fileUpload btn btn-primary'><span>Upload</span><input type='submit' class='upload' value='Upload'/></div>"
+        document.getElementById("FilesToUpload").innerHTML = html;
+    }
+
+</script>
+
+
