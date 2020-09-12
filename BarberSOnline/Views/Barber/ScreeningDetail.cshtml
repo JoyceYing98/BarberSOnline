@@ -1,13 +1,12 @@
 ﻿@model BarberSOnline.Models.UserModel
 
 @{
-    ViewData["Title"] = "Delete";
-    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    ViewData["Title"] = "ScreeningDetail";
+    Layout = "~/Views/Shared/_LayoutBarber.cshtml";
 }
 
-<h1>Delete</h1>
+<h1>ScreeningDetail</h1>
 
-<h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>UserModel</h4>
     <hr />
@@ -43,10 +42,8 @@
             @Html.DisplayFor(model => model.Visit)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="ID" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="List">Back to List</a>
-    </form>
+</div>
+<div>
+    <a asp-action="ScreeningEdit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="ScreeningList">Back to List</a>
 </div>

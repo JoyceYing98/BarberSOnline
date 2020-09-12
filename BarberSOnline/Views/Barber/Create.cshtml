@@ -1,26 +1,21 @@
 ﻿@model BarberSOnline.Models.UserModel
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutBarber.cshtml";
 }
 
-<h1>Edit</h1>
+<h1>Create</h1>
 
 <h4>UserModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ID" class="control-label"></label>
-                <input asp-for="ID" class="form-control" readonly />
-                <span asp-validation-for="ID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username"  class="form-control" readonly/>
+                <input asp-for="Username" value="@ViewBag.UserId"class="form-control" readonly />
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -30,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                <select class="form-control" asp-for="Status">
+                <select class="form-control" id="Status" name="Status">
                     <option>Feeling Well</option>
                     <option>Some Fever</option>
                 </select>
@@ -42,16 +37,13 @@
                 <span asp-validation-for="Visit" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="List">Back to List</a>
+    <a asp-action="ScreeningList">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

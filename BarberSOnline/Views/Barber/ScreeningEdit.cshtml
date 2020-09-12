@@ -1,17 +1,17 @@
 ﻿@model BarberSOnline.Models.UserModel
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    ViewData["Title"] = "ScreeningEdit";
+    Layout = "~/Views/Shared/_LayoutBarber.cshtml";
 }
 
-<h1>Edit</h1>
+<h1>ScreeningEdit</h1>
 
 <h4>UserModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="ScreeningEdit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ID" class="control-label"></label>
@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username"  class="form-control" readonly/>
+                <input asp-for="Username" class="form-control" readonly />
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -49,9 +49,6 @@
 </div>
 
 <div>
-    <a asp-action="List">Back to List</a>
+    <a asp-action="ScreeningList">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
