@@ -1,5 +1,7 @@
-﻿
-    <h3>Hi, @Html.ViewContext.HttpContext.User.Identity.Name! <br /> Please Upload Your MySejahtera Screenshot Image As A Entry Evidence</h3>
+﻿<div class="jumbotron" style="background-color:#EBE2E2">
+    <h2>Hi, @Html.ViewContext.HttpContext.User.Identity.Name!</h2>
+    <h5>Please Upload Your MySejahtera Screenshot Image As A Entry Evidence</h5>
+</div>
 
 @using (Html.BeginForm("UploadAsynce", "UserModels", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
