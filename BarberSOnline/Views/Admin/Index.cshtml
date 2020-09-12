@@ -2,7 +2,68 @@
     ViewData["Title"] = "Admin Main";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="slider_area" style="margin-top:-18px;">
+    <div class="single_slider d-flex align-items-center justify-content-center slider_bg_1 overlay2">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="slider_text text-center">
+                        <img src="~/img/banner/barber_text.png" alt="">
+                        <h3>
+                            BarberShop Online <br>
+                            Is Your Chioce
+                        </h3>
+                        <p>Professional Care</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" style="margin-top:35px">
+    <div class="row">
+        <div class="col-sm col-xs-12">
+            <div class="img-hover-zoom--colorize">
+                <a asp-area="" asp-controller="Admin" asp-action="Report">
+                    <img src="~/img/ViewReport.png" style="width: 12rem;border-radius: 50%;">
+                    <div class="centered" style="color:white; font-size: 20px; font-weight: bold;"><center>Screening Report</center></div>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm col-xs-12">
+            <div class="img-hover-zoom--colorize">
+                <a asp-area="" asp-controller="Admin" asp-action="Report">
+                    <img src="~/img/ViewFeedback.png" style="width: 12rem; border-radius: 50%;">
+                    <div class="centered" style="color:white; font-size: 20px; font-weight: bold;"><center>View Appointment</center></div>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm col-xs-12">
+            <div class="img-hover-zoom--colorize">
+                <a asp-area="" asp-controller="Feedback" asp-action="Index">
+                    <img src="~/img/View.png" style="width: 12rem;border-radius: 50%;">
+                </a>
+                    <div class="centered" style="color:white; font-size: 20px; font-weight: bold;"><center>View Feedback</center></div>
+                
+            </div>
+        </div>
+        <div class="col-sm col-xs-12">
+            <div class="img-hover-zoom--colorize">
+                <a asp-area="" asp-controller="Profile" asp-action="Index">
+                    <img src="~/img/ViewRole.png" style="width: 12rem;border-radius: 50%;">
+                    <div class="centered" style="color:white; font-size: 20px; font-weight: bold;"><center>View Role</center></div>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm col-xs-12">
+            <div class="img-hover-zoom--colorize">
+                <a asp-area="" asp-controller="Profile" asp-action="Index">
+                    <img src="~/img/ViewProfile.png" style="width: 12rem;border-radius: 50%;">
+                    <div class="centered" style="color:white; font-size: 20px; font-weight: bold;"><center>View User Profile</center></div>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
