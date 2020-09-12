@@ -1,6 +1,24 @@
-﻿@{
-    ViewBag.Title = "Error";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@using BarberSOnline.Areas.Identity.Data
+@inject SignInManager<BarberSOnlineUser> SignInManager
+@{
+        ViewBag.Title = "Error";
+
+        if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))
+        {
+            Layout = "/Views/Shared/_LayoutUser.cshtml";
+        }
+        else if (SignInManager.IsSignedIn(User) && User.IsInRole("Barber"))
+        {
+            Layout = "/Views/Shared/_LayoutBarber.cshtml";
+        }
+        else if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+        {
+            Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+        }
+        else
+        {
+            Layout = "/Views/Shared/_Layout.cshtml";
+        }
 }
 
 <h3>An error occurred while processing your request: @ViewData["message"]</h3>

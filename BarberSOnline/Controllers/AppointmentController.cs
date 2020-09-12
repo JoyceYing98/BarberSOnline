@@ -98,6 +98,7 @@ namespace BarberSOnline.Controllers
             return View(await _context.AppointmentModel.ToListAsync());
         }
 
+        [Authorize(Roles = "Barber")]
         public async Task<IActionResult> GenerateReceipt(int? AppointmentId)
         {
             if (AppointmentId == null)
@@ -107,45 +108,25 @@ namespace BarberSOnline.Controllers
 
             var appointmentModel = await _context.AppointmentModel
                 .FirstOrDefaultAsync(m => m.ID == AppointmentId);
-            appointmentModel.Appointment_Status = "PendingPayment";
- 
+
+            if (appointmentModel.Appointment_Status == "Confirmed")
+            {
+                appointmentModel.Appointment_Status = "Paid";
+                _context.Update(appointmentModel);
+                await _context.SaveChangesAsync();
+            }
+
+            else
+            {
+                ViewBag.ErrorMessage = "Payment is not pending!";
+                return RedirectToAction("ViewAll");
+            }
+
             if (appointmentModel == null)
             {
                 return NotFound();
             }
 
-            return View(appointmentModel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> GenerateReceipt(int AppointmentId, [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status")] AppointmentModel appointmentModel)
-        {
-            if (AppointmentId != appointmentModel.ID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(appointmentModel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AppointmentIDExists(AppointmentId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(ViewAll));
-            }
             return View(appointmentModel);
         }
 
@@ -167,7 +148,7 @@ namespace BarberSOnline.Controllers
             return NotFound();
         }
 
-        //[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> ConfirmPayment(int? userappointmentID)
         {
             if (userappointmentID == null)
@@ -177,45 +158,25 @@ namespace BarberSOnline.Controllers
 
             var appointmentModel = await _context.AppointmentModel
                 .FirstOrDefaultAsync(m => m.ID == userappointmentID);
-            appointmentModel.Appointment_Status = "Paid";
+
+            if(appointmentModel.Appointment_Status == "PendingPayment")
+            {
+                appointmentModel.Appointment_Status = "Paid";
+                _context.Update(appointmentModel);
+                await _context.SaveChangesAsync();
+            }
+
+            else
+            {
+                ViewBag.ErrorMessage = "Payment is not pending!";
+                return RedirectToAction("UserAppointment");
+            }
 
             if (appointmentModel == null)
             {
                 return NotFound();
             }
 
-            return View(appointmentModel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmPayment(int userappointmentID, [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status")] AppointmentModel appointmentModel)
-        {
-            if (userappointmentID != appointmentModel.ID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(appointmentModel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AppointmentIDExists(userappointmentID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(UserAppointment));
-            }
             return View(appointmentModel);
         }
 
