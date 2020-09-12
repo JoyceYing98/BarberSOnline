@@ -17,26 +17,36 @@
                 <span asp-validation-for="UserEmail" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input checked="checked" id="Services" name="Services" type="radio" value="On-site Service" /> On-site Service
-                <input checked="checked" id="Services" name="Services" type="radio" value="Shop Service" /> Shop Service
-                @*<select class="form-control" id="Type" name="Type">
-                    <option>Shop service</option>
-                    <option>On-site service</option>
-                </select>*@
+                <label asp-for="Type" class="control-label"></label><br />
+                <input id="Type" name="Type" type="radio" value="On-site Service" /> On-site Service
+                <input checked="checked" id="Type" name="Type" type="radio" value="Shop Service" /> Shop Service
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Services" class="control-label"></label>
-                <input asp-for="Services" class="form-control" />
-                @*<input class="form-check-input" id="Services" type="checkbox" value="Haircut" /><label class="form-check-label">Haircut</label>
-                <input class="form-check-input" id="Services" type="checkbox" value="Hair Wash" /><label class="form-check-label">Hair Wash</label>
-                <input class="form-check-input" id="Services" type="checkbox" value="Hair Dying" /><label class="form-check-label">Hair Dying</label>*@
+                <select class="form-control" id="Services_Dropdown" name="Services">
+                    <option value="Women's Haircut">Women's Haircut</option>
+                    <option value="Men's Haircut">Men's Haircut</option>
+                    <option value="Children's Haircut">Children's Haircut</option>
+                    <option value="Women's Haircut & Wash">Women's Haircut & Wash</option>
+                    <option value="Men's Haircut & Wash">Men's Haircut & Wash</option>
+                    <option value="Others">Others</option>
+                </select>
+                <span asp-validation-for="Services" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Services" class="control-label">Additional Services</label><br />
+                <input id="Services" type="checkbox" name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
+                <input id="Services" type="checkbox" name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
+                <br />
+                <input id="Services" type="checkbox" name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
+                <input id="Services" type="checkbox" name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
+                <input id="Services" type="checkbox" name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
                 <span asp-validation-for="Services" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Charges" class="control-label"></label>
-                <input asp-for="Charges" class="form-control" />
+                <input asp-for="Charges" class="form-control" readonly />
                 <span asp-validation-for="Charges" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -62,6 +72,127 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        var Services_Dropdown = document.getElementById("Services_Dropdown");
+        var Services_Charges = document.getElementById("Charges");
+        var charges = 0.00;
+        var cumulative_services;
+
+        Services_Dropdown.addEventListener("change", function () {
+            if (Services_Dropdown.value == "Women's Haircut") {
+                charges = charges + 30.00;
+                if (cumulative_services == null) {
+                    cumulative_services = "Women's Haircut";
+                }
+                else {
+                    cumulative_services = cumulative_services + ", Women's Haircut";
+                }
+            }
+            else if (Services_Dropdown.value == "Men's Haircut") {
+                charges = charges + 15.00;
+                cumulative_services = "Men's Haircut";
+            }
+            else if (Services_Dropdown.value == "Children's Haircut") {
+                charges = charges + 15.00;
+                cumulative_services = "Children's Haircut";
+            }
+            else if (Services_Dropdown.value == "Women's Haircut & Wash") {
+                charges = charges + 45.00;
+                cumulative_services = "Women's Haircut & Wash";
+            }
+            else if (Services_Dropdown.value == "Men's Haircut & Wash") {
+                charges = charges + 30.00;
+                cumulative_services = "Men's Haircut & Wash";
+            }
+            else {
+                //others then no need to store value in cumulative_services
+                if (cumulative_services.includes("Women's Haircut")) {
+                    charges = charges - 30.00
+                    cumulative_services.replace("Women's Haircut, ", "");
+                }
+                else if (cumulative_services.includes("Men's Haircut")) {
+                    charges = charges - 15.00
+                    cumulative_services.replace("Men's Haircut, ", "");
+                }
+                else if (cumulative_services.includes("Children's Haircut")) {
+                    charges = charges - 15.00
+                    cumulative_services.replace("Children's Haircut, ", "");
+                }
+                else if (cumulative_services.includes("Women's Haircut & Wash")) {
+                    charges = charges - 45.00
+                    cumulative_services.replace("Women's Haircut & Wash, ", "");
+                }
+                else if (cumulative_services.includes("Men's Haircut & Wash")) {
+                    charges = charges - 30.00
+                    cumulative_services.replace("Men's Haircut & Wash, ", "");
+                }
+            }
+            Services_Charges.value = charges;
+        });
+
+        function CalculateColour(obj) {
+            if (obj.checked)
+            {
+                charges = charges + 90.00;
+                if (cumulative_services == null) {
+                    cumulative_services = "Colour Dying";
+                }
+                else {
+                    cumulative_services = cumulative_services + ", Colour Dying";
+                }
+                Services_Charges.value = charges;
+            }
+        }
+        function CalculateRebonding(obj) {
+            if (obj.checked) {
+                charges = charges + 150.00;
+                if (cumulative_services == null) {
+                    cumulative_services = "Rebonding";
+                }
+                else {
+                    cumulative_services = cumulative_services + ", Rebonding";
+                }
+                Services_Charges.value = charges;
+            }
+        }
+        function CalculateScalp(obj) {
+            if (obj.checked) {
+                charges = charges + 150.00;
+                if (cumulative_services == null) {
+                    cumulative_services = "Scalp Treatment";
+                }
+                else {
+                    cumulative_services = cumulative_services + ", Scalp Treatment";
+                }
+                Services_Charges.value = charges;
+            }
+        }
+        function CalculateStyling(obj) {
+            if (obj.checked) {
+                charges = charges + 60.00;
+                if (cumulative_services == null) {
+                    cumulative_services = "Styling";
+                }
+                else {
+                    cumulative_services = cumulative_services + ", Styling";
+                }
+                Services_Charges.value = charges;
+            }
+        }
+        function CalculatePerm(obj) {
+            if (obj.checked) {
+                charges = charges + 100.00;
+                if (cumulative_services == null) {
+                    cumulative_services = "Perm";
+                }
+                else {
+                    cumulative_services = cumulative_services + ", Perm";
+                }
+                Services_Charges.value = charges;
+            }
+        }
+    </script>
 }
 @if (ViewBag.msg != null)
 {
