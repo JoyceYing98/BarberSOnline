@@ -29,7 +29,9 @@ namespace BarberSOnline.Models
         [Display(Name = "Your Recent Visit Country/State")]
         public string Visit { get; set; }
 
-
+        [Required(ErrorMessage = "Screening Report Date is required")]
+        [Display(Name = "Date")]
+        public DateTime Date { get; set; }
     }
 
 }
