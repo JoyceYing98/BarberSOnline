@@ -11,9 +11,9 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="UserEmail" class="control-label"></label>
-                <input asp-for="UserEmail" class="form-control" value="@ViewBag.UserId" readonly />
+                <input asp-for="UserEmail" class="form-control" value="@ViewBag.UserId" />
                 <span asp-validation-for="UserEmail" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -23,7 +23,7 @@
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label"></label>
+                <label class="control-label">Services</label>
                 <select class="form-control" id="Services_Dropdown">
                     <option value="Women's Haircut">Women's Haircut</option>
                     <option value="Men's Haircut">Men's Haircut</option>
@@ -32,7 +32,6 @@
                     <option value="Men's Haircut & Wash">Men's Haircut & Wash</option>
                     <option value="Others" selected>Others</option>
                 </select>
-                <span class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Additional Services</label><br />
@@ -42,10 +41,9 @@
                 <input type="checkbox" name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
                 <input type="checkbox" name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
                 <input type="checkbox" name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
-                <span class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="Services" id="Services" class="form-control" hidden/>
+                <input asp-for="Services" id="Services" class="form-control" hidden />
                 <span asp-validation-for="Services" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -66,12 +64,8 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" onclick="ConcatenateServices()" />
             </div>
-</form>
+        </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
@@ -81,6 +75,7 @@
         var Services_Dropdown = document.getElementById("Services_Dropdown");
         var Services_Display = document.getElementById("Services");
         var Services_Charges = document.getElementById("Charges");
+
         var charges = 0.00;
         var previous_selection = null;
         var cumulative_services = null;
@@ -113,7 +108,6 @@
                 cumulative_services = cumulative_services + ", Perm";
             }
             Services_Display.value = cumulative_services;
-            alert(Services_Display.value);
         }
 
         Services_Dropdown.addEventListener("change", function () {
@@ -226,6 +220,7 @@
             else {
                 charges = charges - 90.00;
                 Services_Charges.value = charges;
+                services_colouring = false;
             }
         }
         function CalculateRebonding(obj) {
@@ -237,6 +232,7 @@
             else {
                 charges = charges - 150.00;
                 Services_Charges.value = charges;
+                services_rebonding = false;
             }
         }
         function CalculateScalp(obj) {
@@ -248,6 +244,7 @@
             else {
                 charges = charges - 150.00;
                 Services_Charges.value = charges;
+                services_scalp = false;
             }
         }
         function CalculateStyling(obj) {
@@ -259,6 +256,7 @@
             else {
                 charges = charges - 60.00;
                 Services_Charges.value = charges;
+                services_styling = false;
             }
         }
         function CalculatePerm(obj) {
@@ -270,6 +268,7 @@
             else {
                 charges = charges - 100.00;
                 Services_Charges.value = charges;
+                services_perm = false;
             }
         }
     </script>

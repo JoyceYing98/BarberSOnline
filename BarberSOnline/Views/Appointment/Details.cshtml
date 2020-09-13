@@ -9,21 +9,9 @@
 <h1>Details</h1>
 
 <div>
-    <h4>AppointmentModel</h4>
     <hr />
+    <h2>Appointment Details</h2>
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ID)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ID)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserEmail)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserEmail)
-        </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Type)
         </dt>
@@ -55,75 +43,122 @@
             @Html.DisplayFor(model => model.Appointment_Status)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Remark)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Remark)
-        </dd>
-        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.User_Booked_Date)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.User_Booked_Date)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User_Confirmed_Date)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User_Confirmed_Date)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User_Cancelled_Reason)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User_Cancelled_Reason)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Barber_Confirmed_Date)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Barber_Confirmed_Date)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Barber_Check_In_Date)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Barber_Check_In_Date)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Barber_Cancelled_Reason)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Barber_Cancelled_Reason)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AdminEmail)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AdminEmail)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Admin_Cancelled_Reason)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Admin_Cancelled_Reason)
-        </dd>
+        @if (Model.Appointment_Status == "Confirmed" || Model.Appointment_Status == "Attended" || Model.Appointment_Status == "Paid")
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.User_Confirmed_Date)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.User_Confirmed_Date)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Barber_Confirmed_Date)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Barber_Confirmed_Date)
+            </dd>
+            if (Model.Appointment_Status == "Attended")
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Remark)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Remark)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Barber_Check_In_Date)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Barber_Check_In_Date)
+                </dd>
+            }
+        }
+        @if (Model.Appointment_Status == "Cancelled")
+        {
+            if (!Model.User_Confirmed_Date.Equals("1/1/0001 12:00:00 AM"))
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.User_Confirmed_Date)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.User_Confirmed_Date)
+                </dd>
+            }
+
+            if (!Model.Barber_Confirmed_Date.Equals("1/1/0001 12:00:00 AM"))
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Barber_Confirmed_Date)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Barber_Confirmed_Date)
+                </dd>
+            }
+
+            if (Model.User_Cancelled_Reason != null)
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.User_Cancelled_Reason)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.User_Cancelled_Reason)
+                </dd>
+            }
+            else if (Model.Barber_Cancelled_Reason != null)
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Remark)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Remark)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Barber_Cancelled_Reason)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Barber_Cancelled_Reason)
+                </dd>
+            }
+            else if (Model.Admin_Cancelled_Reason != null)
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.AdminEmail)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.AdminEmail)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Admin_Cancelled_Reason)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Admin_Cancelled_Reason)
+                </dd>
+            }
+        }
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-primary">Edit</a> |
     @{
-        if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+        if (SignInManager.IsSignedIn(User))
         {
-            <a asp-action="ViewAll">Back to List</a>
-        }
-        else if (SignInManager.IsSignedIn(User) && User.IsInRole("Barber"))
-        {
-            <a asp-action="ViewAll">Back to List</a>
-        }
-        else if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))
-        {
-            <a asp-action="UserAppointment">Back to List</a>
+            if (User.IsInRole("Admin"))
+            {
+                <a asp-action="ViewAll" class="btn btn-primary">Back to List</a>
+            }
+            else if (User.IsInRole("Barber"))
+            {
+                <a asp-action="ViewAll" class="btn btn-primary">Back to List</a>
+            }
+            else if (User.IsInRole("User"))
+            {
+                <a asp-action="UserAppointment" class="btn btn-primary">Back to List</a>
+            }
         }
     }
 </div>

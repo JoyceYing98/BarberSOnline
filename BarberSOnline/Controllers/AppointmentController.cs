@@ -49,23 +49,24 @@ namespace BarberSOnline.Controllers
         //POST & GET - method to transmit data
         [HttpPost]//this action is for user after key in and submit
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status")] AppointmentModel appointment)
+        public async Task<IActionResult> Create([Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,User_Booked_Date")] AppointmentModel appointment)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    DateTime now = DateTime.Now;
+                    appointment.User_Booked_Date = now;
                     _context.Add(appointment);
                     await _context.SaveChangesAsync();//save appointment and respective services record
-                    return RedirectToAction("Create");
+                    return RedirectToAction("Details");
                 }
                 catch(Exception e)
                 {
                     ViewBag.msg = "Error: " + e.ToString();
                 }
             }
-            return RedirectToAction("Create");
-            //return View(appointment);
+            return View("~/Views/Shared/_LayoutUser");
         }
 
         //// GET: AppointmentModels
@@ -167,7 +168,6 @@ namespace BarberSOnline.Controllers
                 _context.Update(appointmentModel);
                 await _context.SaveChangesAsync();
             }
-
             else
             {
                 ViewBag.ErrorMessage = "Payment is not pending!";
@@ -202,10 +202,7 @@ namespace BarberSOnline.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UserEdit(int AppointmentId,
-            [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,Remark," +
-            "User_Booked_Date,User_Confirmed_Date,User_Cancelled_Reason")]
-            AppointmentModel appointmentModel)
+        public async Task<IActionResult> UserEdit(int AppointmentId, [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,User_Booked_Date,Remark,User_Confirmed_Date")] AppointmentModel appointmentModel)
         {
             if (AppointmentId != appointmentModel.ID)
             {
@@ -311,7 +308,7 @@ namespace BarberSOnline.Controllers
             return View(appointmentModel);
         }
 
-        // GET: UserModels/Details/5
+        // GET: AppointmentModel/Details/5
         public async Task<IActionResult> Details(int? AppointmentId)
         {
             if (AppointmentId == null)

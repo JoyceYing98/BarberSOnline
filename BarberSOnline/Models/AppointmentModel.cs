@@ -11,12 +11,12 @@ namespace BarberSOnline.Models
     {
         public int ID { get; set; }
 
-        [Display(Name = "UserEmail")]
+        [Display(Name = "User Email")]
         [StringLength(60, MinimumLength = 3)]
         public string UserEmail { get; set; }
 
         [Required(ErrorMessage = "Appointment Type is required")]
-        [Display(Name = "Appointment Type")]//Visit Shop/customer
+        [Display(Name = "Appointment Type")]//On-site service/Shop Service
         public string Type { get; set; }
 
         [Required(ErrorMessage = "Services is required")]
@@ -33,12 +33,12 @@ namespace BarberSOnline.Models
         public DateTime Appointment_Date { get; set; }
 
         [Required(ErrorMessage = "Appointment Status is required")]
-        [StringLength(15, MinimumLength = 6)]//Booked, Confirmed, Attended, Paid
+        //[StringLength(15, MinimumLength = 4)]//Booked, Confirmed, Attended, Paid
         [Display(Name = "Appointment Status")]
         public string Appointment_Status { get; set; }
 
         [StringLength(30, MinimumLength = 3)]
-        [Display(Name = "Remark")]
+        [Display(Name = "Barber In-Charged")]
         public string Remark { get; set; }//Barber to serve customer
 
         [Display(Name = "Appointment Created Date")]

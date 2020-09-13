@@ -62,10 +62,10 @@
                     @Html.DisplayFor(modelItem => item.Appointment_Status)
                 </td>
                 <td>
-                    @Html.ActionLink("ConfirmPayment", "ConfirmPayment", new { userappointmentID = item.ID }) |
-                    @Html.ActionLink("UserEdit", "UserEdit", new { AppointmentId = item.ID }) |
+                    @Html.ActionLink("Confirm Payment", "ConfirmPayment", new { userappointmentID = item.ID }) |
+                    @Html.ActionLink("Update", "UserEdit", new { AppointmentId = item.ID }) |
                     @Html.ActionLink("Details", "Details", new { AppointmentId = item.ID }) |
-                    @Html.ActionLink("Delete", "Delete", new { AppointmentId = item.ID })
+                    @Html.ActionLink("Cancel", "Delete", new { AppointmentId = item.ID })
                 </td>
             </tr>
         }
