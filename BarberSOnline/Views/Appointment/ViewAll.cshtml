@@ -93,7 +93,7 @@ else
                 <td>
                     @if (User.IsInRole("Admin"))
                     {
-                        @Html.ActionLink("Details ", "Details", new { AppointmentId = item.ID })<label>|</label>
+                        <a asp-action="Details" asp-route-id="@item.ID">Details </a><label>|</label>
                         <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a>
                     }
                     else if (User.IsInRole("Barber"))
