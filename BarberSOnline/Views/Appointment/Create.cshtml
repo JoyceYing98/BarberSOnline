@@ -169,68 +169,63 @@
                 }
             }
             previous_selection = Services_Dropdown.value;
-            Services_Charges.value = charges;
+            Services_Charges.value = charges.toFixed(2);
         });
 
         function CalculateColour(obj) {
             if (obj.checked) {
                 charges = charges + 90.00;
-                Services_Charges.value = charges;
                 services_colouring = true;
             }
             else {
                 charges = charges - 90.00;
-                Services_Charges.value = charges;
                 services_colouring = false;
             }
+            Services_Charges.value = charges.toFixed(2);
         }
         function CalculateRebonding(obj) {
             if (obj.checked) {
                 charges = charges + 150.00;
-                Services_Charges.value = charges;
                 services_rebonding = true;
             }
             else {
                 charges = charges - 150.00;
-                Services_Charges.value = charges;
                 services_rebonding = false;
             }
+            Services_Charges.value = charges.toFixed(2);
         }
         function CalculateScalp(obj) {
             if (obj.checked) {
                 charges = charges + 150.00;
-                Services_Charges.value = charges;
                 services_scalp = true;
             }
             else {
                 charges = charges - 150.00;
-                Services_Charges.value = charges;
                 services_scalp = false;
             }
+            Services_Charges.value = charges.toFixed(2);
         }
         function CalculateStyling(obj) {
             if (obj.checked) {
                 charges = charges + 60.00;
-                Services_Charges.value = charges;
                 services_styling = true;
             }
             else {
                 charges = charges - 60.00;
-                Services_Charges.value = charges;
                 services_styling = false;
             }
+            Services_Charges.value = charges.toFixed(2);
         }
         function CalculatePerm(obj) {
             if (obj.checked) {
                 charges = charges + 100.00;
-                Services_Charges.value = charges;
                 services_perm = true;
             }
             else {
                 charges = charges - 100.00;
-                Services_Charges.value = charges;
                 services_perm = false;
             }
+            Services_Charges.value = charges.toFixed(2);
         }
     </script>
 }
