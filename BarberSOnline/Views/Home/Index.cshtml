@@ -1,5 +1,25 @@
-﻿@{
+﻿@using BarberSOnline.Areas.Identity.Data
+@inject SignInManager<BarberSOnlineUser> SignInManager
+
+@{
     ViewData["Title"] = "Home Page";
+    if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))
+    {
+
+        Layout = "/Views/Shared/_LayoutUser.cshtml";
+    }
+    else if (SignInManager.IsSignedIn(User) && User.IsInRole("Barber"))
+    {
+        Layout = "/Views/Shared/_LayoutBarber.cshtml";
+    }
+    else if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+    {
+        Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "/Views/Shared/_Layout.cshtml";
+    }
 }
 
 <div class="slider_area" style="margin-top:-18px;">
@@ -183,7 +203,7 @@
 </div>
 <!-- covid_notice_end -->
 <!-- cutter_muster_start -->
-<div class="cutter_muster" >
+<div class="cutter_muster">
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
@@ -214,7 +234,7 @@
                         <center>
                             <h3>Dan Jacky</h3>
                             <p class="card-text">Mens Cut</p>
-                       </center>
+                        </center>
                     </div>
                 </div>
             </div>
@@ -260,8 +280,10 @@
                         </div>
                         <div class="find_text">
                             <h3>Location</h3>
-                            <p>Jalan Teknologi 5, Taman Teknologi Malaysia, 
-                            57000 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur</p>
+                            <p>
+                                Jalan Teknologi 5, Taman Teknologi Malaysia,
+                                57000 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur
+                            </p>
                         </div>
                     </div>
                     <div class="single_find d-flex">

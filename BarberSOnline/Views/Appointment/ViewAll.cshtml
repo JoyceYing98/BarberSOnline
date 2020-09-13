@@ -29,6 +29,14 @@
 }
 
 <h1>View Appointment</h1>
+@if (ViewBag.MessageCount == null)
+{
+    <p>Current number of user's requested appointment in queue waiting to be processed: 0</p>
+}
+else
+{
+    <p>Current number of user's requested appointment in queue waiting to be processed: @ViewBag.MessageCount</p>
+}
 <input class="form-control mb-4" id="tableSearch" type="text" placeholder="&nbsp; Type something to search list items" style="height:40px;  border-radius: 8px; border: 1px solid black; margin:auto;">
 <table class="table">
     <thead>
@@ -86,7 +94,7 @@
                     @Html.ActionLink("Details", "Details", new { AppointmentId = item.ID }) |
                     @if (User.IsInRole("Admin"))
                     {
-                        <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a> 
+                        <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a>
                     }
                     else if (User.IsInRole("Barber"))
                     {
