@@ -72,15 +72,16 @@
                     @Html.ActionLink("Confirm Payment", "ConfirmPayment", new { userappointmentID = item.ID }) |
                     @Html.ActionLink("Update", "UserEdit", new { AppointmentId = item.ID }) |
                     @Html.ActionLink("Details", "Details", new { AppointmentId = item.ID }) |
-                    @Html.ActionLink("Cancel", "Delete", new { AppointmentId = item.ID })
+                    <a asp-action="UserEdit" asp-route-id="@item.ID">Update</a> |
+                    @Html.ActionLink("Cancel", "Delete", new { AppointmentId = item.ID }) |<br/>
+                    @Html.ActionLink("Confirm Payment", "ConfirmPayment", new { userappointmentID = item.ID })
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-@if (ViewBag.ErorMessage != null)
+@if (ViewBag.ErrorMessage != null)
 {
     <script>alert("@ViewBag.ErrorMessage");</script>
-    <p>The multiple data insertion is failed. Reason as below: <br /> @ViewBag.ErrorMessage</p>
 }

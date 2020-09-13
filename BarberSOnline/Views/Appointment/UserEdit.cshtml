@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" hidden>
                 <label asp-for="ID" class="control-label"></label>
-                <input asp-for="ID" class="form-control" value="@Model.ID"/>
+                <input asp-for="ID" class="form-control" value="@Model.ID" />
                 <span asp-validation-for="ID" class="text-danger"></span>
             </div>
             <div class="form-group" hidden>
@@ -106,208 +106,202 @@
                 <label class="control-label">Additional Services</label><br />
                 @if (Model.Services != null)
                 {
-                    string[] cumulative_services = @Model.Services.Split(", ");
-                    cumulative_services = cumulative_services.Skip(1).ToArray();
-                    if (cumulative_services != null)
+                    if (Model.Services.Contains("Colour Dying"))
                     {
-                        if (cumulative_services.Contains("Colour Dying"))
+                        <input type="checkbox" checked name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
+                        if (Model.Services.Contains("Rebonding"))
                         {
-                            <input type="checkbox" checked name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
-                            if (cumulative_services.Contains("Rebonding"))
-                            {
-                                <input type="checkbox" checked name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
-                            }
-                            <br />
-                            if (cumulative_services.Contains("Scalp Treatment"))
-                            {
-                                <input type="checkbox" checked name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
-                            }
-
-                            if (cumulative_services.Contains("Styling"))
-                            {
-                                <input type="checkbox" checked name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
-                            }
-
-                            if (cumulative_services.Contains("Perm"))
-                            {
-                                <input type="checkbox" checked name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
-                            }
-                        }
-                        else if (cumulative_services.Contains("Rebonding"))
-                        {
-                            if (cumulative_services.Contains("Colour Dying"))
-                            {
-                                <input type="checkbox" checked name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
-                            }
                             <input type="checkbox" checked name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
-                            <br />
-                            if (cumulative_services.Contains("Scalp Treatment"))
-                            {
-                                <input type="checkbox" checked name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
-                            }
-
-                            if (cumulative_services.Contains("Styling"))
-                            {
-                                <input type="checkbox" checked name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
-                            }
-
-                            if (cumulative_services.Contains("Perm"))
-                            {
-                                <input type="checkbox" checked name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
-                            }
                         }
-                        else if (cumulative_services.Contains("Scalp Treatment"))
+                        else
                         {
-                            if (cumulative_services.Contains("Colour Dying"))
-                            {
-                                <input type="checkbox" checked name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
-                            }
-
-                            if (cumulative_services.Contains("Rebonding"))
-                            {
-                                <input type="checkbox" checked name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
-                            }
-                            <br />
+                            <input type="checkbox" name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
+                        }
+                        <br />
+                        if (Model.Services.Contains("Scalp Treatment"))
+                        {
                             <input type="checkbox" checked name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
-                            if (cumulative_services.Contains("Styling"))
-                            {
-                                <input type="checkbox" checked name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
-                            }
-
-                            if (cumulative_services.Contains("Perm"))
-                            {
-                                <input type="checkbox" checked name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
-                            }
                         }
-                        else if (cumulative_services.Contains("Styling"))
+                        else
                         {
-                            if (cumulative_services.Contains("Colour Dying"))
-                            {
-                                <input type="checkbox" checked name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
-                            }
+                            <input type="checkbox" name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
+                        }
 
-                            if (cumulative_services.Contains("Rebonding"))
-                            {
-                                <input type="checkbox" checked name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
-                            }
-                            <br />
-                            if (cumulative_services.Contains("Scalp Treatment"))
-                            {
-                                <input type="checkbox" checked name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
-                            }
+                        if (Model.Services.Contains("Styling"))
+                        {
                             <input type="checkbox" checked name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
-                            if (cumulative_services.Contains("Perm"))
-                            {
-                                <input type="checkbox" checked name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
-                            }
                         }
-                        else if (cumulative_services.Contains("Perm"))
+                        else
                         {
-                            if (cumulative_services.Contains("Colour Dying"))
-                            {
-                                <input type="checkbox" checked name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
-                            }
+                            <input type="checkbox" name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
+                        }
 
-                            if (cumulative_services.Contains("Rebonding"))
-                            {
-                                <input type="checkbox" checked name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
-                            }
-                            <br />
-                            if (cumulative_services.Contains("Scalp Treatment"))
-                            {
-                                <input type="checkbox" checked name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
-                            }
-
-                            if (cumulative_services.Contains("Styling"))
-                            {
-                                <input type="checkbox" checked name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
-                            }
+                        if (Model.Services.Contains("Perm"))
+                        {
                             <input type="checkbox" checked name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
                         }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
+                        }
+                    }
+                    else if (Model.Services.Contains("Rebonding"))
+                    {
+                        if (Model.Services.Contains("Colour Dying"))
+                        {
+                            <input type="checkbox" checked name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
+                        }
+                        <input type="checkbox" checked name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
+                        <br />
+                        if (Model.Services.Contains("Scalp Treatment"))
+                        {
+                            <input type="checkbox" checked name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
+                        }
+
+                        if (Model.Services.Contains("Styling"))
+                        {
+                            <input type="checkbox" checked name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
+                        }
+
+                        if (Model.Services.Contains("Perm"))
+                        {
+                            <input type="checkbox" checked name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
+                        }
+                    }
+                    else if (Model.Services.Contains("Scalp Treatment"))
+                    {
+                        if (Model.Services.Contains("Colour Dying"))
+                        {
+                            <input type="checkbox" checked name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
+                        }
+
+                        if (Model.Services.Contains("Rebonding"))
+                        {
+                            <input type="checkbox" checked name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
+                        }
+                        <br />
+                        <input type="checkbox" checked name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
+                        if (Model.Services.Contains("Styling"))
+                        {
+                            <input type="checkbox" checked name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
+                        }
+
+                        if (Model.Services.Contains("Perm"))
+                        {
+                            <input type="checkbox" checked name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
+                        }
+                    }
+                    else if (Model.Services.Contains("Styling"))
+                    {
+                        if (Model.Services.Contains("Colour Dying"))
+                        {
+                            <input type="checkbox" checked name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
+                        }
+
+                        if (Model.Services.Contains("Rebonding"))
+                        {
+                            <input type="checkbox" checked name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
+                        }
+                        <br />
+                        if (Model.Services.Contains("Scalp Treatment"))
+                        {
+                            <input type="checkbox" checked name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
+                        }
+                        <input type="checkbox" checked name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
+                        if (Model.Services.Contains("Perm"))
+                        {
+                            <input type="checkbox" checked name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
+                        }
+                    }
+                    else if (Model.Services.Contains("Perm"))
+                    {
+                        if (Model.Services.Contains("Colour Dying"))
+                        {
+                            <input type="checkbox" checked name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
+                        }
+
+                        if (Model.Services.Contains("Rebonding"))
+                        {
+                            <input type="checkbox" checked name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
+                        }
+                        <br />
+                        if (Model.Services.Contains("Scalp Treatment"))
+                        {
+                            <input type="checkbox" checked name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox3" value="Scalp Treatment" style="margin-left:5px;" onclick="javascript:CalculateScalp(this)" /><label style="margin-left:3px;">Scalp Treatment</label>
+                        }
+
+                        if (Model.Services.Contains("Styling"))
+                        {
+                            <input type="checkbox" checked name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="CheckBox4" value="Styling" style="margin-left:5px;" onclick="javascript:CalculateStyling(this)" /><label style="margin-left:3px;">Styling</label>
+                        }
+                        <input type="checkbox" checked name="CheckBox5" value="Perm" style="margin-left:5px;" onclick="javascript:CalculatePerm(this)" /><label style="margin-left:3px;">Perm</label>
                     }
                     else
                     {
-                        <label class="control-label">Additional Services</label><br />
                         <input type="checkbox" name="CheckBox1" value="Colour Dying" style="margin-left:5px;" onclick="javascript:CalculateColour(this)" /><label style="margin-left:3px;">Colour Dying</label>
                         <input type="checkbox" name="CheckBox2" value="Rebonding" style="margin-left:5px;" onclick="javascript:CalculateRebonding(this)" /><label style="margin-left:3px;">Rebonding</label>
                         <br />
@@ -333,17 +327,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="Appointment_Status" class="control-label"></label>
-                @if (@Model.Appointment_Status == "Booked")
-                {
-                    <select asp-for="Appointment_Status" class="form-control">
-                        <option value="Booked" selected>Booked</option>
-                        <option value="Confirmed">Confirmed</option>
-                    </select>
-                }
-                else
-                {
-                    <input asp-for="Appointment_Status" class="form-control" value="BoConfirmedoked" readonly />
-                }
+                <select asp-for="Appointment_Status" class="form-control">
+                    <option value="Booked" selected>Booked</option>
+                    <option value="Confirmed">Confirmed</option>
+                </select>
                 <span asp-validation-for="Appointment_Status" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -351,22 +338,8 @@
                 <input asp-for="User_Booked_Date" class="form-control" readonly />
                 <span asp-validation-for="User_Booked_Date" class="text-danger"></span>
             </div>
-            @if (@Model.Appointment_Status == "Confirmed")
-            {
-                <div class="form-group">
-                    <label asp-for="Remark" class="control-label"></label>
-                    <input asp-for="Remark" class="form-control" />
-                    <span asp-validation-for="Remark" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="User_Confirmed_Date" class="control-label"></label>
-                    <input asp-for="User_Confirmed_Date" class="form-control" />
-                    <span asp-validation-for="User_Confirmed_Date" class="text-danger"></span>
-                </div>
-            }
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" onclick="ConcatenateServices()" />
                 <a asp-action="UserAppointment" class="btn btn-primary">Back to List</a>
             </div>
         </form>
@@ -441,7 +414,6 @@
                 cumulative_services = cumulative_services + ", Perm";
             }
             Services_Display.value = cumulative_services;
-            alert(document.getElementById("Appointment_Status").value);
         }
 
         Services_Dropdown.addEventListener("change", function () {
@@ -562,4 +534,9 @@
             Services_Charges.value = charges.toFixed(2);
         }
     </script>
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <script>alert("@ViewBag.ErrorMessage"); window.location = '/Appointment/UserAppointment';</script>
 }
