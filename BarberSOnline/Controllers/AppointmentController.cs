@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using BarberSOnline.Areas.Identity.Data;
 using BarberSOnline.Data;
@@ -12,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.ServiceBus;
-using Microsoft.Azure.ServiceBus.Management;
 using Microsoft.EntityFrameworkCore;
 
 namespace BarberSOnline.Controllers
@@ -75,7 +73,7 @@ namespace BarberSOnline.Controllers
                     await _context.SaveChangesAsync();//save appointment and respective services record
                     //return RedirectToAction("UserAppointment");
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     ViewBag.msg = "Error: " + e.ToString();
                 }
@@ -85,71 +83,20 @@ namespace BarberSOnline.Controllers
                     queueClient = new QueueClient(ServiceBusConnectionString, QueueName);
                     // Create a new message to send to the queue.
                     string messageBody = $"Message: {appointment.UserEmail} is requesting appointment on {appointment.Appointment_Date}.";
-                        var message = new Message(Encoding.UTF8.GetBytes(messageBody));
+                    var message = new Message(Encoding.UTF8.GetBytes(messageBody));
 
-                        // Write the body of the message to the console.
-                        Console.WriteLine($"Sending message: {messageBody}");
+                    // Write the body of the message to the console.
+                    Console.WriteLine($"Sending message: {messageBody}");
 
-                        // Send the message to the queue.
-                        await queueClient.SendAsync(message);
-                        ViewBag.msg = "success";
+                    // Send the message to the queue.
+                    await queueClient.SendAsync(message);
+                    ViewBag.msg = "success";
                 }
                 catch (Exception exception)
                 {
                     ViewBag.msg = exception.ToString();
                 }
             }
-            return View();
-        }
-
-        //Part 2: Received Message from the Service Bus - cal get data function
-        public async Task<IActionResult> ProcessMsg()
-        {
-            //queueClient = new QueueClient(ServiceBusConnectionString, QueueName, ReceiveMode.PeekLock);
-            items = new List<string>();
-            await Task.Factory.StartNew(() =>
-            {
-                queueClient = new QueueClient(ServiceBusConnectionString, QueueName, ReceiveMode.PeekLock);
-                var options = new MessageHandlerOptions(ExceptionMethod)
-                {
-                    MaxConcurrentCalls = 1,
-                    AutoComplete = false
-                };
-                queueClient.RegisterMessageHandler(ExecuteMessageProcessing, options);
-            });
-
-            return RedirectToAction("ProcessMsgResult");
-        }
-
-        //Part 2: Received Message from the Service Bus - get data step
-        private static async Task ExecuteMessageProcessing(Message message, CancellationToken arg2)
-        {
-            //var result = JsonConvert.DeserializeObject<Ostring>(Encoding.UTF8.GetString(message.Body));
-            // Console.WriteLine($"Order Id is {result.OrderId}, Order name is {result.OrderName} and quantity is {result.OrderQuantity}");
-            Console.WriteLine($"Received message: SequenceNumber:{message.SystemProperties.SequenceNumber} Body:{Encoding.UTF8.GetString(message.Body)}");
-            await queueClient.CompleteAsync(message.SystemProperties.LockToken);
-
-            items.Add("Received message: SequenceNumber:" + message.SystemProperties.SequenceNumber + " Body:" + Encoding.UTF8.GetString(message.Body));
-
-        }
-
-        //Part 2: Received Message from the Service Bus
-        private static async Task ExceptionMethod(ExceptionReceivedEventArgs arg)
-        {
-            await Task.Run(() =>
-           Console.WriteLine($"Error occured. Error is {arg.Exception.Message}")
-           );
-        }
-
-        //Part 2: Received Message from the Service Bus - Display step
-        //however, there is a bug where you have to reload the page for second time only can see the result.
-        public IActionResult ProcessMsgResult()
-        {
-            return View(items);
-        }
-
-        public IActionResult Index()
-        {
             return View();
         }
 
@@ -196,7 +143,7 @@ namespace BarberSOnline.Controllers
             return View(appointmentModel);
         }
 
-        // POST: AppointmentModel/UserEdit/5
+        // POST: Appointment/UserEdit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -211,7 +158,7 @@ namespace BarberSOnline.Controllers
             {
                 try
                 {
-                    if(appointmentModel.Appointment_Status == "Approved")
+                    if (appointmentModel.Appointment_Status == "Approved")
                     {
                         appointmentModel.Appointment_Status = "Confirmed";
                         DateTime now = DateTime.Now;
@@ -244,7 +191,7 @@ namespace BarberSOnline.Controllers
             }
 
             var appointmentModel = await _context.AppointmentModel.FindAsync(ID);
-            if (appointmentModel.Appointment_Status != "Booked" || appointmentModel.Appointment_Status != "Approved" || appointmentModel.Appointment_Status != "Confirmed")
+            if (appointmentModel.Appointment_Status != "Booked" && appointmentModel.Appointment_Status != "Approved" && appointmentModel.Appointment_Status != "Confirmed")
             {
                 ViewBag.ErrorMessage = "You cannot cancel the appointment because the appointment status is " + appointmentModel.Appointment_Status + "!";
             }
@@ -256,7 +203,7 @@ namespace BarberSOnline.Controllers
             return View(appointmentModel);
         }
 
-        // POST: AppointmentModel/Cancel/5
+        // POST: Appointment/Cancel/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -294,12 +241,28 @@ namespace BarberSOnline.Controllers
                         throw;
                     }
                 }
+
+                var user = await _signInManager.UserManager.FindByEmailAsync(appointmentModel.UserEmail);
+                var roles = await _signInManager.UserManager.GetRolesAsync(user);
+
+                if (roles.Any())
+                {
+                    if (roles.First().Equals("Admin") || roles.First().Equals("Barber"))
+                    {
+                        return RedirectToAction(nameof(ViewAll));
+                    }
+                    else if (roles.First().Equals("User"))
+                    {
+                        return RedirectToAction(nameof(UserAppointment));
+                    }
+                }
+
                 return RedirectToAction(nameof(UserAppointment));
             }
             return View(appointmentModel);
         }
 
-        // GET: AppointmentModel/Details/5
+        // GET: Appointment/Details/5
         public async Task<IActionResult> Details(int? AppointmentId)
         {
             if (AppointmentId == null)
@@ -307,8 +270,7 @@ namespace BarberSOnline.Controllers
                 return NotFound();
             }
 
-            var appointmentModel = await _context.AppointmentModel
-                .FirstOrDefaultAsync(m => m.ID == AppointmentId);
+            var appointmentModel = await _context.AppointmentModel.FirstOrDefaultAsync(m => m.ID == AppointmentId);
             if (appointmentModel == null)
             {
                 return NotFound();
@@ -337,12 +299,12 @@ namespace BarberSOnline.Controllers
             return View(appointmentModel);
         }
 
-        // POST: AppointmentModel/BarberApproval/5
+        // POST: Appointment/BarberApproval/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BarberApproval(int ID, [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,User_Booked_Date,Remark")] AppointmentModel appointmentModel)
+        public async Task<IActionResult> BarberApproval(int ID, [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,Remark,User_Booked_Date")] AppointmentModel appointmentModel)
         {
             if (ID != appointmentModel.ID)
             {

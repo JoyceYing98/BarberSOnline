@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<BarberSOnline.Models.AppointmentModel>
 
-@{
-    ViewData["Title"] = "UserAppointment";
-}
+@{ ViewData["Title"] = "UserAppointment"; }
 @section Scripts{
     <script>
         $('#tableSearch').load('Index.cshtml', function () {
@@ -16,15 +14,8 @@
     </script>
 }
 
+
 <h1>UserAppointment</h1>
-@if (ViewBag.MessageCount == null)
-{
-<p>Current number of orders in queue waiting to be processed: 0</p>
-}
-else
-{
-<p>Current number of orders in queue waiting to be processed: @ViewBag.MessageCount</p>
-}
 <input class="form-control mb-4" id="tableSearch" type="text" placeholder="&nbsp; Type something to search list items" style="height:40px;  border-radius: 8px; border: 1px solid black; margin:auto;">
 <p>
     <a asp-action="Create">Create New</a>
@@ -56,40 +47,35 @@ else
     <tbody id="myTable">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Services)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Charges)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Appointment_Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Appointment_Status)
-                </td>
-                <td>
-                    @Html.ActionLink("Confirm Payment", "ConfirmPayment", new { userappointmentID = item.ID }) |
-                    @Html.ActionLink("Update", "UserEdit", new { AppointmentId = item.ID }) |
-                    @Html.ActionLink("Details", "Details", new { AppointmentId = item.ID }) |
-                    <a asp-action="UserEdit" asp-route-id="@item.ID">Update</a> |
-                    <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a> |<br />
-                    @Html.ActionLink("Confirm Payment", "ConfirmPayment", new { userappointmentID = item.ID })
-                </td>
-            </tr>
-        }
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.ID)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Type)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Services)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Charges)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Appointment_Date)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Appointment_Status)
+    </td>
+    <td>
+        @Html.ActionLink("Details", "Details", new { AppointmentId = item.ID }) |
+        <a asp-action="UserEdit" asp-route-id="@item.ID">Update</a> |
+        <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a> |<br />
+        @Html.ActionLink("Confirm Payment", "ConfirmPayment", new { userappointmentID = item.ID })
+    </td>
+</tr>}
     </tbody>
 </table>
-<button>@Html.ActionLink("Retrieve Message from the Service Bus.", "ProcessMsg", new { })</button>
 
 @if (ViewBag.ErrorMessage != null)
 {
-    <script>alert("@ViewBag.ErrorMessage");</script>
-}
+<script>alert("@ViewBag.ErrorMessage");</script>}
