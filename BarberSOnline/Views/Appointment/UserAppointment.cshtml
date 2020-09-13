@@ -18,6 +18,16 @@
 
 
 <h1>View Appointments</h1>
+<h1>UserAppointment</h1>
+@if (ViewBag.MessageCount == null)
+{
+    <p>Current number of user's requested appointment in queue waiting to be processed: 0</p>
+}
+else
+{
+    <p>Current number of user's requested appointment in queue waiting to be processed: @ViewBag.MessageCount</p>
+}
+<p>@ViewBag.msg</p>
 <input class="form-control mb-4" id="tableSearch" type="text" placeholder="&nbsp; Type something to search list items" style="height:40px;  border-radius: 8px; border: 1px solid black; margin:auto;">
 <p>
     <a asp-action="Create">Create New</a>
