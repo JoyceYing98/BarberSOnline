@@ -1,0 +1,73 @@
+﻿@model BarberSOnline.Models.AppointmentModel
+
+@{
+    ViewData["Title"] = "BarberApproval";
+    Layout = "~/Views/Shared/_LayoutBarber.cshtml";
+}
+
+<h1>Barber Approval</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="BarberApproval">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="ID" class="control-label"></label>
+                <input asp-for="ID" class="form-control" />
+                <span asp-validation-for="ID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserEmail" class="control-label"></label>
+                <input asp-for="UserEmail" class="form-control" readonly />
+                <span asp-validation-for="UserEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" readonly />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Services" class="control-label"></label>
+                <input asp-for="Services" class="form-control" readonly />
+                <span asp-validation-for="Services" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Charges" class="control-label"></label>
+                <input asp-for="Charges" class="form-control" readonly />
+                <span asp-validation-for="Charges" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Appointment_Date" class="control-label"></label>
+                <input asp-for="Appointment_Date" class="form-control" readonly />
+                <span asp-validation-for="Appointment_Date" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Appointment_Status" class="control-label"></label>
+                <input asp-for="Appointment_Status" class="form-control" readonly />
+                <span asp-validation-for="Appointment_Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="User_Booked_Date" class="control-label"></label>
+                <input asp-for="User_Booked_Date" class="form-control" readonly />
+                <span asp-validation-for="User_Booked_Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Remark" class="control-label"></label>
+                <input asp-for="Remark" class="form-control" required/>
+                <span asp-validation-for="Remark" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="ViewAll" class="btn btn-primary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@if (ViewBag.ErrorMessage != null)
+{
+    <script>alert("@ViewBag.ErrorMessage"); window.location = '/Appointment/ViewAll';</script>
+}

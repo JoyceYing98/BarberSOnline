@@ -1,14 +1,43 @@
 ﻿@model IEnumerable<BarberSOnline.Models.AppointmentModel>
-
+@using BarberSOnline.Areas.Identity.Data
+@inject SignInManager<BarberSOnlineUser> SignInManager
 @{
     ViewData["Title"] = "ViewAll";
+    if (SignInManager.IsSignedIn(User))
+    {
+        if (User.IsInRole("Admin"))
+        {
+            Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+        }
+        else if (User.IsInRole("Barber"))
+        {
+            Layout = "/Views/Shared/_LayoutBarber.cshtml";
+        }
+    }
+}
+@section Scripts{
+    <script>
+        $('#tableSearch').load('Index.cshtml', function () {
+            $("#tableSearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
 }
 
-<h1>View Appointment</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>View Appointments</h1>
+@if (ViewBag.MessageCount == null)
+{
+    <p>Current number of user's requested appointment in queue waiting to be processed: 0</p>
+}
+else
+{
+    <p>Current number of user's requested appointment in queue waiting to be processed: @ViewBag.MessageCount</p>
+}
+<input class="form-control mb-4" id="tableSearch" type="text" placeholder="&nbsp; Type something to search list items" style="height:40px;  border-radius: 8px; border: 1px solid black; margin:auto;">
 <table class="table">
     <thead>
         <tr>
@@ -62,10 +91,38 @@
                     @Html.DisplayFor(modelItem => item.Appointment_Status)
                 </td>
                 <td>
-                    @Html.ActionLink("GenerateReceipt", "GenerateReceipt", new { AppointmentId = item.ID }) |
-                    @Html.ActionLink("Edit", "Edit", new { AppointmentId = item.ID }) |
-                    @Html.ActionLink("Details", "Details", new { AppointmentId = item.ID }) |
-                    @Html.ActionLink("Delete", "Delete", new { AppointmentId = item.ID })
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Details" asp-route-id="@item.ID">Details </a><label>|</label>
+                        <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a>
+                    }
+                    else if (User.IsInRole("Barber"))
+                    {
+                        if (item.Appointment_Status == "Booked" || item.Appointment_Status == "Approved")
+                        {
+                            <a asp-action="Details" asp-route-id="@item.ID">Details </a><label>|</label>
+                            if (item.Appointment_Status == "Booked")
+                            {
+                                <a asp-action="BarberApproval" asp-route-id="@item.ID">Approve </a><label>|</label>
+                            }
+                            <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a> <br />
+                        }
+                        else if (item.Appointment_Status == "Confirmed")
+                        {
+                            <a asp-action="Details" asp-route-id="@item.ID">Details </a><label>|</label>
+                            <a asp-action="BarberServe" asp-route-id="@item.ID">Serve </a>
+                        }
+                        else if (item.Appointment_Status == "Served")
+                        {
+                            <a asp-action="Details" asp-route-id="@item.ID">Details </a><label>|</label>
+                            <br />
+                            <a asp-action="GenerateReceipt" asp-route-id="@item.ID">Generate Receipt</a>
+                        }
+                        else//Cancelled or Paid
+                        {
+                            <a asp-action="Details" asp-route-id="@item.ID">Details</a>
+                        }
+                    }
                 </td>
             </tr>
         }
@@ -75,5 +132,4 @@
 @if (ViewBag.ErorMessage != null)
 {
     <script>alert("@ViewBag.ErrorMessage");</script>
-    <p>The multiple data insertion is failed. Reason as below: <br /> @ViewBag.ErrorMessage</p>
 }

@@ -48,27 +48,31 @@ namespace BarberSOnline.Models
         public DateTime User_Confirmed_Date { get; set; }
 
         [StringLength(200, ErrorMessage = "Cancelled Reason cannot be more than 200 chars")]
-        [Display(Name = "Cancelled Reason")]
+        [Display(Name = "User Cancelled Reason")]
         [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-_,.?!]*$", ErrorMessage = "You can only type alphabets either in lower or upper case, numbers and some symbols such as comma(,), fullstop(.), exclamation mark(!), question mark(?) and etc.")]
         public string User_Cancelled_Reason { get; set; }
 
-        [Display(Name = "Confirmed Date")]
-        public DateTime Barber_Confirmed_Date { get; set; }
+        [Display(Name = "Approved Date")]
+        public DateTime Barber_Approved_Date { get; set; }
 
         [Display(Name = "Check In Date")]
         public DateTime Barber_Check_In_Date { get; set; }
 
+        [Display(Name = "Barber Email")]
+        [StringLength(60, MinimumLength = 3)]
+        public string BarberEmail { get; set; }//also user
+
         [StringLength(200, ErrorMessage = "Cancelled Reason cannot be more than 200 chars")]
-        [Display(Name = "Cancelled Reason")]
+        [Display(Name = "Barber Cancelled Reason")]
         [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-_,.?!]*$", ErrorMessage = "You can only type alphabets either in lower or upper case, numbers and some symbols such as comma(,), fullstop(.), exclamation mark(!), question mark(?) and etc.")]
         public string Barber_Cancelled_Reason { get; set; }
 
-        [Display(Name = "AdminEmail")]
+        [Display(Name = "Admin Email")]
         [StringLength(60, MinimumLength = 3)]
         public string AdminEmail { get; set; }//also user
 
         [StringLength(200, ErrorMessage = "Cancelled Reason cannot be more than 200 chars")]
-        [Display(Name = "Cancelled Reason")]
+        [Display(Name = "Admin Cancelled Reason")]
         [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-_,.?!]*$", ErrorMessage = "You can only type alphabets either in lower or upper case, numbers and some symbols such as comma(,), fullstop(.), exclamation mark(!), question mark(?) and etc.")]
         public string Admin_Cancelled_Reason { get; set; }
     }
