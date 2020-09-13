@@ -59,7 +59,7 @@ namespace BarberSOnline.Controllers
                     appointment.User_Booked_Date = now;
                     _context.Add(appointment);
                     await _context.SaveChangesAsync();//save appointment and respective services record
-                    return RedirectToAction("Details");
+                    return RedirectToAction("UserAppointment");
                 }
                 catch(Exception e)
                 {
