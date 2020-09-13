@@ -49,9 +49,15 @@
             @Html.DisplayFor(model => model.User_Booked_Date)
         </dd>
         @if (Model.Appointment_Status == "Approved" || Model.Appointment_Status == "Confirmed" ||
-Model.Appointment_Status == "Attended" || Model.Appointment_Status == "Pending to Pay" ||
-Model.Appointment_Status == "Paid")
+              Model.Appointment_Status == "Attended" || Model.Appointment_Status == "Pending to Pay" ||
+              Model.Appointment_Status == "Paid")
         {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Remark)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Remark)
+            </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Barber_Approved_Date)
             </dt>
@@ -61,12 +67,6 @@ Model.Appointment_Status == "Paid")
             if (Model.Appointment_Status == "Confirmed" || Model.Appointment_Status == "Attended" ||
                 Model.Appointment_Status == "Pending to Pay" || Model.Appointment_Status == "Paid")
             {
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Remark)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Remark)
-                </dd>
                 <dt class="col-sm-2">
                     @Html.DisplayNameFor(model => model.User_Confirmed_Date)
                 </dt>
@@ -86,6 +86,12 @@ Model.Appointment_Status == "Paid")
         }
         @if (Model.Appointment_Status == "Cancelled")
         {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Remark)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Remark)
+            </dd>
             if (!Model.Barber_Approved_Date.ToString().Equals("1/1/0001 12:00:00 AM"))
             {
                 <dt class="col-sm-2">
@@ -163,7 +169,7 @@ Model.Appointment_Status == "Paid")
         {
             if (User.IsInRole("Barber"))
             {
-                @*<a asp-action="UserEdit" asp-route-id="@Model.ID" class="btn btn-primary">Approve </a><label>|</label>*@
+                <a asp-action="BarberApproval" asp-route-id="@Model.ID" class="btn btn-primary">Approve </a><label>|</label>
             }
             <a asp-action="ViewAll" class="btn btn-primary">Back to List</a>
         }

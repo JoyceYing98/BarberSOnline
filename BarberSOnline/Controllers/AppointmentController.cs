@@ -143,7 +143,7 @@ namespace BarberSOnline.Controllers
             return View(appointmentModel);
         }
 
-        // POST: AppointmentModel/UserEdit/5
+        // POST: Appointment/UserEdit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -191,7 +191,7 @@ namespace BarberSOnline.Controllers
             }
 
             var appointmentModel = await _context.AppointmentModel.FindAsync(ID);
-            if (appointmentModel.Appointment_Status != "Booked" || appointmentModel.Appointment_Status != "Approved" || appointmentModel.Appointment_Status != "Confirmed")
+            if (appointmentModel.Appointment_Status != "Booked" && appointmentModel.Appointment_Status != "Approved" && appointmentModel.Appointment_Status != "Confirmed")
             {
                 ViewBag.ErrorMessage = "You cannot cancel the appointment because the appointment status is " + appointmentModel.Appointment_Status + "!";
             }
@@ -203,7 +203,7 @@ namespace BarberSOnline.Controllers
             return View(appointmentModel);
         }
 
-        // POST: AppointmentModel/Cancel/5
+        // POST: Appointment/Cancel/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -241,12 +241,28 @@ namespace BarberSOnline.Controllers
                         throw;
                     }
                 }
+                
+                var user = await _signInManager.UserManager.FindByEmailAsync(appointmentModel.UserEmail);
+                var roles = await _signInManager.UserManager.GetRolesAsync(user);
+
+                if (roles.Any())
+                {
+                    if (roles.First().Equals("Admin") || roles.First().Equals("Barber"))
+                    {
+                        return RedirectToAction(nameof(ViewAll));
+                    }
+                    else if (roles.First().Equals("User"))
+                    {
+                        return RedirectToAction(nameof(UserAppointment));
+                    }
+                }
+
                 return RedirectToAction(nameof(UserAppointment));
             }
             return View(appointmentModel);
         }
 
-        // GET: AppointmentModel/Details/5
+        // GET: Appointment/Details/5
         public async Task<IActionResult> Details(int? AppointmentId)
         {
             if (AppointmentId == null)
@@ -254,8 +270,7 @@ namespace BarberSOnline.Controllers
                 return NotFound();
             }
 
-            var appointmentModel = await _context.AppointmentModel
-                .FirstOrDefaultAsync(m => m.ID == AppointmentId);
+            var appointmentModel = await _context.AppointmentModel.FirstOrDefaultAsync(m => m.ID == AppointmentId);
             if (appointmentModel == null)
             {
                 return NotFound();
@@ -284,12 +299,12 @@ namespace BarberSOnline.Controllers
             return View(appointmentModel);
         }
 
-        // POST: AppointmentModel/BarberApproval/5
+        // POST: Appointment/BarberApproval/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BarberApproval(int ID, [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,User_Booked_Date,Remark")] AppointmentModel appointmentModel)
+        public async Task<IActionResult> BarberApproval(int ID, [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,Remark,User_Booked_Date")] AppointmentModel appointmentModel)
         {
             if (ID != appointmentModel.ID)
             {

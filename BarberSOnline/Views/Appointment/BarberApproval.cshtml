@@ -13,7 +13,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" hidden>
                 <label asp-for="ID" class="control-label"></label>
-                <input asp-for="ID" class="form-control" readonly />
+                <input asp-for="ID" class="form-control" />
                 <span asp-validation-for="ID" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -41,25 +41,27 @@
                 <input asp-for="Appointment_Date" class="form-control" readonly />
                 <span asp-validation-for="Appointment_Date" class="text-danger"></span>
             </div>
+            <div class="form-group" hidden>
+                <label asp-for="Appointment_Status" class="control-label"></label>
+                <input asp-for="Appointment_Status" class="form-control" readonly />
+                <span asp-validation-for="Appointment_Status" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="User_Booked_Date" class="control-label"></label>
                 <input asp-for="User_Booked_Date" class="form-control" readonly />
                 <span asp-validation-for="User_Booked_Date" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
+            <div class="form-group">
                 <label asp-for="Remark" class="control-label"></label>
-                <input asp-for="Remark" class="form-control" />
+                <input asp-for="Remark" class="form-control" required/>
                 <span asp-validation-for="Remark" class="text-danger"></span>
-            </div>*@
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="ViewAll" class="btn btn-primary">Back to List</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="ViewAll">Back to List</a>
 </div>
 
 @section Scripts {
