@@ -49,7 +49,7 @@ namespace BarberSOnline.Controllers
         //POST & GET - method to transmit data
         [HttpPost]//this action is for user after key in and submit
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,User_Booked_Date")] AppointmentModel appointment)
+        public async Task<IActionResult> Create([Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status")] AppointmentModel appointment)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +100,6 @@ namespace BarberSOnline.Controllers
             else
             {
                 ViewBag.ErrorMessage = "Payment is not pending!";
-                return RedirectToAction("ViewAll");
             }
 
             if (appointmentModel == null)
@@ -149,7 +148,6 @@ namespace BarberSOnline.Controllers
             else
             {
                 ViewBag.ErrorMessage = "Payment is not pending!";
-                return RedirectToAction("UserAppointment");
             }
 
             if (appointmentModel == null)
@@ -160,14 +158,19 @@ namespace BarberSOnline.Controllers
             return View(appointmentModel);
         }
 
-        public async Task<IActionResult> UserEdit(int? AppointmentId)
+        public async Task<IActionResult> UserEdit(int? ID)
         {
-            if (AppointmentId == null)
+            if (ID == null)
             {
                 return NotFound();
             }
 
-            var appointmentModel = await _context.AppointmentModel.FindAsync(AppointmentId);
+            var appointmentModel = await _context.AppointmentModel.FindAsync(ID);
+            if (appointmentModel.Appointment_Status != "Booked")
+            {
+                ViewBag.ErrorMessage = "Appointment Status is " + appointmentModel.Appointment_Status + "! You cannot make changes anymore. ";
+            }
+
             if (appointmentModel == null)
             {
                 return NotFound();
@@ -175,14 +178,14 @@ namespace BarberSOnline.Controllers
             return View(appointmentModel);
         }
 
-        // POST: UserModels/Edit/5
+        // POST: AppointmentModel/UserEdit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UserEdit(int AppointmentId, [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,User_Booked_Date,Remark,User_Confirmed_Date")] AppointmentModel appointmentModel)
+        public async Task<IActionResult> UserEdit(int ID, [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,User_Booked_Date")] AppointmentModel appointmentModel)
         {
-            if (AppointmentId != appointmentModel.ID)
+            if (ID != appointmentModel.ID)
             {
                 return NotFound();
             }
@@ -190,6 +193,11 @@ namespace BarberSOnline.Controllers
             {
                 try
                 {
+                    if(appointmentModel.Appointment_Status == "Confirmed")
+                    {
+                        DateTime now = DateTime.Now;
+                        appointmentModel.User_Confirmed_Date = now;
+                    }
                     _context.Update(appointmentModel);
                     await _context.SaveChangesAsync();
                 }
@@ -205,85 +213,84 @@ namespace BarberSOnline.Controllers
                     }
                 }
                 return RedirectToAction(nameof(UserAppointment));
-
             }
             return View(appointmentModel);
         }
 
-        // GET: UserModels/Edit/5
-        public async Task<IActionResult> Edit(int? AppointmentId)
-        {
-            if (AppointmentId == null)
-            {
-                return NotFound();
-            }
+        //// GET: UserModels/Edit/5
+        //public async Task<IActionResult> Edit(int? AppointmentId)
+        //{
+        //    if (AppointmentId == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var appointmentModel = await _context.AppointmentModel.FindAsync(AppointmentId);
-            if (appointmentModel == null)
-            {
-                return NotFound();
-            }
-            return View(appointmentModel);
-        }
+        //    var appointmentModel = await _context.AppointmentModel.FindAsync(AppointmentId);
+        //    if (appointmentModel == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(appointmentModel);
+        //}
 
-        // POST: UserModels/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int AppointmentId, 
-            [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,Remark," +
-            "User_Booked_Date,User_Confirmed_Date,User_Cancelled_Reason," +
-            "Barber_Confirmed_Date,Barber_Check_In_Date,Barber_Cancelled_Reason,AdminEmail,Admin_Cancelled_Reason")] 
-            AppointmentModel appointmentModel)
-        {
-            if (AppointmentId != appointmentModel.ID)
-            {
-                return NotFound();
-            }
+        //// POST: UserModels/Edit/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int AppointmentId, 
+        //    [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,Remark," +
+        //    "User_Booked_Date,User_Confirmed_Date,User_Cancelled_Reason," +
+        //    "Barber_Confirmed_Date,Barber_Check_In_Date,Barber_Cancelled_Reason,AdminEmail,Admin_Cancelled_Reason")] 
+        //    AppointmentModel appointmentModel)
+        //{
+        //    if (AppointmentId != appointmentModel.ID)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(appointmentModel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AppointmentIDExists(appointmentModel.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(appointmentModel);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!AppointmentIDExists(appointmentModel.ID))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
 
-                var user = await _signInManager.UserManager.FindByEmailAsync(appointmentModel.UserEmail);
-                var roles = await _signInManager.UserManager.GetRolesAsync(user);
+        //        var user = await _signInManager.UserManager.FindByEmailAsync(appointmentModel.UserEmail);
+        //        var roles = await _signInManager.UserManager.GetRolesAsync(user);
 
 
-                if (roles.Any())
-                {
-                    if (roles.First().Equals("Admin"))
-                    {
-                        return LocalRedirect("~/Admin/Index");
-                    }
-                    if (roles.First().Equals("Barber"))
-                    {
-                        return RedirectToAction(nameof(ViewAll));
-                    }
-                    if (roles.First().Equals("User"))
-                    {
-                        return RedirectToAction(nameof(UserAppointment));
-                    }
-                }
+        //        if (roles.Any())
+        //        {
+        //            if (roles.First().Equals("Admin"))
+        //            {
+        //                return LocalRedirect("~/Admin/Index");
+        //            }
+        //            if (roles.First().Equals("Barber"))
+        //            {
+        //                return RedirectToAction(nameof(ViewAll));
+        //            }
+        //            if (roles.First().Equals("User"))
+        //            {
+        //                return RedirectToAction(nameof(UserAppointment));
+        //            }
+        //        }
                 
-            }
-            return View(appointmentModel);
-        }
+        //    }
+        //    return View(appointmentModel);
+        //}
 
         // GET: AppointmentModel/Details/5
         public async Task<IActionResult> Details(int? AppointmentId)
