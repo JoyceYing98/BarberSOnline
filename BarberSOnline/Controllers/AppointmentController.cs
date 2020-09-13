@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BarberSOnline.Areas.Identity.Data;
 using BarberSOnline.Data;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.ServiceBus;
+using Microsoft.Azure.ServiceBus.Management;
 using Microsoft.EntityFrameworkCore;
 
 namespace BarberSOnline.Controllers
@@ -95,6 +97,52 @@ namespace BarberSOnline.Controllers
             return View();
         }
 
+        //Part 2: Received Message from the Service Bus - cal get data function
+        public async Task<IActionResult> ProcessMsg()
+        {
+            //queueClient = new QueueClient(ServiceBusConnectionString, QueueName, ReceiveMode.PeekLock);
+            items = new List<string>();
+            await Task.Factory.StartNew(() =>
+            {
+                queueClient = new QueueClient(ServiceBusConnectionString, QueueName, ReceiveMode.PeekLock);
+                var options = new MessageHandlerOptions(ExceptionMethod)
+                {
+                    MaxConcurrentCalls = 1,
+                    AutoComplete = false
+                };
+                queueClient.RegisterMessageHandler(ExecuteMessageProcessing, options);
+            });
+
+            return RedirectToAction("ProcessMsgResult");
+        }
+
+        //Part 2: Received Message from the Service Bus - get data step
+        private static async Task ExecuteMessageProcessing(Message message, CancellationToken arg2)
+        {
+            //var result = JsonConvert.DeserializeObject<Ostring>(Encoding.UTF8.GetString(message.Body));
+            // Console.WriteLine($"Order Id is {result.OrderId}, Order name is {result.OrderName} and quantity is {result.OrderQuantity}");
+            Console.WriteLine($"Received message: SequenceNumber:{message.SystemProperties.SequenceNumber} Body:{Encoding.UTF8.GetString(message.Body)}");
+            await queueClient.CompleteAsync(message.SystemProperties.LockToken);
+
+            items.Add("Received message: SequenceNumber:" + message.SystemProperties.SequenceNumber + " Body:" + Encoding.UTF8.GetString(message.Body));
+
+        }
+
+        //Part 2: Received Message from the Service Bus
+        private static async Task ExceptionMethod(ExceptionReceivedEventArgs arg)
+        {
+            await Task.Run(() =>
+           Console.WriteLine($"Error occured. Error is {arg.Exception.Message}")
+           );
+        }
+
+        //Part 2: Received Message from the Service Bus - Display step
+        //however, there is a bug where you have to reload the page for second time only can see the result.
+        public IActionResult ProcessMsgResult()
+        {
+            return View(items);
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -147,11 +195,27 @@ namespace BarberSOnline.Controllers
                     UserAppointment.Add(user);
                 }
             }
-            if (UserAppointment != null)
+            if (UserAppointment == null)
             {
-                return View(UserAppointment);
+                return NotFound();
             }
-            return NotFound();
+
+            try
+            {
+                
+                ManagementClient managementClient1 = new ManagementClient(ServiceBusConnectionString);
+                var managementClient = managementClient1;
+                var runtimeInfo = await managementClient.GetQueueRuntimeInfoAsync(QueueName);
+
+                var messagesInQueueCount = runtimeInfo.MessageCountDetails.ActiveMessageCount;
+
+                ViewBag.MessageCount = messagesInQueueCount;
+            }
+            catch (Exception exception)
+            {
+                ViewBag.ErrorMessage = exception.ToString();
+            }
+            return View(UserAppointment);
         }
 
         [Authorize(Roles = "User")]
