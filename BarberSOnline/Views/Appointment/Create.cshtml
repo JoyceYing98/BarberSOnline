@@ -231,6 +231,6 @@
 }
 @if (ViewBag.msg != null)
 {
-    <script>alert("@ViewBag.msg");</script>
+    <script>alert("@ViewBag.msg"); window.location = '/Appointment/UserAppointment';</script>
     <p>The multiple data insertion is failed. Reason as below: <br /> @ViewBag.msg</p>
 }

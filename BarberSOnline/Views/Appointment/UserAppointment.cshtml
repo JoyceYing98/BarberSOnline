@@ -70,6 +70,7 @@
                 </td>
                 <td>
                     @Html.ActionLink("Confirm Payment", "ConfirmPayment", new { userappointmentID = item.ID }) |
+                    <a asp-action="UserEdit" asp-route-id="@item.ID">Edit</a> |
                     @Html.ActionLink("Update", "UserEdit", new { AppointmentId = item.ID }) |
                     @Html.ActionLink("Details", "Details", new { AppointmentId = item.ID }) |
                     @Html.ActionLink("Cancel", "Delete", new { AppointmentId = item.ID })

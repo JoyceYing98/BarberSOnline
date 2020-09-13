@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using BarberSOnline.Areas.Identity.Data;
 using BarberSOnline.Data;
@@ -9,6 +10,7 @@ using BarberSOnline.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.EntityFrameworkCore;
 
 namespace BarberSOnline.Controllers
@@ -19,6 +21,11 @@ namespace BarberSOnline.Controllers
         private readonly BarberSOnlineContext _context;
         private readonly UserManager<BarberSOnlineUser> _barberManager;
         private readonly SignInManager<BarberSOnlineUser> _signInManager;
+        const string ServiceBusConnectionString = "Endpoint=sb://barbersonlineservicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=0DpfJH+V2QR12KRbvFBIwpg3w5x2BWjslvDRb282/0U=";
+        const string QueueName = "appointmentqueue";
+        static IQueueClient queueClient;
+        static List<string> items;
+
 
         public AppointmentController(BarberSOnlineContext context, UserManager<BarberSOnlineUser> barberManager, SignInManager<BarberSOnlineUser> signInManager)
         {
@@ -59,14 +66,33 @@ namespace BarberSOnline.Controllers
                     appointment.User_Booked_Date = now;
                     _context.Add(appointment);
                     await _context.SaveChangesAsync();//save appointment and respective services record
-                    return RedirectToAction("UserAppointment");
+                    //return RedirectToAction("UserAppointment");
                 }
                 catch(Exception e)
                 {
                     ViewBag.msg = "Error: " + e.ToString();
                 }
+
+                try
+                {
+                    queueClient = new QueueClient(ServiceBusConnectionString, QueueName);
+                    // Create a new message to send to the queue.
+                    string messageBody = $"Message: {appointment.UserEmail} is requesting appointment on {appointment.Appointment_Date}.";
+                        var message = new Message(Encoding.UTF8.GetBytes(messageBody));
+
+                        // Write the body of the message to the console.
+                        Console.WriteLine($"Sending message: {messageBody}");
+
+                        // Send the message to the queue.
+                        await queueClient.SendAsync(message);
+                        ViewBag.msg = "success";
+                }
+                catch (Exception exception)
+                {
+                    ViewBag.msg = exception.ToString();
+                }
             }
-            return View("~/Views/Shared/_LayoutUser");
+            return View();
         }
 
         public IActionResult Index()
@@ -160,14 +186,14 @@ namespace BarberSOnline.Controllers
             return View(appointmentModel);
         }
 
-        public async Task<IActionResult> UserEdit(int? AppointmentId)
+        public async Task<IActionResult> UserEdit(int? ID)
         {
-            if (AppointmentId == null)
+            if (ID == null)
             {
                 return NotFound();
             }
 
-            var appointmentModel = await _context.AppointmentModel.FindAsync(AppointmentId);
+            var appointmentModel = await _context.AppointmentModel.FindAsync(ID);
             if (appointmentModel == null)
             {
                 return NotFound();
@@ -180,9 +206,9 @@ namespace BarberSOnline.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UserEdit(int AppointmentId, [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,User_Booked_Date,Remark,User_Confirmed_Date")] AppointmentModel appointmentModel)
+        public async Task<IActionResult> UserEdit(int ID, [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,User_Booked_Date,Remark,User_Confirmed_Date")] AppointmentModel appointmentModel)
         {
-            if (AppointmentId != appointmentModel.ID)
+            if (ID != appointmentModel.ID)
             {
                 return NotFound();
             }
