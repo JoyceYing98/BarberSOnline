@@ -48,21 +48,18 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.User_Booked_Date)
         </dd>
-        @if (Model.Appointment_Status == "Confirmed" || Model.Appointment_Status == "Attended" || Model.Appointment_Status == "Paid")
+        @if (Model.Appointment_Status == "Approved" || Model.Appointment_Status == "Confirmed" ||
+Model.Appointment_Status == "Attended" || Model.Appointment_Status == "Pending to Pay" ||
+Model.Appointment_Status == "Paid")
         {
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.User_Confirmed_Date)
+                @Html.DisplayNameFor(model => model.Barber_Approved_Date)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.User_Confirmed_Date)
+                @Html.DisplayFor(model => model.Barber_Approved_Date)
             </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Barber_Confirmed_Date)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Barber_Confirmed_Date)
-            </dd>
-            if (Model.Appointment_Status == "Attended")
+            if (Model.Appointment_Status == "Confirmed" || Model.Appointment_Status == "Attended" ||
+                Model.Appointment_Status == "Pending to Pay" || Model.Appointment_Status == "Paid")
             {
                 <dt class="col-sm-2">
                     @Html.DisplayNameFor(model => model.Remark)
@@ -71,16 +68,35 @@
                     @Html.DisplayFor(model => model.Remark)
                 </dd>
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Barber_Check_In_Date)
+                    @Html.DisplayNameFor(model => model.User_Confirmed_Date)
                 </dt>
                 <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Barber_Check_In_Date)
+                    @Html.DisplayFor(model => model.User_Confirmed_Date)
                 </dd>
+                if (Model.Appointment_Status == "Attended" || Model.Appointment_Status == "Pending to Pay" || Model.Appointment_Status == "Paid")
+                {
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Barber_Check_In_Date)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Barber_Check_In_Date)
+                    </dd>
+                }
             }
         }
         @if (Model.Appointment_Status == "Cancelled")
         {
-            if (!Model.User_Confirmed_Date.Equals("1/1/0001 12:00:00 AM"))
+            if (!Model.Barber_Approved_Date.ToString().Equals("1/1/0001 12:00:00 AM"))
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Barber_Approved_Date)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Barber_Approved_Date)
+                </dd>
+            }
+
+            if (!Model.User_Confirmed_Date.ToString().Equals("1/1/0001 12:00:00 AM"))
             {
                 <dt class="col-sm-2">
                     @Html.DisplayNameFor(model => model.User_Confirmed_Date)
@@ -90,18 +106,17 @@
                 </dd>
             }
 
-            if (!Model.Barber_Confirmed_Date.Equals("1/1/0001 12:00:00 AM"))
-            {
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Barber_Confirmed_Date)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Barber_Confirmed_Date)
-                </dd>
-            }
-
             if (Model.User_Cancelled_Reason != null)
             {
+                if (User.IsInRole("Admin") || User.IsInRole("Barber"))
+                {
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.UserEmail)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.UserEmail)
+                    </dd>
+                }
                 <dt class="col-sm-2">
                     @Html.DisplayNameFor(model => model.User_Cancelled_Reason)
                 </dt>
@@ -112,10 +127,10 @@
             else if (Model.Barber_Cancelled_Reason != null)
             {
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Remark)
+                    @Html.DisplayNameFor(model => model.BarberEmail)
                 </dt>
                 <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Remark)
+                    @Html.DisplayFor(model => model.BarberEmail)
                 </dd>
                 <dt class="col-sm-2">
                     @Html.DisplayNameFor(model => model.Barber_Cancelled_Reason)
@@ -143,22 +158,19 @@
     </dl>
 </div>
 <div>
-    <a asp-action="UserEdit" asp-route-id="@Model.ID" class="btn btn-primary">Update</a> |
     @{
-        if (SignInManager.IsSignedIn(User))
+        if (User.IsInRole("Admin") || User.IsInRole("Barber"))
         {
-            if (User.IsInRole("Admin"))
+            if (User.IsInRole("Barber"))
             {
-                <a asp-action="ViewAll" class="btn btn-primary">Back to List</a>
+                @*<a asp-action="UserEdit" asp-route-id="@Model.ID" class="btn btn-primary">Approve </a><label>|</label>*@
             }
-            else if (User.IsInRole("Barber"))
-            {
-                <a asp-action="ViewAll" class="btn btn-primary">Back to List</a>
-            }
-            else if (User.IsInRole("User"))
-            {
-                <a asp-action="UserAppointment" class="btn btn-primary">Back to List</a>
-            }
+            <a asp-action="ViewAll" class="btn btn-primary">Back to List</a>
+        }
+        else if (User.IsInRole("User"))
+        {
+            <a asp-action="UserEdit" asp-route-id="@Model.ID" class="btn btn-primary">Update </a><label>|</label>
+            <a asp-action="UserAppointment" class="btn btn-primary">Back to List</a>
         }
     }
 </div>

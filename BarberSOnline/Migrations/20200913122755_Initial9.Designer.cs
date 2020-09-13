@@ -4,14 +4,16 @@ using BarberSOnline.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BarberSOnline.Migrations
 {
     [DbContext(typeof(BarberSOnlineContext))]
-    partial class BarberSOnlineContextModelSnapshot : ModelSnapshot
+    [Migration("20200913122755_Initial9")]
+    partial class Initial9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,14 +127,14 @@ namespace BarberSOnline.Migrations
                         .HasColumnType("nvarchar(60)")
                         .HasMaxLength(60);
 
-                    b.Property<DateTime>("Barber_Approved_Date")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Barber_Cancelled_Reason")
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<DateTime>("Barber_Check_In_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Barber_Confirmed_Date")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("Charges")

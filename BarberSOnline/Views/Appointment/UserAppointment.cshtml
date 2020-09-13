@@ -80,7 +80,7 @@ else
                     @Html.ActionLink("Update", "UserEdit", new { AppointmentId = item.ID }) |
                     @Html.ActionLink("Details", "Details", new { AppointmentId = item.ID }) |
                     <a asp-action="UserEdit" asp-route-id="@item.ID">Update</a> |
-                    @Html.ActionLink("Cancel", "Delete", new { AppointmentId = item.ID }) |<br />
+                    <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a> |<br />
                     @Html.ActionLink("Confirm Payment", "ConfirmPayment", new { userappointmentID = item.ID })
                 </td>
             </tr>

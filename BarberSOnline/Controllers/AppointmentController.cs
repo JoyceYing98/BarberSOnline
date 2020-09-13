@@ -44,6 +44,11 @@ namespace BarberSOnline.Controllers
             Username = userName;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         // GET: Appointment/Create
         [Authorize(Roles = "User")]
         public IActionResult Create()
@@ -153,37 +158,6 @@ namespace BarberSOnline.Controllers
             return View(await _context.AppointmentModel.ToListAsync());
         }
 
-        [Authorize(Roles = "Barber")]
-        public async Task<IActionResult> GenerateReceipt(int? AppointmentId)
-        {
-            if (AppointmentId == null)
-            {
-                return NotFound();
-            }
-
-            var appointmentModel = await _context.AppointmentModel
-                .FirstOrDefaultAsync(m => m.ID == AppointmentId);
-
-            if (appointmentModel.Appointment_Status == "Confirmed")
-            {
-                appointmentModel.Appointment_Status = "Paid";
-                _context.Update(appointmentModel);
-                await _context.SaveChangesAsync();
-            }
-
-            else
-            {
-                ViewBag.ErrorMessage = "Payment is not pending!";
-            }
-
-            if (appointmentModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(appointmentModel);
-        }
-
         public async Task<IActionResult> UserAppointment()
         {
             List<AppointmentModel> UserAppointment = new List<AppointmentModel>();
@@ -195,57 +169,11 @@ namespace BarberSOnline.Controllers
                     UserAppointment.Add(user);
                 }
             }
-            if (UserAppointment == null)
+            if (UserAppointment != null)
             {
-                return NotFound();
+                return View(UserAppointment);
             }
-
-            try
-            {
-                
-                ManagementClient managementClient1 = new ManagementClient(ServiceBusConnectionString);
-                var managementClient = managementClient1;
-                var runtimeInfo = await managementClient.GetQueueRuntimeInfoAsync(QueueName);
-
-                var messagesInQueueCount = runtimeInfo.MessageCountDetails.ActiveMessageCount;
-
-                ViewBag.MessageCount = messagesInQueueCount;
-            }
-            catch (Exception exception)
-            {
-                ViewBag.ErrorMessage = exception.ToString();
-            }
-            return View(UserAppointment);
-        }
-
-        [Authorize(Roles = "User")]
-        public async Task<IActionResult> ConfirmPayment(int? userappointmentID)
-        {
-            if (userappointmentID == null)
-            {
-                return NotFound();
-            }
-
-            var appointmentModel = await _context.AppointmentModel
-                .FirstOrDefaultAsync(m => m.ID == userappointmentID);
-
-            if(appointmentModel.Appointment_Status == "PendingPayment")
-            {
-                appointmentModel.Appointment_Status = "Paid";
-                _context.Update(appointmentModel);
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                ViewBag.ErrorMessage = "Payment is not pending!";
-            }
-
-            if (appointmentModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(appointmentModel);
+            return NotFound();
         }
 
         public async Task<IActionResult> UserEdit(int? ID)
@@ -283,8 +211,9 @@ namespace BarberSOnline.Controllers
             {
                 try
                 {
-                    if(appointmentModel.Appointment_Status == "Confirmed")
+                    if(appointmentModel.Appointment_Status == "Approved")
                     {
+                        appointmentModel.Appointment_Status = "Confirmed";
                         DateTime now = DateTime.Now;
                         appointmentModel.User_Confirmed_Date = now;
                     }
@@ -307,80 +236,68 @@ namespace BarberSOnline.Controllers
             return View(appointmentModel);
         }
 
-        //// GET: UserModels/Edit/5
-        //public async Task<IActionResult> Edit(int? AppointmentId)
-        //{
-        //    if (AppointmentId == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Cancel(int? ID)
+        {
+            if (ID == null)
+            {
+                return NotFound();
+            }
 
-        //    var appointmentModel = await _context.AppointmentModel.FindAsync(AppointmentId);
-        //    if (appointmentModel == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(appointmentModel);
-        //}
+            var appointmentModel = await _context.AppointmentModel.FindAsync(ID);
+            if (appointmentModel.Appointment_Status != "Booked" || appointmentModel.Appointment_Status != "Approved" || appointmentModel.Appointment_Status != "Confirmed")
+            {
+                ViewBag.ErrorMessage = "You cannot cancel the appointment because the appointment status is " + appointmentModel.Appointment_Status + "!";
+            }
 
-        //// POST: UserModels/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int AppointmentId, 
-        //    [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,Remark," +
-        //    "User_Booked_Date,User_Confirmed_Date,User_Cancelled_Reason," +
-        //    "Barber_Confirmed_Date,Barber_Check_In_Date,Barber_Cancelled_Reason,AdminEmail,Admin_Cancelled_Reason")] 
-        //    AppointmentModel appointmentModel)
-        //{
-        //    if (AppointmentId != appointmentModel.ID)
-        //    {
-        //        return NotFound();
-        //    }
+            if (appointmentModel == null)
+            {
+                return NotFound();
+            }
+            return View(appointmentModel);
+        }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(appointmentModel);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!AppointmentIDExists(appointmentModel.ID))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-
-        //        var user = await _signInManager.UserManager.FindByEmailAsync(appointmentModel.UserEmail);
-        //        var roles = await _signInManager.UserManager.GetRolesAsync(user);
-
-
-        //        if (roles.Any())
-        //        {
-        //            if (roles.First().Equals("Admin"))
-        //            {
-        //                return LocalRedirect("~/Admin/Index");
-        //            }
-        //            if (roles.First().Equals("Barber"))
-        //            {
-        //                return RedirectToAction(nameof(ViewAll));
-        //            }
-        //            if (roles.First().Equals("User"))
-        //            {
-        //                return RedirectToAction(nameof(UserAppointment));
-        //            }
-        //        }
-                
-        //    }
-        //    return View(appointmentModel);
-        //}
+        // POST: AppointmentModel/Cancel/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Cancel(int ID, [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,Appointment_Status,User_Booked_Date,User_Cancelled_Reason,BarberEmail,Barber_Cancelled_Reason,AdminEmail,Admin_Cancelled_Reason,Appointment_Status")] AppointmentModel appointmentModel)
+        {
+            if (ID != appointmentModel.ID)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    appointmentModel.Appointment_Status = "Cancelled";
+                    if (appointmentModel.Admin_Cancelled_Reason != null)
+                    {
+                        appointmentModel.AdminEmail = User.Identity.Name;
+                    }
+                    else if (appointmentModel.Barber_Cancelled_Reason != null)
+                    {
+                        appointmentModel.BarberEmail = User.Identity.Name;
+                    }
+                    _context.Update(appointmentModel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AppointmentIDExists(appointmentModel.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(UserAppointment));
+            }
+            return View(appointmentModel);
+        }
 
         // GET: AppointmentModel/Details/5
         public async Task<IActionResult> Details(int? AppointmentId)
@@ -400,8 +317,65 @@ namespace BarberSOnline.Controllers
             return View(appointmentModel);
         }
 
-        // GET: UserModels/Delete/5
-        public async Task<IActionResult> Delete(int? AppointmentId)
+        public async Task<IActionResult> BarberApproval(int? ID)
+        {
+            if (ID == null)
+            {
+                return NotFound();
+            }
+
+            var appointmentModel = await _context.AppointmentModel.FindAsync(ID);
+            if (appointmentModel.Appointment_Status != "Booked")
+            {
+                ViewBag.ErrorMessage = "Appointment Status is " + appointmentModel.Appointment_Status + "! You cannot approve anymore. ";
+            }
+
+            if (appointmentModel == null)
+            {
+                return NotFound();
+            }
+            return View(appointmentModel);
+        }
+
+        // POST: AppointmentModel/BarberApproval/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BarberApproval(int ID, [Bind("ID,UserEmail,Type,Services,Charges,Appointment_Date,User_Booked_Date,Remark")] AppointmentModel appointmentModel)
+        {
+            if (ID != appointmentModel.ID)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    appointmentModel.Appointment_Status = "Approved";
+                    DateTime now = DateTime.Now;
+                    appointmentModel.Barber_Approved_Date = now;
+                    _context.Update(appointmentModel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AppointmentIDExists(appointmentModel.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(ViewAll));
+            }
+            return View(appointmentModel);
+        }
+
+        [Authorize(Roles = "Barber")]
+        public async Task<IActionResult> GenerateReceipt(int? AppointmentId)
         {
             if (AppointmentId == null)
             {
@@ -410,7 +384,20 @@ namespace BarberSOnline.Controllers
 
             var appointmentModel = await _context.AppointmentModel
                 .FirstOrDefaultAsync(m => m.ID == AppointmentId);
-            if (AppointmentId == null)
+
+            if (appointmentModel.Appointment_Status == "Confirmed")
+            {
+                appointmentModel.Appointment_Status = "Paid";
+                _context.Update(appointmentModel);
+                await _context.SaveChangesAsync();
+            }
+
+            else
+            {
+                ViewBag.ErrorMessage = "Payment is not pending!";
+            }
+
+            if (appointmentModel == null)
             {
                 return NotFound();
             }
@@ -418,15 +405,34 @@ namespace BarberSOnline.Controllers
             return View(appointmentModel);
         }
 
-        // POST: UserModels/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int AppointmentId)
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> ConfirmPayment(int? userappointmentID)
         {
-            var appointmentModel = await _context.AppointmentModel.FindAsync(AppointmentId);
-            _context.AppointmentModel.Remove(appointmentModel);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(ViewAll));
+            if (userappointmentID == null)
+            {
+                return NotFound();
+            }
+
+            var appointmentModel = await _context.AppointmentModel
+                .FirstOrDefaultAsync(m => m.ID == userappointmentID);
+
+            if (appointmentModel.Appointment_Status == "PendingPayment")
+            {
+                appointmentModel.Appointment_Status = "Paid";
+                _context.Update(appointmentModel);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Payment is not pending!";
+            }
+
+            if (appointmentModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(appointmentModel);
         }
 
         private bool AppointmentModelExists(string UserEmail)

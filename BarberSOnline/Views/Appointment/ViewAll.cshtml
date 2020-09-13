@@ -1,14 +1,35 @@
 ﻿@model IEnumerable<BarberSOnline.Models.AppointmentModel>
-
+@using BarberSOnline.Areas.Identity.Data
+@inject SignInManager<BarberSOnlineUser> SignInManager
 @{
     ViewData["Title"] = "ViewAll";
+    if (SignInManager.IsSignedIn(User))
+    {
+        if (User.IsInRole("Admin"))
+        {
+            Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+        }
+        else if (User.IsInRole("Barber"))
+        {
+            Layout = "/Views/Shared/_LayoutBarber.cshtml";
+        }
+    }
+}
+@section Scripts{
+    <script>
+        $('#tableSearch').load('Index.cshtml', function () {
+            $("#tableSearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
 }
 
 <h1>View Appointment</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<input class="form-control mb-4" id="tableSearch" type="text" placeholder="&nbsp; Type something to search list items" style="height:40px;  border-radius: 8px; border: 1px solid black; margin:auto;">
 <table class="table">
     <thead>
         <tr>
@@ -62,10 +83,17 @@
                     @Html.DisplayFor(modelItem => item.Appointment_Status)
                 </td>
                 <td>
-                    @Html.ActionLink("GenerateReceipt", "GenerateReceipt", new { AppointmentId = item.ID }) |
-                    @Html.ActionLink("Edit", "Edit", new { AppointmentId = item.ID }) |
                     @Html.ActionLink("Details", "Details", new { AppointmentId = item.ID }) |
-                    @Html.ActionLink("Delete", "Delete", new { AppointmentId = item.ID })
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a> 
+                    }
+                    else if (User.IsInRole("Barber"))
+                    {
+                        <a asp-action="BarberApproval" asp-route-id="@item.ID">Approve </a><label>|</label>
+                        <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a> <br />
+                        @Html.ActionLink("Generate Receipt", "GenerateReceipt", new { AppointmentId = item.ID })
+                    }
                 </td>
             </tr>
         }
@@ -75,5 +103,4 @@
 @if (ViewBag.ErorMessage != null)
 {
     <script>alert("@ViewBag.ErrorMessage");</script>
-    <p>The multiple data insertion is failed. Reason as below: <br /> @ViewBag.ErrorMessage</p>
 }
