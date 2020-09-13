@@ -17,7 +17,23 @@
     }
 }
 
+@section Scripts{
+    <script>
+        $('#tableSearch').load('Index.cshtml', function () {
+            $("#tableSearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+}
+
 <h1>Customer Feedback</h1>
+
+<input class="form-control mb-4" id="tableSearch" type="text" placeholder="&nbsp; Type something to search list items" style="height:40px;  border-radius: 8px; border: 1px solid black; margin:auto;">
+
 <table class="table">
     <thead>
         <tr>
@@ -40,7 +56,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="myTable">
         @foreach (var item in Model)
         {
             <tr>

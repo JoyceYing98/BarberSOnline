@@ -69,6 +69,8 @@
                     @Html.DisplayFor(modelItem => item.Appointment_Status)
                 </td>
                 <td>
+                    @Html.ActionLink("Confirm Payment", "ConfirmPayment", new { userappointmentID = item.ID }) |
+                    @Html.ActionLink("Update", "UserEdit", new { AppointmentId = item.ID }) |
                     @Html.ActionLink("Details", "Details", new { AppointmentId = item.ID }) |
                     <a asp-action="UserEdit" asp-route-id="@item.ID">Update</a> |
                     <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a> |<br />

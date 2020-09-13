@@ -108,7 +108,7 @@ namespace BarberSOnline.Controllers
                 ViewBag.msg = ex.ToString();
             }
            
-            return RedirectToAction(nameof(Create));
+            return RedirectToAction(nameof(Index));
         }
 
        

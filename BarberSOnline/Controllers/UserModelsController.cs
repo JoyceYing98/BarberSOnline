@@ -19,7 +19,7 @@ namespace BarberSOnline.Views.User
         private readonly BarberSOnlineContext _context;
         private readonly IAzureBlobService _azureBlobService;
         private readonly UserManager<BarberSOnlineUser> _userManager;
-
+        private DateTime now;
 
         public UserModelsController(BarberSOnlineContext context, IAzureBlobService azureBlobService, UserManager<BarberSOnlineUser> userManager)
         {
@@ -173,6 +173,8 @@ namespace BarberSOnline.Views.User
         {
             if (ModelState.IsValid)
             {
+                DateTime now = DateTime.Now;
+                userModel.Date = now;
                 _context.Add(userModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(List));
@@ -201,7 +203,7 @@ namespace BarberSOnline.Views.User
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Username,Temperature,Status,Visit")] UserModel userModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Username,Date,Temperature,Status,Visit")] UserModel userModel)
         {
             if (id != userModel.ID)
             {
