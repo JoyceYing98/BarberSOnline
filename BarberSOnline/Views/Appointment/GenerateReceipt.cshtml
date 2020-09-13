@@ -58,3 +58,7 @@
 
     <a asp-action="ViewAll">Back to List</a>
 </div>
+@if (ViewBag.ErrorMessage != null)
+{
+    <script>alert("@ViewBag.ErrorMessage"); window.location = '/Appointment/UserAppointment';</script>
+}
