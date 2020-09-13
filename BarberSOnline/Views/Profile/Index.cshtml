@@ -9,65 +9,77 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+
 @section Scripts{
     <script>
-        $('#tableSearch').load('Index.cshtml', function () {
-            $("#tableSearch").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#myTable tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
+        $(document).ready(function () {
+            $('#dtBasicExample').DataTable();
+            $('.dataTables_length').addClass('bs-select');
         });
     </script>
 }
 
-<h1>List of Users</h1>
-<a asp-area="Identity" asp-page="/Account/Register" class="btn btn-secondary">Register a User</a>
+
+
 <br />
-<br />
-<input class="form-control mb-4" id="tableSearch" type="text" placeholder="&nbsp; Type something to search list items" style="height:40px;  border-radius: 8px; border: 1px solid black; margin:auto;">
+<div class="container">
+    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">
+        <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-person-plus-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7.5-3a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+        </svg> Register User
+    </a>
+    <br /><br />
+    <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
 
-<table class="table table-striped table-bordered">
-    <thead>
-        <tr>
+        <thead>
 
-            <th>User Name</th>
-            <th>Email</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Phone Number</th>
-            <th>Address</th>
-            <th>Roles</th>
-            <th>Manage Role</th>
+            <tr class="w3-light-grey">
 
-            <th>Delete Profile</th>
-        </tr>
-    </thead>
-    <tbody id="myTable">
-        @foreach (var user in Model)
-        {
-        <tr>
+                <th>UserEmail</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Tel</th>
+                <th>Address</th>
+                <th>Roles</th>
+                <th>Manage Role</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            @foreach (var user in Model)
+            {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.PhoneNumber</td>
+                <td>@user.Address</td>
+                <td>@string.Join(" , ", user.Roles.ToList())</td>
+                <td>
+                    <center>
+                        <a style="type:button; color:white; font-size:15px;" class="btn btn-info btn-sm" asp-controller="Profile" asp-action="Manage" asp-route-userId="@user.UserId">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                            </svg>
+                        </a>
+                        </center>
+</td>
 
-            <td>@user.UserName</td>
-            <td>@user.Email</td>
-            <td>@user.FirstName</td>
-            <td>@user.LastName</td>
-            <td>@user.PhoneNumber</td>
-            <td>@user.Address</td>
-            <td>@string.Join(" , ", user.Roles.ToList())</td>
-            <td>
-                <a class="btn btn-sm btn-primary" asp-controller="Profile" asp-action="Manage" asp-route-userId="@user.UserId">Manage</a>
-            </td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@user.UserId" method="post">
+                        <center>
+                            <button type="submit" style=" color:white; font-size:15px; " class="btn btn-danger btn-sm">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" />
+                                </svg>
+                            </button>
+                            </center>
+                        </form>
+                </td>
+            </tr>
 
-            <td>
-                <form asp-action="Delete" asp-route-id="@user.UserId" method="post">
-                    <button type="submit" class="btn btn-sm btn-danger">
-                        Delete
-                    </button>
-                </form>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+            }
+        </tbody>
+    </table>
+</div>

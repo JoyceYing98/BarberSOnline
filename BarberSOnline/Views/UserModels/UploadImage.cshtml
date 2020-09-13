@@ -1,17 +1,18 @@
-﻿<div class="jumbotron" style="background-color:#EBE2E2">
+﻿<div class="jumbotron" style="background-color:#EBE2E2; padding-left:25px; padding-right:25px; margin-top:-20px;">
     <h2>Hi, @Html.ViewContext.HttpContext.User.Identity.Name!</h2>
     <h5>Please Upload Your MySejahtera Screenshot Image As A Entry Evidence</h5>
 </div>
 
-@using (Html.BeginForm("UploadAsynce", "UserModels", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div class="fileUpload btn btn-primary">
-        <span>Select Files</span><input type="file" id="file" name="selectFiles" class="upload" onchange="DisplayFilesToUpload()" multiple />
-    </div>
-   
-    <p id="FilesToUpload"></p>
-}
+<center>
+    @using (Html.BeginForm("UploadAsynce", "UserModels", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="fileUpload btn btn-primary" style="width: 250px">
+            <span>Select Files</span><input type="file" id="file" name="selectFiles" class="upload" onchange="DisplayFilesToUpload()" multiple />
+        </div>
 
+        <p id="FilesToUpload"></p>
+    }
+</center>
 <script>
     //Lists the file name and size for all files to be uploaded by updating the <p id="FilesToUpload"></p> control
     function DisplayFilesToUpload() {

@@ -16,6 +16,18 @@
     <link rel="stylesheet" href="~/css/animate.css">
     <link rel="stylesheet" href="~/css/slicknav.css">
     <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+
+    <!-- MDBootstrap Datatables  -->
+    <link href="~/css/addons/datatables.min.css" rel="stylesheet">
 
 </head>
 <body>
@@ -30,9 +42,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Admin" asp-action="Index">Home</a>
-                        </li>
+                        
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Role" asp-action="Index">Role</a>
                         </li>
@@ -62,9 +72,13 @@
             &copy; 2020 - BarberSOnline - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/js/jquery1.min.js"></script>
+
+    <!-- MDBootstrap Datatables  -->
+    <script src="~/js/datatables.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 

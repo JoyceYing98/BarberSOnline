@@ -15,6 +15,37 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\addons\datatables-select.min.css.map" />
+    <None Include="wwwroot\css\addons\datatables-select2.min.css.map" />
+    <None Include="wwwroot\css\addons\datatables.min.css.map" />
+    <None Include="wwwroot\css\addons\datatables2.min.css.map" />
+    <None Include="wwwroot\css\addons\directives.min.css.map" />
+    <None Include="wwwroot\css\addons\flag.min.css.map" />
+    <None Include="wwwroot\css\addons\jquery.zmd.hierarchical-display.min.css.map" />
+    <None Include="wwwroot\css\addons\rating.min.css.map" />
+    <None Include="wwwroot\js\addons\datatables-select.min.js" />
+    <None Include="wwwroot\js\addons\datatables-select.min.js.map" />
+    <None Include="wwwroot\js\addons\datatables-select2.min.js" />
+    <None Include="wwwroot\js\addons\datatables-select2.min.js.map" />
+    <None Include="wwwroot\js\datatables.min.js" />
+    <None Include="wwwroot\js\datatables.min.js.map" />
+    <None Include="wwwroot\js\addons\datatables2.min.js" />
+    <None Include="wwwroot\js\addons\datatables2.min.js.map" />
+    <None Include="wwwroot\js\addons\directives.min.js" />
+    <None Include="wwwroot\js\addons\directives.min.js.map" />
+    <None Include="wwwroot\js\addons\flag.min.js" />
+    <None Include="wwwroot\js\addons\flag.min.js.map" />
+    <None Include="wwwroot\js\addons\imagesloaded.pkgd.min.js" />
+    <None Include="wwwroot\js\addons\imagesloaded.pkgd.min.js.map" />
+    <None Include="wwwroot\js\addons\jquery.zmd.hierarchical-display.min.js" />
+    <None Include="wwwroot\js\addons\jquery.zmd.hierarchical-display.min.js.map" />
+    <None Include="wwwroot\js\addons\masonry.pkgd.min.js" />
+    <None Include="wwwroot\js\addons\masonry.pkgd.min.js.map" />
+    <None Include="wwwroot\js\addons\rating.min.js" />
+    <None Include="wwwroot\js\addons\rating.min.js.map" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.3.0" />
     <PackageReference Include="Azure.Storage.Files.Shares" Version="12.1.0" />
     <PackageReference Include="Azure.Storage.Queues" Version="12.2.0" />

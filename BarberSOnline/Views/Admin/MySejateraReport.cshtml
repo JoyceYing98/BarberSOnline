@@ -1,5 +1,5 @@
-﻿<div class="jumbotron">
-    <h2>MySejatera Report</h2>
+﻿<div class="jumbotron" style="padding-left:25px; padding-right:25px; margin-top:-20px;">
+    <center><h2>Customer's MySejatera Report</h2></center>
 </div>
 
 
@@ -12,7 +12,7 @@
 {
     foreach (var item in Model)
     {
-        <div class="imageBlock">
+        <div class="imageBlock" style="padding-left:25px;">
             <a href="@item" target="_blank"><img class="thumb" src="@item" alt="images" /></a><br />
             <div class="deleteDiv"><img class="deleteIcon" src="~/img/Images/deleteImage.png" title="Delete Image" onclick="deleteImage('@item');" /></div>
         </div>
@@ -20,7 +20,7 @@
 
     using (Html.BeginForm("DeleteAll", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-        <div class="fileUpload btn btn-danger"><span>Delete All Files</span><input type="submit" name="deleteAll" class="upload" /></div>
+<center> <div class="fileUpload btn btn-danger"><span>Delete All Files</span><input type="submit" name="deleteAll" class="upload" /></div></center>
     }
 }
 <script>

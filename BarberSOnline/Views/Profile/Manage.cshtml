@@ -4,33 +4,34 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+    <center>
+        <form method="post">
+            <div class="card" style="height:450px; width: 60rem; margin-top:80px">
+                <div class="card-header">
+                    <h2>Manage User Roles</h2>
+                    Add/Remove Roles for User / @ViewBag.UserName.
+                </div>
+                <div class="card-body">
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                   
+                        <div class="form-check m-1" style=" float:left; padding-left:50px;">
+                            <input type="hidden" asp-for="@Model[i].RoleId" />
+                            <input type="hidden" asp-for="@Model[i].RoleName" />
 
-<form method="post">
-    <div class="card">
-        <div class="card-header">
-            <h2>Manage User Roles</h2>
-            Add/Remove Roles for User / @ViewBag.UserName.
-        </div>
-        <div class="card-body">
-            @for (int i = 0; i < Model.Count; i++)
-            {
-            <div class="form-check m-1">
-                <input type="hidden" asp-for="@Model[i].RoleId" />
-                <input type="hidden" asp-for="@Model[i].RoleName" />
-
-                @*<input type="radio" name="role" class="form-check-input" id="@Model[i].Selected" />*@
-                <input class="form-check-input" asp-for="@Model[i].Selected" />
-                <label class="form-check-label" asp-for="@Model[i].Selected">
-                    @Model[i].RoleName
-                </label>
+                            @*<input type="radio" name="role" class="form-check-input" id="@Model[i].Selected" />*@
+                            <input class="form-check-input" asp-for="@Model[i].Selected" />
+                            <label class="form-check-label" asp-for="@Model[i].Selected">
+                                @Model[i].RoleName
+                            </label>
+                        </div>
+                    }
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </div>
+                <div class="card-footer">
+                    <input type="submit" value="Update" class="btn btn-primary" style="width:auto" />
+                    <a asp-action="Index" class="btn btn-primary" style="width:auto">Cancel</a>
+                </div>
             </div>
-            }
-            <div asp-validation-summary="All" class="text-danger"></div>
-        </div>
-        <div class="card-footer">
-            <input type="submit" value="Update" class="btn btn-primary" style="width:auto" />
-            <a asp-action="Index" class="btn btn-primary" style="width:auto">Cancel</a>
-        </div>
-    </div>
-</form>
-
+        </form>
+    </center>
