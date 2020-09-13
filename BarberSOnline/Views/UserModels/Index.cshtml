@@ -141,7 +141,7 @@
                 </div>
                 <div class="col-xl-12">
                     <div class="book_btn text-center">
-                        <a class="boxed-btn3" asp-area="" asp-page="">Make an Appointment</a>
+                        <a class="boxed-btn3" asp-area="" asp-controller="Appointment" asp-action="Create">Make an Appointment</a>
                     </div>
                 </div>
             </div>
@@ -167,7 +167,7 @@
                             about. We do this to bring more resources to the nonprofits that are <br>
                             changing our world.
                         </p>
-                        <a class="boxed-btn3" asp-area="" asp-page="">Make Appointment</a>
+                        <a class="boxed-btn3" asp-area="" asp-controller="Appointment" asp-action="Create">Make Appointment</a>
                     </div>
                 </div>
             </div>
@@ -183,7 +183,7 @@
 </div>
 <!-- covid_notice_end -->
 <!-- cutter_muster_start -->
-<div class="cutter_muster" style="margin-top:-100px">
+<div class="cutter_muster">
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
@@ -191,73 +191,109 @@
                     <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-scissors" fill="#BC9321" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61 3.5 3.5zm2.5 10a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm7 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                     </svg>
-                    <h3>Our Barbers</h3>
+                    <h3>Our Cutter Masters</h3>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-xl-3 col-md-6 col-lg-3">
-                <div class="single_master">
-                    <div class="thumb">
-                        <img src="/img/team/1.png" alt="">
-                        <div class="social_link">
-                            <a href="#"><i class="fa fa-envelope"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                    <div class="master_name text-center">
-                        <h3>Macau Wilium</h3>
-                        <p>Mens Cut</p>
+            <div class="col-sm col-xs-12">
+                <div class="card" style="width: 15rem;">
+                    <img src="img/team/1.png" class="card-img-top">
+                    <div class="card-body">
+                        <center>
+                            <h3>Willions</h3>
+                            <p class="card-text">Mens Cut</p>
+                        </center>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-md-6 col-lg-3">
-                <div class="single_master">
-                    <div class="thumb">
-                        <img src="/img/team/2.png" alt="">
-                        <div class="social_link">
-                            <a href="#"><i class="fa fa-envelope"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                    <div class="master_name text-center">
-                        <h3>Dan Jacky</h3>
-                        <p>Mens Cut</p>
+            <div class="col-sm col-xs-12">
+                <div class="card" style="width: 15rem;">
+                    <img src="img/team/2.png" class="card-img-top">
+                    <div class="card-body">
+                        <center>
+                            <h3>Dan Jacky</h3>
+                            <p class="card-text">Mens Cut</p>
+                        </center>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-md-6 col-lg-3">
-                <div class="single_master">
-                    <div class="thumb">
-                        <img src="/img/team/3.png" alt="">
-                        <div class="social_link">
-                            <a href="#"><i class="fa fa-envelope"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                    <div class="master_name text-center">
-                        <h3>Luka Luka</h3>
-                        <p>Mens Cut</p>
+            <div class="col-sm col-xs-12">
+                <div class="card" style="width: 15rem;">
+                    <img src="img/team/3.png" class="card-img-top">
+                    <div class="card-body">
+                        <center>
+                            <h3>Jimmy</h3>
+                            <p class="card-text">Mens Cut</p>
+                        </center>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-md-6 col-lg-3">
-                <div class="single_master">
-                    <div class="thumb">
-                        <img src="/img/team/4.png" alt="">
-                        <div class="social_link">
-                            <a href="#"><i class="fa fa-envelope"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-linkedin"></i></a>
+            <div class="col-sm col-xs-12">
+                <div class="card" style="width: 15rem;">
+                    <img src="img/team/4.png" class="card-img-top">
+                    <div class="card-body">
+                        <center>
+                            <h3>Angeline</h3>
+                            <p class="card-text">Ladies Cut</p>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- cutter_muster_end -->
+<div class="find_us_area find_bg_1 ">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-5 offset-xl-7 col-lg-6 offset-lg-6">
+                <div class="find_info">
+                    <h3 class="find_info_title">About Us</h3>
+                    <div class="single_find d-flex">
+                        <div class="icon">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-joystick" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.106 15.553L.553 12.276A1 1 0 0 1 0 11.382V9.471a1 1 0 0 1 .606-.89L6 6.269v1.088L1 9.5l5.658 2.83a3 3 0 0 0 2.684 0L15 9.5l-5-2.143V6.27l5.394 2.312a1 1 0 0 1 .606.89v1.911a1 1 0 0 1-.553.894l-6.553 3.277a2 2 0 0 1-1.788 0z" />
+                                <path fill-rule="evenodd" d="M7.5 9.5v-6h1v6h-1z" />
+                                <path d="M10 9.75c0 .414-.895.75-2 .75s-2-.336-2-.75S6.895 9 8 9s2 .336 2 .75zM10 2a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
+                            </svg>
+                        </div>
+                        <div class="find_text">
+                            <h3>Location</h3>
+                            <p>
+                                Jalan Teknologi 5, Taman Teknologi Malaysia,
+                                57000 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur
+                            </p>
                         </div>
                     </div>
-                    <div class="master_name text-center">
-                        <h3>Rona Dana</h3>
-                        <p>Ladies Cut</p>
+                    <div class="single_find d-flex">
+                        <div class="icon">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-telephone-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M2.267.98a1.636 1.636 0 0 1 2.448.152l1.681 2.162c.309.396.418.913.296 1.4l-.513 2.053a.636.636 0 0 0 .167.604L8.65 9.654a.636.636 0 0 0 .604.167l2.052-.513a1.636 1.636 0 0 1 1.401.296l2.162 1.681c.777.604.849 1.753.153 2.448l-.97.97c-.693.693-1.73.998-2.697.658a17.47 17.47 0 0 1-6.571-4.144A17.47 17.47 0 0 1 .639 4.646c-.34-.967-.035-2.004.658-2.698l.97-.969z" />
+                            </svg>
+                        </div>
+                        <div class="find_text">
+                            <h3>Call Us</h3>
+                            <p>+603 1234567</p>
+                        </div>
                     </div>
+                    <div class="single_find d-flex">
+                        <div class="icon">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chat-square-text-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z" />
+                            </svg>
+                        </div>
+                        <div class="find_text">
+                            <h3>Keep In Touch With Us</h3>
+                            <p>email@barbershop.com</p>
+                        </div>
+                    </div>
+                    <div class="single_find">
+                        <div class="book_btn">
+                            <a class="boxed-btn3"asp-area="" asp-controller="Appointment" asp-action="Create">Make Appointment</a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

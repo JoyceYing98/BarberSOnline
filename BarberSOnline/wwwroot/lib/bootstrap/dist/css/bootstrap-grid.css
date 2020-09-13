@@ -49,8 +49,6 @@ html {
 
 .container-fluid {
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -2135,10 +2133,6 @@ html {
   padding-right: 1rem !important;
 }
 
-.pb-3,
-.py-3 {
-  padding-bottom: 1rem !important;
-}
 
 .pl-3,
 .px-3 {
