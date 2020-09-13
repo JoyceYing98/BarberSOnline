@@ -382,7 +382,6 @@
 
         var charges = @Model.Charges;
         var previous_selection = Services_Dropdown.value;
-        var current_selection = Services_Dropdown.value;
         var cumulative_services = null;
         var services_colouring = false;
         var services_rebonding = false;
@@ -446,165 +445,121 @@
         }
 
         Services_Dropdown.addEventListener("change", function () {
-            if (Services_Dropdown.value == "Women's Haircut") {
-                if (previous_selection == "Men's Haircut") {
-                    charges = charges - 15.00;
+            if (previous_selection == "Women's Haircut" || previous_selection == "Men's Haircut & Wash") {
+                if (Services_Dropdown.value == "Women's Haircut" || Services_Dropdown.value == "Men's Haircut & Wash") {
+                    charges = charges;//30-30
                 }
-                else if (previous_selection == "Children's Haircut") {
-                    charges = charges - 15.00;
+                else if (Services_Dropdown.value == "Men's Haircut" || Services_Dropdown.value == "Children's Haircut") {
+                    charges = charges - 15.00;//15-30
                 }
-                else if (previous_selection == "Women's Haircut & Wash") {
-                    charges = charges - 45.00;
+                else if (Services_Dropdown.value == "Women's Haircut & Wash") {
+                    charges = charges + 15.00;//45-30
                 }
-                else if (previous_selection == "Men's Haircut & Wash") {
-                    charges = charges - 30.00;
-                }
-                charges = charges + 30.00;
-                previous_selection = "Women's Haircut";
-            }
-            else if (Services_Dropdown.value == "Men's Haircut") {
-                if (previous_selection == "Women's Haircut") {
-                    charges = charges - 30.00;
-                }
-                else if (previous_selection == "Children's Haircut") {
-                    charges = charges - 15.00;
-                }
-                else if (previous_selection == "Women's Haircut & Wash") {
-                    charges = charges - 45.00;
-                }
-                else if (previous_selection == "Men's Haircut & Wash") {
-                    charges = charges - 30.00;
-                }
-                charges = charges + 15.00;
-                previous_selection = "Men's Haircut";
-            }
-            else if (Services_Dropdown.value == "Children's Haircut") {
-                if (previous_selection == "Women's Haircut") {
-                    charges = charges - 30.00;
-                }
-                else if (previous_selection == "Men's Haircut") {
-                    charges = charges - 15.00;
-                }
-                else if (previous_selection == "Women's Haircut & Wash") {
-                    charges = charges - 45.00;
-                }
-                else if (previous_selection == "Men's Haircut & Wash") {
-                    charges = charges - 30.00;
-                }
-                charges = charges + 15.00;
-                previous_selection = "Children's Haircut";
-            }
-            else if (Services_Dropdown.value == "Women's Haircut & Wash") {
-                if (previous_selection == "Women's Haircut") {
-                    charges = charges - 30.00;
-                }
-                else if (previous_selection == "Men's Haircut") {
-                    charges = charges - 15.00;
-                }
-                else if (previous_selection == "Children's Haircut") {
-                    charges = charges - 15.00;
-                }
-                else if (previous_selection == "Men's Haircut & Wash") {
-                    charges = charges - 30.00;
-                }
-                charges = charges + 45.00;
-                previous_selection = "Women's Haircut & Wash";
-            }
-            else if (Services_Dropdown.value == "Men's Haircut & Wash") {
-                if (previous_selection == "Women's Haircut") {
-                    charges = charges - 30.00;
-                }
-                else if (previous_selection == "Men's Haircut") {
-                    charges = charges - 15.00;
-                }
-                else if (previous_selection == "Children's Haircut") {
-                    charges = charges - 15.00;
-                }
-                else if (previous_selection == "Women's Haircut & Wash") {
-                    charges = charges - 45.00;
-                }
-                charges = charges + 30.00;
-                previous_selection = "Men's Haircut & Wash";
-            }
-            else {
-                if (previous_selection == "Women's Haircut") {
-                    charges = charges - 30.00;
-                }
-                else if (previous_selection == "Men's Haircut") {
-                    charges = charges - 15.00;
-                }
-                else if (previous_selection == "Children's Haircut") {
-                    charges = charges - 15.00;
-                }
-                else if (previous_selection == "Women's Haircut & Wash") {
-                    charges = charges - 45.00;
-                }
-                else if (previous_selection == "Men's Haircut & Wash") {
-                    charges = charges - 30.00;
+                else {
+                    charges = charges - 30.00;//0-30
                 }
             }
+            else if (previous_selection == "Men's Haircut" || previous_selection == "Children's Haircut") {
+                if (Services_Dropdown.value == "Women's Haircut" || Services_Dropdown.value == "Men's Haircut & Wash") {
+                    charges = charges + 15.00;//30-15
+                }
+                else if (Services_Dropdown.value == "Men's Haircut" || Services_Dropdown.value == "Children's Haircut") {
+                    charges = charges;//15-15
+                }
+                else if (Services_Dropdown.value == "Women's Haircut & Wash") {
+                    charges = charges + 30.00;//45-15
+                }
+                else {
+                    charges = charges - 15.00;//0-15
+                }
+            }
+            else if (previous_selection == "Women's Haircut & Wash") {
+                if (Services_Dropdown.value == "Women's Haircut" || Services_Dropdown.value == "Men's Haircut & Wash") {
+                    charges = charges - 15.00;//30-45
+                }
+                else if (Services_Dropdown.value == "Men's Haircut" || Services_Dropdown.value == "Children's Haircut") {
+                    charges = charges - 30.00;//15-45
+                }
+                else if (Services_Dropdown.value == "Women's Haircut & Wash") {
+                    charges = charges;//45-45
+                }
+                else {
+                    charges = charges - 45.00;//0-45
+                }
+            }
+            else//others
+            {
+                if (Services_Dropdown.value == "Women's Haircut" || Services_Dropdown.value == "Men's Haircut & Wash") {
+                    charges = charges + 30.00;//30-0
+                }
+                else if (Services_Dropdown.value == "Men's Haircut" || Services_Dropdown.value == "Children's Haircut") {
+                    charges = charges + 15.00;//15-0
+                }
+                else if (Services_Dropdown.value == "Women's Haircut & Wash") {
+                    charges = charges + 45.00;//45-0
+                }
+                else {
+                    charges = charges;//0-0
+                }
+            }
+            previous_selection = Services_Dropdown.value;
             Services_Charges.value = charges;
         });
 
         function CalculateColour(obj) {
             if (obj.checked) {
                 charges = charges + 90.00;
-                Services_Charges.value = charges;
                 services_colouring = true;
             }
             else {
                 charges = charges - 90.00;
-                Services_Charges.value = charges;
                 services_colouring = false;
             }
+            Services_Charges.value = charges.toFixed(2);
         }
         function CalculateRebonding(obj) {
             if (obj.checked) {
                 charges = charges + 150.00;
-                Services_Charges.value = charges;
                 services_rebonding = true;
             }
             else {
                 charges = charges - 150.00;
-                Services_Charges.value = charges;
                 services_rebonding = false;
             }
+            Services_Charges.value = charges.toFixed(2);
         }
         function CalculateScalp(obj) {
             if (obj.checked) {
                 charges = charges + 150.00;
-                Services_Charges.value = charges;
                 services_scalp = true;
             }
             else {
                 charges = charges - 150.00;
-                Services_Charges.value = charges;
                 services_scalp = false;
             }
+            Services_Charges.value = charges.toFixed(2);
         }
         function CalculateStyling(obj) {
             if (obj.checked) {
                 charges = charges + 60.00;
-                Services_Charges.value = charges;
                 services_styling = true;
             }
             else {
                 charges = charges - 60.00;
-                Services_Charges.value = charges;
                 services_styling = false;
             }
+            Services_Charges.value = charges.toFixed(2);
         }
         function CalculatePerm(obj) {
             if (obj.checked) {
                 charges = charges + 100.00;
-                Services_Charges.value = charges;
                 services_perm = true;
             }
             else {
                 charges = charges - 100.00;
-                Services_Charges.value = charges;
                 services_perm = false;
             }
+            Services_Charges.value = charges.toFixed(2);
         }
     </script>
 }

@@ -69,28 +69,6 @@ namespace BarberSOnline.Controllers
             return View("~/Views/Shared/_LayoutUser");
         }
 
-        //// GET: AppointmentModels
-        ////store to a list if found a username
-        ////if list not equal null and display the list
-        //public async Task<IActionResult> List()
-        //{
-        //    List<AppointmentModel> umlist = new List<AppointmentModel>();
-        //    var userModel = await _context.UserModel.ToListAsync();
-        //    foreach (UserModel user in userModel)
-        //    {
-        //        if (user.Username == User.Identity.Name)
-        //        {
-        //            umlist.Add(user);
-        //        }
-        //    }
-        //    if (umlist != null)
-        //    {
-
-        //        return View(umlist);
-        //    }
-        //    return NotFound();
-        //}
-
         public IActionResult Index()
         {
             return View();

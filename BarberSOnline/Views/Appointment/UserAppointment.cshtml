@@ -3,9 +3,22 @@
 @{
     ViewData["Title"] = "UserAppointment";
 }
+@section Scripts{
+    <script>
+        $('#tableSearch').load('Index.cshtml', function () {
+            $("#tableSearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+}
+
 
 <h1>UserAppointment</h1>
-
+<input class="form-control mb-4" id="tableSearch" type="text" placeholder="&nbsp; Type something to search list items" style="height:40px;  border-radius: 8px; border: 1px solid black; margin:auto;">
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -14,9 +27,6 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserEmail)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Type)
@@ -36,15 +46,12 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="myTable">
         @foreach (var item in Model)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.ID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserEmail)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Type)
