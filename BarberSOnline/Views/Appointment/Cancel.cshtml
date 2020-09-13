@@ -32,11 +32,22 @@
                 <input asp-for="ID" class="form-control" readonly />
                 <span asp-validation-for="ID" class="text-danger"></span>
             </div>
-            <div class="form-group" hidden>
-                <label asp-for="UserEmail" class="control-label"></label>
-                <input asp-for="UserEmail" class="form-control" readonly />
-                <span asp-validation-for="UserEmail" class="text-danger"></span>
-            </div>
+            @if (User.IsInRole("Admin") || User.IsInRole("Barber"))
+            {
+                <div class="form-group">
+                    <label asp-for="UserEmail" class="control-label"></label>
+                    <input asp-for="UserEmail" class="form-control" readonly />
+                    <span asp-validation-for="UserEmail" class="text-danger"></span>
+                </div>
+            }
+            else if (User.IsInRole("User"))
+            {
+                <div class="form-group" hidden>
+                    <label asp-for="UserEmail" class="control-label"></label>
+                    <input asp-for="UserEmail" class="form-control" readonly />
+                    <span asp-validation-for="UserEmail" class="text-danger"></span>
+                </div>
+            }
             <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
                 <input asp-for="Type" class="form-control" readonly />
@@ -67,7 +78,7 @@
                 <input asp-for="User_Booked_Date" class="form-control" readonly />
                 <span asp-validation-for="User_Booked_Date" class="text-danger"></span>
             </div>
-            @if (Model.Appointment_Status == "Booked" || Model.Appointment_Status == "Approved" || Model.Appointment_Status == "Confirmed")
+            @if (Model.Appointment_Status == "Booked" || Model.Appointment_Status == "Approved")
             {
                 if (Model.Appointment_Status == "Approved")
                 {
@@ -75,15 +86,6 @@
                         <label asp-for="Remark" class="control-label">Barber In-Charged</label>
                         <input asp-for="Remark" class="form-control" readonly />
                         <span asp-validation-for="Remark" class="text-danger"></span>
-                    </div>
-                }
-
-                if (Model.Appointment_Status == "Confirmed")
-                {
-                    <div class="form-group">
-                        <label asp-for="User_Confirmed_Date" class="control-label"></label>
-                        <input asp-for="User_Confirmed_Date" class="form-control" readonly />
-                        <span asp-validation-for="User_Confirmed_Date" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Barber_Approved_Date" class="control-label"></label>

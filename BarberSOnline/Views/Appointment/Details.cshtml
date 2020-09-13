@@ -12,6 +12,15 @@
     <hr />
     <h2>Appointment Details</h2>
     <dl class="row">
+        @if (User.IsInRole("Admin") || User.IsInRole("Barber"))
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.UserEmail)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.UserEmail)
+            </dd>
+        }
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Type)
         </dt>
@@ -49,8 +58,8 @@
             @Html.DisplayFor(model => model.User_Booked_Date)
         </dd>
         @if (Model.Appointment_Status == "Approved" || Model.Appointment_Status == "Confirmed" ||
-              Model.Appointment_Status == "Attended" || Model.Appointment_Status == "Pending to Pay" ||
-              Model.Appointment_Status == "Paid")
+            Model.Appointment_Status == "Served" || Model.Appointment_Status == "Payment Pending" ||
+            Model.Appointment_Status == "Paid")
         {
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Remark)
@@ -64,8 +73,8 @@
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Barber_Approved_Date)
             </dd>
-            if (Model.Appointment_Status == "Confirmed" || Model.Appointment_Status == "Attended" ||
-                Model.Appointment_Status == "Pending to Pay" || Model.Appointment_Status == "Paid")
+            if (Model.Appointment_Status == "Confirmed" || Model.Appointment_Status == "Served" ||
+                Model.Appointment_Status == "Payment Pending" || Model.Appointment_Status == "Paid")
             {
                 <dt class="col-sm-2">
                     @Html.DisplayNameFor(model => model.User_Confirmed_Date)
@@ -73,8 +82,14 @@
                 <dd class="col-sm-10">
                     @Html.DisplayFor(model => model.User_Confirmed_Date)
                 </dd>
-                if (Model.Appointment_Status == "Attended" || Model.Appointment_Status == "Pending to Pay" || Model.Appointment_Status == "Paid")
+                if (Model.Appointment_Status == "Served" || Model.Appointment_Status == "Payment Pending" || Model.Appointment_Status == "Paid")
                 {
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.BarberEmail)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.BarberEmail)
+                    </dd>
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.Barber_Check_In_Date)
                     </dt>
@@ -165,17 +180,47 @@
 </div>
 <div>
     @{
-        if (User.IsInRole("Admin") || User.IsInRole("Barber"))
+        if (User.IsInRole("Admin"))
         {
-            if (User.IsInRole("Barber"))
+            if (Model.Appointment_Status == "Booked" || Model.Appointment_Status == "Approved")
             {
-                <a asp-action="BarberApproval" asp-route-id="@Model.ID" class="btn btn-primary">Approve </a><label>|</label>
+                <a asp-action="Cancel" asp-route-id="@Model.ID">Cancel</a>
             }
             <a asp-action="ViewAll" class="btn btn-primary">Back to List</a>
         }
+        else if (User.IsInRole("Barber"))
+        {
+            if (Model.Appointment_Status == "Booked")
+            {
+                <a asp-action="BarberApproval" asp-route-id="@Model.ID" class="btn btn-primary">Approve</a>
+                <a asp-action="Cancel" asp-route-id="@Model.ID" class="btn btn-primary">Cancel</a>
+            }
+            else if (Model.Appointment_Status == "Approved")
+            {
+                <a asp-action="Cancel" asp-route-id="@Model.ID" class="btn btn-primary">Cancel</a>
+            }
+            else if (Model.Appointment_Status == "Confirmed")
+            {
+                <a asp-action="BarberServe" asp-route-id="@Model.ID" class="btn btn-primary">Serve</a>
+            }
+            else if (Model.Appointment_Status == "Served")
+            {
+                <a asp-action="GenerateReceipt" asp-route-id="@Model.ID" class="btn btn-primary">Generate Receipt</a>
+            }
+            <a asp-action="ViewAll" class="btn btn-primary" class="btn btn-primary">Back to List</a>
+        }
         else if (User.IsInRole("User"))
         {
-            <a asp-action="UserEdit" asp-route-id="@Model.ID" class="btn btn-primary">Update </a><label>|</label>
+            if (Model.Appointment_Status == "Booked" || Model.Appointment_Status == "Approved")
+            {
+                <a asp-action="UserEdit" asp-route-id="@Model.ID" class="btn btn-primary">Update</a>
+                <a asp-action="Cancel" asp-route-id="@Model.ID" class="btn btn-primary">Cancel</a>
+            }
+            else if (Model.Appointment_Status == "Payment Pending")
+            {
+                <a asp-action="ConfirmPayment" asp-route-id="@Model.ID" class="btn btn-primary">Confirm Payment</a>
+            }
+
             <a asp-action="UserAppointment" class="btn btn-primary">Back to List</a>
         }
     }

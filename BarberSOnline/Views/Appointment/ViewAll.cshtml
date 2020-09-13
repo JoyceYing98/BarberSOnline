@@ -28,7 +28,7 @@
     </script>
 }
 
-<h1>View Appointment</h1>
+<h1>View Appointments</h1>
 <input class="form-control mb-4" id="tableSearch" type="text" placeholder="&nbsp; Type something to search list items" style="height:40px;  border-radius: 8px; border: 1px solid black; margin:auto;">
 <table class="table">
     <thead>
@@ -83,16 +83,37 @@
                     @Html.DisplayFor(modelItem => item.Appointment_Status)
                 </td>
                 <td>
-                    @Html.ActionLink("Details", "Details", new { AppointmentId = item.ID }) |
                     @if (User.IsInRole("Admin"))
                     {
-                        <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a> 
+                        @Html.ActionLink("Details ", "Details", new { AppointmentId = item.ID })<label>|</label>
+                        <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a>
                     }
                     else if (User.IsInRole("Barber"))
                     {
-                        <a asp-action="BarberApproval" asp-route-id="@item.ID">Approve </a><label>|</label>
-                        <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a> <br />
-                        @Html.ActionLink("Generate Receipt", "GenerateReceipt", new { AppointmentId = item.ID })
+                        if (item.Appointment_Status == "Booked" || item.Appointment_Status == "Approved")
+                        {
+                            <a asp-action="Details" asp-route-id="@item.ID">Details </a><label>|</label>
+                            if (item.Appointment_Status == "Booked")
+                            {
+                                <a asp-action="BarberApproval" asp-route-id="@item.ID">Approve </a><label>|</label>
+                            }
+                            <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a> <br />
+                        }
+                        else if (item.Appointment_Status == "Confirmed")
+                        {
+                            <a asp-action="Details" asp-route-id="@item.ID">Details </a><label>|</label>
+                            <a asp-action="BarberServe" asp-route-id="@item.ID">Serve </a>
+                        }
+                        else if (item.Appointment_Status == "Served")
+                        {
+                            <a asp-action="Details" asp-route-id="@item.ID">Details </a><label>|</label>
+                            <br />
+                            <a asp-action="GenerateReceipt" asp-route-id="@item.ID">Generate Receipt</a>
+                        }
+                        else//Cancelled or Paid
+                        {
+                            <a asp-action="Details" asp-route-id="@item.ID">Details</a>
+                        }
                     }
                 </td>
             </tr>
