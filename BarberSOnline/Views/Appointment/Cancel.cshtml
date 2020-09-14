@@ -28,7 +28,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
 <div class="form-gap"></div>
-<div class="container" style="height:800px">
+<div class="container" style="margin-bottom: 100px">
     <div class="row">
         <div class="col-sm-3">
         </div>
@@ -135,7 +135,12 @@
                                 <input type="submit" value="Save" class="btn btn-primary" />
                             </div>
                             <div>
-                                <a asp-action="UserAppointment">Back to List</a>
+                                @if (User.IsInRole("User"))
+                                {
+                            <a asp-action="UserAppointment">Back to List</a> }
+                                        else
+                                        {
+                            <a asp-action="ViewAll">Back to List</a>}
                             </div>
                         </form>
                     </div>

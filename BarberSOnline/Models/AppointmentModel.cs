@@ -49,7 +49,7 @@ namespace BarberSOnline.Models
 
         [StringLength(200, ErrorMessage = "Cancelled Reason cannot be more than 200 chars")]
         [Display(Name = "User Cancelled Reason")]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-_,.?!]*$", ErrorMessage = "You can only type alphabets either in lower or upper case, numbers and some symbols such as comma(,), fullstop(.), exclamation mark(!), question mark(?) and etc.")]
+        [RegularExpression(@"^[a-zA-Z0-9""'\s-_,.?!]*$", ErrorMessage = "You can only type alphabets either in lower or upper case, numbers and some symbols such as comma(,), fullstop(.), exclamation mark(!), question mark(?) and etc.")]
         public string User_Cancelled_Reason { get; set; }
 
         [Display(Name = "Approved Date")]
@@ -64,7 +64,7 @@ namespace BarberSOnline.Models
 
         [StringLength(200, ErrorMessage = "Cancelled Reason cannot be more than 200 chars")]
         [Display(Name = "Barber Cancelled Reason")]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-_,.?!]*$", ErrorMessage = "You can only type alphabets either in lower or upper case, numbers and some symbols such as comma(,), fullstop(.), exclamation mark(!), question mark(?) and etc.")]
+        [RegularExpression(@"^[a-zA-Z0-9""'\s-_,.?!]*$", ErrorMessage = "You can only type alphabets either in lower or upper case, numbers and some symbols such as comma(,), fullstop(.), exclamation mark(!), question mark(?) and etc.")]
         public string Barber_Cancelled_Reason { get; set; }
 
         [Display(Name = "Admin Email")]
@@ -73,7 +73,7 @@ namespace BarberSOnline.Models
 
         [StringLength(200, ErrorMessage = "Cancelled Reason cannot be more than 200 chars")]
         [Display(Name = "Admin Cancelled Reason")]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-_,.?!]*$", ErrorMessage = "You can only type alphabets either in lower or upper case, numbers and some symbols such as comma(,), fullstop(.), exclamation mark(!), question mark(?) and etc.")]
+        [RegularExpression(@"^[a-zA-Z0-9""'\s-_,.?!]*$", ErrorMessage = "You can only type alphabets either in lower or upper case, numbers and some symbols such as comma(,), fullstop(.), exclamation mark(!), question mark(?) and etc.")]
         public string Admin_Cancelled_Reason { get; set; }
     }
 }

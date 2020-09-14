@@ -16,11 +16,13 @@
     }
 }
 
-<h1>Queue Messages of User's Requested Appointment</h1>
+    <div class="jumbotron" style="padding-left:25px; padding-right:25px; margin-top:-20px;">
+        <h1>Queue Messages of User's Requested Appointment</h1>
 
-@foreach (var v in Model)
-{
-    <li>@v</li>
-    <br />
-}
-<a asp-action="ViewAll" class="btn btn-primary" style="width:auto">Ok</a>
+        @foreach (var v in Model)
+        {
+            <li>@v</li>
+            <br />
+        }
+        <a asp-action="ViewAll" class="btn btn-primary" style="width:auto">Ok</a>
+    </div>

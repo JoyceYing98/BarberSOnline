@@ -4,96 +4,120 @@
     ViewData["Title"] = "ConfirmPayment";
 }
 
-<h1>ConfirmPayment</h1>
+<center><h1>Confirm Payment</h1></center>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>\
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-<div>
-    <h4>AppointmentModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ID)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ID)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserEmail)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserEmail)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Services)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Services)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Charges)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Charges)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Appointment_Date)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Appointment_Date)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Appointment_Status)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Appointment_Status)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User_Booked_Date)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User_Booked_Date)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Remark)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Remark)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Barber_Approved_Date)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Barber_Approved_Date)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User_Confirmed_Date)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User_Confirmed_Date)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BarberEmail)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BarberEmail)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Barber_Check_In_Date)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Barber_Check_In_Date)
-        </dd>
-    </dl>
+<div class="form-gap"></div>
+<div class="container"style="margin-bottom: 150px">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card" style="width:1100px">
+                <div class="panel-body">
+                    <div class="card-body">
+                        <center><h3>Did You Confirm Your Payment?</h3></center>
+                        <hr />
+                        <div class="col-sm-5">
+
+                            <dl class="row">
+                                <dt class="col-sm-6">
+                                    @Html.DisplayNameFor(model => model.ID)
+                                </dt>
+                                <dd class="col-sm-6">
+                                    @Html.DisplayFor(model => model.ID)
+                                </dd>
+                                <dt class="col-sm-6">
+                                    @Html.DisplayNameFor(model => model.UserEmail)
+                                </dt>
+                                <dd class="col-sm-6">
+                                    @Html.DisplayFor(model => model.UserEmail)
+                                </dd>
+                                <dt class="col-sm-6">
+                                    @Html.DisplayNameFor(model => model.Type)
+                                </dt>
+                                <dd class="col-sm-6">
+                                    @Html.DisplayFor(model => model.Type)
+                                </dd>
+                                <dt class="col-sm-6">
+                                    @Html.DisplayNameFor(model => model.Services)
+                                </dt>
+                                <dd class="col-sm-6">
+                                    @Html.DisplayFor(model => model.Services)
+                                </dd>
+                                <dt class="col-sm-6">
+                                    @Html.DisplayNameFor(model => model.Charges)
+                                </dt>
+                                <dd class="col-sm-6">
+                                    @Html.DisplayFor(model => model.Charges)
+                                </dd>
+                                <dt class="col-sm-6">
+                                    @Html.DisplayNameFor(model => model.Appointment_Date)
+                                </dt>
+                                <dd class="col-sm-6">
+                                    @Html.DisplayFor(model => model.Appointment_Date)
+                                </dd>
+                                <dt class="col-sm-6">
+                                    @Html.DisplayNameFor(model => model.Appointment_Status)
+                                </dt>
+                                <dd class="col-sm-6">
+                                    @Html.DisplayFor(model => model.Appointment_Status)
+                                </dd>
+                                <dt class="col-sm-6">
+                                    @Html.DisplayNameFor(model => model.User_Booked_Date)
+                                </dt>
+                                <dd class="col-sm-6">
+                                    @Html.DisplayFor(model => model.User_Booked_Date)
+                                </dd>
+                                <dt class="col-sm-6">
+                                    @Html.DisplayNameFor(model => model.Remark)
+                                </dt>
+                                <dd class="col-sm-6">
+                                    @Html.DisplayFor(model => model.Remark)
+                                </dd>
+                                <dt class="col-sm-6">
+                                    @Html.DisplayNameFor(model => model.Barber_Approved_Date)
+                                </dt>
+                                <dd class="col-sm-6">
+                                    @Html.DisplayFor(model => model.Barber_Approved_Date)
+                                </dd>
+                                <dt class="col-sm-6">
+                                    @Html.DisplayNameFor(model => model.User_Confirmed_Date)
+                                </dt>
+                                <dd class="col-sm-6">
+                                    @Html.DisplayFor(model => model.User_Confirmed_Date)
+                                </dd>
+                                <dt class="col-sm-6">
+                                    @Html.DisplayNameFor(model => model.BarberEmail)
+                                </dt>
+                                <dd class="col-sm-6">
+                                    @Html.DisplayFor(model => model.BarberEmail)
+                                </dd>
+                                <dt class="col-sm-6">
+                                    @Html.DisplayNameFor(model => model.Barber_Check_In_Date)
+                                </dt>
+                                <dd class="col-sm-6">
+                                    @Html.DisplayFor(model => model.Barber_Check_In_Date)
+                                </dd>
+                            </dl>
+                            <hr />
+                            <div>
+                                <a asp-action="UserAppointment" class="btn btn-primary">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="UserAppointment" class="btn btn-primary">Back to List</a>
-</div>
+
 @if (ViewBag.ErrorMessage != null)
 {
     <script>alert("@ViewBag.ErrorMessage"); window.location = '/Appointment/UserAppointment';</script>
 }
+
+<style>
+    .form-gap {
+        padding-top: 10px;
+    }
+</style>
