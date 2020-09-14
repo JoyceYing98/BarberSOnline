@@ -4,13 +4,13 @@
       "type": "storage",
       "connectionId": "StorageConnectionString"
     },
-    "storage1": {
-      "type": "storage",
-      "connectionId": "StorageConnectionString"
-    },
     "mssql1": {
       "type": "mssql",
       "connectionId": "BarberSOnlineContextConnection"
+    },
+    "storage1": {
+      "type": "storage",
+      "connectionId": "StorageConnectionString"
     }
   }
 }
