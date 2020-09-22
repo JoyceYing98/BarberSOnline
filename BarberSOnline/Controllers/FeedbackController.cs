@@ -99,7 +99,7 @@ namespace BarberSOnline.Controllers
                 if (result != null)
                 {
                     ViewBag.tablename = tableclient.Name;
-                    ViewBag.msg = "Data successfullt inserted!";
+                    ViewBag.msg = "Data successfully inserted!";
                 }
             }
             catch (Exception ex)
@@ -108,7 +108,7 @@ namespace BarberSOnline.Controllers
                 ViewBag.msg = ex.ToString();
             }
            
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Create");
         }
 
        

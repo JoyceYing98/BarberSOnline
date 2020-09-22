@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BarberSOnline.Areas.Identity.Data;
 using BarberSOnline.Data;
 using BarberSOnline.Models;
+using BarberSOnline.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,12 +16,14 @@ namespace BarberSOnline.Controllers
     public class BarberController : Controller
     {
         private readonly BarberSOnlineContext _context;
+        private readonly IAzureBlobService _azureBlobService;
         private readonly UserManager<BarberSOnlineUser> _userManager;
 
 
-        public BarberController(BarberSOnlineContext context, UserManager<BarberSOnlineUser> userManager)
+        public BarberController(BarberSOnlineContext context, IAzureBlobService azureBlobService, UserManager<BarberSOnlineUser> userManager)
         {
             _context = context;
+            _azureBlobService = azureBlobService;
             _userManager = userManager;
         }
 
@@ -91,6 +94,38 @@ namespace BarberSOnline.Controllers
                 return RedirectToAction(nameof(ScreeningList));
             }
             return View(userModel);
+        }
+
+        public IActionResult UploadImage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UploadAsynce()
+        {
+            try
+            {
+                var request = await HttpContext.Request.ReadFormAsync();
+                if (request.Files == null)
+                {
+                    return BadRequest("Could not upload files");
+                }
+                var files = request.Files;
+                if (files.Count == 0)
+                {
+                    return BadRequest("Could not upload empty files");
+                }
+
+                await _azureBlobService.UploadAsynce(files);
+                return RedirectToAction("List");
+            }
+            catch (Exception ex)
+            {
+                ViewData["message"] = ex.Message;
+                ViewData["trace"] = ex.StackTrace;
+                return View("Error");
+            }
         }
 
         // GET: UserModels/Edit/5

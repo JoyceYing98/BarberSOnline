@@ -104,10 +104,11 @@ namespace BarberSOnline.Controllers
 
         public async Task<IActionResult> ViewAll()
         {
-            ManagementClient managementClient1 = new ManagementClient(ServiceBusConnectionString);
+            ManagementClient managementClient1 = new ManagementClient(ServiceBusConnectionString);//retrieve connection string
             var managementClient = managementClient1;
-            var runtimeInfo = await managementClient.GetQueueRuntimeInfoAsync(QueueName);
+            var runtimeInfo = await managementClient.GetQueueRuntimeInfoAsync(QueueName);//retrieve queue name created
 
+            //will be added whenever a new appointment is created
             var messagesInQueueCount = runtimeInfo.MessageCountDetails.ActiveMessageCount;
 
             ViewBag.MessageCount = messagesInQueueCount;
@@ -491,11 +492,12 @@ namespace BarberSOnline.Controllers
             items = new List<string>();
             await Task.Factory.StartNew(() =>
             {
+                //to ensure the message is removed from the service bus
                 queueClient = new QueueClient(ServiceBusConnectionString, QueueName, ReceiveMode.PeekLock);
                 var options = new MessageHandlerOptions(ExceptionMethod)
                 {
                     MaxConcurrentCalls = 1,
-                    AutoComplete = false
+                    AutoComplete = false//so that can execute the processing
                 };
                 queueClient.RegisterMessageHandler(ExecuteMessageProcessing, options);
             });
@@ -511,6 +513,7 @@ namespace BarberSOnline.Controllers
             Console.WriteLine($"Received message: SequenceNumber:{message.SystemProperties.SequenceNumber} Body:{Encoding.UTF8.GetString(message.Body)}");
             await queueClient.CompleteAsync(message.SystemProperties.LockToken);
 
+            //to display in admin and barber appointment page
             items.Add("Received message: SequenceNumber:" + message.SystemProperties.SequenceNumber + " Body:" + Encoding.UTF8.GetString(message.Body));
 
         }
